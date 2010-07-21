@@ -1,0 +1,22 @@
+<% @page_title = 'Sign up as a new user' %>
+<% @user.password = @user.password_confirmation = nil %>
+
+<% form_for :user, :url => users_path do |f| -%>
+<%= f.error_messages %>
+<p><%= f.label :full_name %><br/>
+<%= f.text_field :full_name %></p>
+
+<p><%= f.label :login %><br/>
+<%= f.text_field :login %></p>
+
+<p><%= f.label :email %><br/>
+<%= f.text_field :email %></p>
+
+<p><%= f.label :password %><br/>
+<%= f.password_field :password %></p>
+
+<p><%= f.label :password_confirmation, 'Confirm Password' %><br/>
+<%= f.password_field :password_confirmation %></p>
+
+<p><%= f.submit 'Sign up' %></p>
+<% end -%>

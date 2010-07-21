@@ -1,0 +1,28 @@
+<% @page_title = 'Listing Comments' %>
+
+<table class='listing'>
+  <tr valign='top'>
+    <th>User</th>
+    <th>Commentable type</th>
+    <th>Commentable</th>
+    <th>Vote</th>
+    <th>Content</th>
+  </tr>
+
+<% @comments.each do |comment| %>
+  <tr class='row<%= cycle(1, 2) %>' valign='top'>
+    <td><%=h comment.user_id %></td>
+    <td><%=h comment.commentable_type %></td>
+    <td><%=h comment.commentable_id %></td>
+    <td><%=h comment.vote %></td>
+    <td><%=h comment.content %></td>
+    <td><%= link_to 'Show', comment %></td>
+    <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
+    <td><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New comment', new_comment_path %>

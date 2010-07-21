@@ -1,0 +1,15 @@
+<% @page_title = 'New license' %>
+
+<% form_for(@license) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :url %><br />
+    <%= f.text_field :url %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', licenses_path %>

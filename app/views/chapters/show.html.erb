@@ -1,0 +1,33 @@
+<p>
+  <b>Parent:</b>
+  <%=h @chapter.parent_id %>
+</p>
+
+<p>
+  <b>Parent type:</b>
+  <%=h @chapter.parent_type %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%=h @chapter.type %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @chapter.title %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @chapter.position %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%=h @chapter.content %>
+</p>
+
+
+<%= link_to 'Edit', edit_chapter_path(@chapter) %> |
+<%= link_to 'Back', chapters_path %>

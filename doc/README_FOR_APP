@@ -1,0 +1,5 @@
+cd RAILS_ROOT
+cp config/database.yml.sample config/database.yml
+cp config/initializers/settings.rb.sample config/initializers/settings.rb
+
+Once the app is running, register as a user and then visit /users/admin_bootstrap/0

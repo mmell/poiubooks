@@ -1,0 +1,33 @@
+<p>
+  <b>User:</b>
+  <%=h @book.user_id %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @book.title %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%=h @book.category_id %>
+</p>
+
+<p>
+  <b>Reward:</b>
+  <%=h @book.reward %>
+</p>
+
+<p>
+  <b>License:</b>
+  <%=h @book.license_id %>
+</p>
+
+<p>
+  <b>Terms:</b>
+  <%=h @book.terms %>
+</p>
+
+
+<%= link_to 'Edit', edit_book_path(@book) %> |
+<%= link_to 'Back', books_path %>

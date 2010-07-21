@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>The Game is On::<%= controller_name.titleize %>::<%= controller.action_name.titleize %></title>
+	<link rel="shortcut icon" href="<%= path_to_image('favicon.ico') %>" />
+  <%= stylesheet_link_tag ['scaffold', 'layout'] %>
+</head>
+<body>
+
+<table cellpadding='0' cellspacing='0' id='content'>
+<tr id='banner' valign='top'>
+	<td id='logo'><%= link_to( image_tag( 'template/poiu-logo.png', { :alt => '--', :size => '200x120', :border => 0 } ), "/" ) %></td> 
+	<td></td> 
+	<td id='dependability_bar'>
+		<ul class='dependability_nav'>
+			<% if logged_in? %>
+			<li class='last'><%= link_to(current_user.full_name, edit_user_path(current_user)) %></li>
+			<li><%= link_to('Sign Out', logout_path) %></li>
+			<% else %>
+			<li class='last'><%= link_to('Sign On', login_path) %></li>
+			<li><%= link_to('Register', new_user_url) %></li>
+			<% end %>
+		</ul>		
+	</td> 
+</tr>
+
+<tr valign='top'>
+	<td id='left_column'>
+<ul class='main_nav'>
+<%= render('layouts/main_nav') %>
+</ul>
+</div>
+</td> 
+<td id='column_divider'><br /></td> 
+<td id='right_column'>
+<div class='cookiecrumb'><%= controller_name.titleize %>::<%= controller.action_name.titleize %></div>
+
+<% unless @page_title.nil? %><h1><%= @page_title %></h1><% end %>
+<%= errors %><%= alerts %><%= notices %>
+<%= yield %>
+</div>
+</div>
+
+</td> 
+</tr>
+
+<tr valign='top'>
+	<td colspan='3'>
+<div id='bottom'><br />
+	&copy; 2010<br />
+	<strong>Poiubooks</strong> is an <a href='http://github.com/'>open source project</a>.<br />
+</div>
+</td> 
+</tr>
+
+</body>
+</html>
