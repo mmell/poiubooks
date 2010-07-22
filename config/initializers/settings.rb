@@ -1,2 +1,2 @@
-SiteDomain = '0.0.0.0:3000'
+SiteName = 'Poiu Books'
 AdminEmail = 'mmell@nthwave.net'
