@@ -105,6 +105,7 @@ describe UsersController do
   end
   
   it 'updates the user as admin' do
+    User.stub!(:admins).and_return([])
     make_admin_user_session
     user = User.create(Factory.attributes_for(:user))
 #    User.stub!(:find).with(user.id.to_s).and_return(user)

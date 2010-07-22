@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :login
   validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
 
-  validates_format_of       :full_name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
-  validates_length_of       :full_name,     :maximum => 100
+  validates_format_of :full_name, :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
+  validates_length_of :full_name, :maximum => 100
 
   validates_presence_of     :email
   validates_length_of       :email,    :within => 6..100 #r@a.wk
@@ -40,6 +40,10 @@ class User < ActiveRecord::Base
     u && u.authenticated?(password) ? u : nil
   end
 
+  def self.admins
+    User.find(:all, :conditions => "is_admin='1'", :order => 'full_name')
+  end
+ 
   def login=(value)
     write_attribute :login, (value ? value.downcase : nil)
   end

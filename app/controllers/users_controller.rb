@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   
-  before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
+  before_filter :require_user, :except => [:new, :activate, :create]
+  before_filter :require_admin, :only => [:suspend, :unsuspend, :destroy, :purge]
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge]
   
   def index
@@ -33,6 +34,7 @@ class UsersController < ApplicationController
   end
  
   def new
+#    redirect_to(edit_user_path(current_user)) and return false if logged_in?
     @user = User.new
   end
  
@@ -88,7 +90,7 @@ class UsersController < ApplicationController
   end
   
   def admin_bootstrap
-    if 0 == User.count(:conditions => "is_admin=1") 
+    if 0 == User.admins.size
       current_user.is_admin = true
       if current_user.save!
         notice_message("Successfully made you the first admin.")

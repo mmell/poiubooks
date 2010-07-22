@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe BooksController do
 
+  include ControllerHelpers
+
   def mock_books(stubs={})
     @mock_books ||= mock_model(Book, stubs)
   end
@@ -23,6 +25,10 @@ describe BooksController do
   end
 
   describe "GET new" do
+    before(:each) do
+      make_user_session
+    end
+
     it "assigns a new book as @book" do
       Book.stub(:new).and_return(mock_books)
       get :new
@@ -31,6 +37,10 @@ describe BooksController do
   end
 
   describe "GET edit" do
+    before(:each) do
+      make_user_session
+    end
+
     it "assigns the requested book as @book" do
       Book.stub(:find).with("37").and_return(mock_books)
       get :edit, :id => "37"
@@ -39,6 +49,10 @@ describe BooksController do
   end
 
   describe "POST create" do
+
+    before(:each) do
+      make_user_session
+    end
 
     describe "with valid params" do
       it "assigns a newly created book as @book" do
@@ -71,6 +85,10 @@ describe BooksController do
   end
 
   describe "PUT update" do
+
+    before(:each) do
+      make_user_session
+    end
 
     describe "with valid params" do
       it "updates the requested book" do
@@ -115,8 +133,12 @@ describe BooksController do
   end
 
   describe "DELETE destroy" do
+    before(:each) do
+      @user = make_user_session
+    end
+
     it "destroys the requested book" do
-      Book.should_receive(:find).with("37").and_return(mock_books)
+      Book.should_receive(:find).with("37").and_return(mock_books(:user_id => @user.id))
       mock_books.should_receive(:destroy)
       delete :destroy, :id => "37"
     end

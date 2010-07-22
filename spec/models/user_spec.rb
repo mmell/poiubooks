@@ -6,6 +6,15 @@ require File.dirname(__FILE__) + '/../spec_helper'
 include AuthenticatedTestHelper
 
 describe User do
+  
+  it "finds all admins" do
+    User.admins.size == 0
+    3.times do
+      Factory.create(:user, :is_admin => true)
+    end
+    User.admins.size == 3
+  end
+  
   describe 'being created' do
     before do
       @user = nil
