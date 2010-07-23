@@ -99,12 +99,12 @@ table.listing td { padding: 3px; }
   margin: 0px; 
   padding: 0px 4px; 
   list-style-type: none; 
-  border-width: 0px 0px 0px 1px; 
+  border-width: 0px 0px 2px 1px; 
   border-color: #3299cc;
   border-style: solid;  
 }
 .dependability_nav li.last { 
-  border-width: 0px 1px 0px 1px; 
+  border-width: 0px 1px 2px 1px; 
   border-color: #3299cc;
   border-style: solid;  
 }
@@ -127,3 +127,19 @@ table.listing td { padding: 3px; }
 .errors { font-weight: bold; color: red; }
 .alerts { font-weight: bold; color: #ff7625; }
 .notices { font-weight: bold; color: #75d030; }
+
+div.table_of_contents {
+  float: right;
+  width: 140px;
+  margin: 0px;
+  padding: 6px;
+  background: #fafafa;
+  border: 2px solid #e5ca5c;
+}
+
+div.chapter_content {
+  margin: 0px;
+  padding: 6px;
+  background: #fefefe;
+  border: 1px solid #3299cc;
+}

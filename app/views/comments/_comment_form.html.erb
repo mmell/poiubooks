@@ -1,0 +1,27 @@
+<% if logged_in? %>
+<%
+c = Comment.new
+form_for(c, :url => polymorphic_path([commentable, c]) ) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :content, "Comment" %><br />
+    <%= f.text_area :content, :size => TextFieldSize %>
+  </p>
+  <p>
+    <%= f.submit 'Create Comment' %>
+  </p>
+<% end %>
+<% else %>
+<em>Please sign in or create an account to post comments.</em>
+<% end %>
+
+<table class='listing'>
+<% commentable.comments.each do |comment| %>
+	<%= render(:partial => 'comments/display_comment', :locals => {:comment => comment } ) %>
+<% end %>
+</table>
+
+<p align='right'>
+	<%= license_button(commentable.license, :img) %>
+</p>

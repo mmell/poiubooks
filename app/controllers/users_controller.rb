@@ -101,6 +101,7 @@ class UsersController < ApplicationController
   # supply their old password along with a new one to update it, etc.
 
 protected
+
   def find_user
     if current_user_is_admin? 
       @user = User.find(params[:id])

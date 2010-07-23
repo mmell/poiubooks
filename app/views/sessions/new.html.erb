@@ -1,4 +1,4 @@
-<% @page_title = 'Log In' %>
+<% @page_title = 'Sign In' %>
 
 <% form_tag session_path do -%>
 <p><%= label_tag 'login' %><br />
@@ -10,5 +10,5 @@
 <p><%= label_tag 'remember_me', 'Remember me' %>
 <%= check_box_tag 'remember_me', '1', @remember_me %></p>
 
-<p><%= submit_tag 'Sign On' %></p>
+<p><%= submit_tag 'Sign In' %></p>
 <% end -%>

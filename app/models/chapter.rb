@@ -20,7 +20,7 @@ class Chapter < ActiveRecord::Base
   
   before_validation_on_create :defaults
 
-  attr_protected :user_id
+  attr_protected :user_id, :parent_id, :parent_type
 
   def defaults
     self.position = Chapter.count_by_sql(
@@ -30,6 +30,10 @@ class Chapter < ActiveRecord::Base
   
   def book
     parent
+  end
+  
+  def license
+    book.license
   end
   
 #  after_save :trigger_notification

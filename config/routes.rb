@@ -17,7 +17,9 @@ ActionController::Routing::Routes.draw do |map|
     books.resources :comments
   end
 
-  map.resources :chapters
+  map.resources :chapters do |chapter|
+    chapter.resources :comments
+  end
 
   map.resources :categories do |category|
     category.resources :books

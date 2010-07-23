@@ -1,0 +1,13 @@
+<div class='table_of_contents'><h2>Table of Contents</h2>
+<table class='listing' width='100%'>
+<% 
+ix = 0 
+book.chapters.each do |chapter| %>
+  <tr class='row<%= cycle(1, 2) %>' valign='top'>
+    <td><%= ix += 1 %></td>
+    <td><%= link_to(chapter.title, book_chapter_path(book, chapter)) %><br />
+			(<span align='right'><%= chapter.comments.size %> Comments</span>)</td>
+  </tr>
+<% end %>
+</table>
+</div>

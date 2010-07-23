@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
 
   include AuthenticatedSystem
 
+  before_filter :session_return_to
+
   filter_parameter_logging :password
   
   include Messaging
@@ -14,7 +16,7 @@ class ApplicationController < ActionController::Base
   
   def require_admin
     unless current_user_is_admin?
-      error_message("Please sign on as an admin.")
+      error_message("Please Sign In as an admin.")
       redirect_to(root_url) and return false
     end
     true
@@ -22,10 +24,16 @@ class ApplicationController < ActionController::Base
   
   def require_user
     unless current_user
-      error_message("Please sign on or create an account.")
+      error_message("Please Sign In or create an account.")
       redirect_to(new_user_url) and return false
     end
     true
   end
+  
+protected
+  def session_return_to
+    session[:return_to] = url_for if !logged_in? and !['sessions', 'users'].include?(controller_name)
+  end
+      
 
 end

@@ -1,7 +1,8 @@
 class ChaptersController < ApplicationController
 
-  before_filter :find_book, :only => [:new, :create]
-  before_filter :find_user_chapter, :except => [:index, :new, :create]
+  before_filter :require_user, :except => [:show] 
+  before_filter :find_user_book, :only => [:new, :create]
+  before_filter :find_user_chapter, :except => [:index, :show, :new, :create]
   
   # GET /chapters
   # GET /chapters.xml
@@ -17,6 +18,9 @@ class ChaptersController < ApplicationController
   # GET /chapters/1
   # GET /chapters/1.xml
   def show
+    @chapter = Chapter.find(params[:id], :include => :parent)
+    redirect_to book_path(params[:book_id]) and return false unless @chapter
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @chapter }
@@ -82,7 +86,7 @@ class ChaptersController < ApplicationController
   end
   
   private
-  def find_book
+  def find_user_book
     @book = current_user.books.find(params[:book_id])
     redirect_to root_path and return false unless @book
   end

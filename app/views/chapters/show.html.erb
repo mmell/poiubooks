@@ -1,10 +1,15 @@
 <% @page_title = "#{@chapter.parent.title.titleize} #{@chapter.type}: #{@chapter.title}" %>
 
-<p>
-  <b>Content:</b>
-  <%=h @chapter.content %>
-</p>
+<div class='chapter_content'>
+<%= render(:partial => 'books/table_of_contents', :locals => {:book => @chapter.book } ) %>
 
+<%=h @chapter.content %>
+<br clear='all'>
+</div>
 
-<%= link_to 'Edit', edit_chapter_path(@chapter) %> |
+<% if @chapter.owner?(current_user) %>
+<%= link_to 'Edit', edit_chapter_path(@chapter) %>
+<% end %>
 <%= link_to "Back to #{@chapter.parent.title}", @chapter.parent %>
+
+<%= render(:partial => 'comments/comment_form', :locals => {:commentable => @chapter } ) %>

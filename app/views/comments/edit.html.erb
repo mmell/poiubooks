@@ -4,24 +4,8 @@
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :user_id %><br />
-    <%= f.text_field :user_id %>
-  </p>
-  <p>
-    <%= f.label :commentable_type %><br />
-    <%= f.text_field :commentable_type %>
-  </p>
-  <p>
-    <%= f.label :commentable_id %><br />
-    <%= f.text_field :commentable_id %>
-  </p>
-  <p>
-    <%= f.label :vote %><br />
-    <%= f.text_field :vote %>
-  </p>
-  <p>
     <%= f.label :content %><br />
-    <%= f.text_area :content %>
+    <%= f.text_area :content, :size => TextFieldSize %>
   </p>
   <p>
     <%= f.submit 'Update' %>
