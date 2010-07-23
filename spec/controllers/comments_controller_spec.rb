@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe CommentsController do
 
+  before(:each) do
+    make_user_session
+  end
+
   def mock_comments(stubs={})
     @mock_comments ||= mock_model(Comment, stubs)
   end

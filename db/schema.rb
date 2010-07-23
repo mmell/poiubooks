@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20100713165651) do
   add_index :categories, :name, :unique => true
 
   create_table "chapters", :force => true do |t|
+    t.integer  "user_id",     :null => false
     t.integer  "parent_id",   :null => false
     t.string   "parent_type", :null => false
     t.string   "type"
@@ -47,7 +48,7 @@ ActiveRecord::Schema.define(:version => 20100713165651) do
     t.integer  "user_id",          :null => false
     t.string   "commentable_type", :null => false
     t.integer  "commentable_id",   :null => false
-    t.integer  "vote"
+    t.boolean  "vote"              
     t.text     "content",          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -55,7 +56,9 @@ ActiveRecord::Schema.define(:version => 20100713165651) do
   add_index :comments, :user_id
 
   create_table "licenses", :force => true do |t|
+    t.string   "name"
     t.string   "url"
+    t.string   "image_src"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

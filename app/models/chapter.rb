@@ -1,7 +1,10 @@
 class Chapter < ActiveRecord::Base
   
+  include Authoring
+  
   TitleRE = %r{\A[\w 0-9'",-]{2,}\z}
   
+  belongs_to :user
   belongs_to :parent, :polymorphic => true
   
   has_many :sub_chapters, :as => :parent, :dependent => :destroy
@@ -9,8 +12,8 @@ class Chapter < ActiveRecord::Base
 
   validates_format_of( :title, :with => TitleRE )
   validates_uniqueness_of( :title, :scope => :parent_id )
-  validates_presence_of( :parent_id)   
-  validates_associated( :parent)    
+  validates_presence_of( :user_id, :parent_id)   
+  validates_associated( :user, :parent)    
 
   validates_numericality_of(:position, :minimum => 1)
   validates_uniqueness_of( :position, :scope => :parent_id )

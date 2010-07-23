@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
  
   def edit
-    if current_user.is_admin? 
+    if current_user_is_admin? 
       find_user
     else 
       @user = current_user
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
  
   def update
     edit
-    if current_user.is_admin?
+    if current_user_is_admin?
       @user.is_admin = (params[:is_admin] == '1')
       @user.save!
     end

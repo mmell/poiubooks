@@ -8,8 +8,12 @@ class ApplicationController < ActionController::Base
   
   include Messaging
   
+  def current_user_is_admin?
+    current_user and current_user.is_admin?
+  end
+  
   def require_admin
-    unless current_user and current_user.is_admin?
+    unless current_user_is_admin?
       error_message("Please sign on as an admin.")
       redirect_to(root_url) and return false
     end
@@ -19,7 +23,7 @@ class ApplicationController < ActionController::Base
   def require_user
     unless current_user
       error_message("Please sign on or create an account.")
-      redirect_to(root_url) and return false
+      redirect_to(register_url) and return false
     end
     true
   end

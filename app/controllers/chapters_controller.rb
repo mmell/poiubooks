@@ -1,20 +1,22 @@
 class ChaptersController < ApplicationController
+
+  before_filter :find_book, :only => [:new, :create]
+  before_filter :find_user_chapter, :except => [:index, :new, :create]
+  
   # GET /chapters
   # GET /chapters.xml
   def index
-    @chapters = Chapter.all
+    @books = current_user.books.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @chapters }
+      format.xml  { render :xml => @books.map { |e| e.chapters }.flatten }
     end
   end
 
   # GET /chapters/1
   # GET /chapters/1.xml
   def show
-    @chapter = Chapter.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @chapter }
@@ -24,7 +26,7 @@ class ChaptersController < ApplicationController
   # GET /chapters/new
   # GET /chapters/new.xml
   def new
-    @chapter = Chapter.new
+    @chapter = @book.chapters.build()
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,18 +36,18 @@ class ChaptersController < ApplicationController
 
   # GET /chapters/1/edit
   def edit
-    @chapter = Chapter.find(params[:id])
+    #@chapter = @book.chapters.find(params[:id])
   end
 
   # POST /chapters
   # POST /chapters.xml
   def create
-    @chapter = Chapter.new(params[:chapter])
+    @chapter = @book.chapters.new(params[:chapter].merge!(:user_id => current_user.id))
 
     respond_to do |format|
       if @chapter.save
         flash[:notice] = 'Chapter was successfully created.'
-        format.html { redirect_to(@chapter) }
+        format.html { redirect_to(@book, @chapter) }
         format.xml  { render :xml => @chapter, :status => :created, :location => @chapter }
       else
         format.html { render :action => "new" }
@@ -57,8 +59,6 @@ class ChaptersController < ApplicationController
   # PUT /chapters/1
   # PUT /chapters/1.xml
   def update
-    @chapter = Chapter.find(params[:id])
-
     respond_to do |format|
       if @chapter.update_attributes(params[:chapter])
         flash[:notice] = 'Chapter was successfully updated.'
@@ -74,12 +74,21 @@ class ChaptersController < ApplicationController
   # DELETE /chapters/1
   # DELETE /chapters/1.xml
   def destroy
-    @chapter = Chapter.find(params[:id])
-    @chapter.destroy
-
     respond_to do |format|
       format.html { redirect_to(chapters_url) }
       format.xml  { head :ok }
     end
   end
+  
+  private
+  def find_book
+    @book = current_user.books.find(params[:book_id])
+    redirect_to root_path and return false unless @book
+  end
+
+  def find_user_chapter
+    @chapter = current_user.chapters.find(params[:id], :include => :parent)
+    redirect_to root_path and return false unless @chapter
+  end
+  
 end

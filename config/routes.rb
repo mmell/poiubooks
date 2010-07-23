@@ -5,16 +5,24 @@ ActionController::Routing::Routes.draw do |map|
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
 #  map.activate ‘/activate/:activation_code’, :controller => ‘users’, :action => ‘activate’, :activation_code => nil
-  map.resources :users, { :member => { :suspend=>:put, :unsuspend=>:put, :purge=>:delete } }
+  map.resources( :users, { :member => { :suspend=>:put, :unsuspend=>:put, :purge=>:delete } } ) do |user|
+    user.resources :books
+    user.resources :comments
+  end
 
   map.resource :session
 
-  map.resources :books
-
-  map.resources :categories
+  map.resources :books do |books|
+    books.resources :chapters
+    books.resources :comments
+  end
 
   map.resources :chapters
 
+  map.resources :categories do |category|
+    category.resources :books
+  end
+  
   map.resources :comments
 
   map.resources :notifications

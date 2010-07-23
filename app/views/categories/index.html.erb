@@ -2,14 +2,16 @@
 
 <table class='listing'>
   <tr valign='top'>
-    <th>Name</th>
-    <th colspan='3'>Admin</th>
+    <th>Category</th>
+    <th>Books</th>
+    <% if current_user_is_admin? -%><th colspan='3'>Admin</th><% end %>
   </tr>
 
 <% @categories.each do |category| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%=h category.name %></td>
-		<% if current_user.is_admin? -%>
+    <td><%= link_to(category.name, category_books_path(category)) %></td>
+    <td align='right'><%=h category.books.size %></td>
+		<% if current_user_is_admin? -%>
     <td><%= link_to 'Show', category %></td>
     <td><%= link_to 'Edit', edit_category_path(category) %></td>
     <td><%= link_to 'Destroy', category, :confirm => 'Are you sure?', :method => :delete %></td>
@@ -17,7 +19,3 @@
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New category', new_category_path %>

@@ -1,6 +1,8 @@
+<% @page_title = 'Book' %>
+
 <p>
-  <b>User:</b>
-  <%=h @book.user_id %>
+  <b>Author:</b>
+  <%=h @book.user.full_name %>
 </p>
 
 <p>
@@ -10,7 +12,7 @@
 
 <p>
   <b>Category:</b>
-  <%=h @book.category_id %>
+  <%=h @book.category.name %>
 </p>
 
 <p>
@@ -20,14 +22,38 @@
 
 <p>
   <b>License:</b>
-  <%=h @book.license_id %>
-</p>
+	<%= license_button(@book.license) %>
+	</p>
 
 <p>
   <b>Terms:</b>
   <%=h @book.terms %>
 </p>
 
-
+<% if current_user.id == @book.user_id %>
 <%= link_to 'Edit', edit_book_path(@book) %> |
-<%= link_to 'Back', books_path %>
+<%= link_to 'New Chapter', new_book_chapter_path(@book) %>
+<% end %>
+<br /><br />
+<h2>Chapters</h2>
+<table class='listing'>
+  <tr valign='top'>
+		<th></th>
+		<th>Title</th>
+	<th>Comments</th>
+<% if @book.owner?(current_user) -%><th colspan='3'>Admin</th><% end %>
+  </tr>
+<% 
+ix = 0 
+@book.chapters.each do |chapter| %>
+  <tr class='row<%= cycle(1, 2) %>' valign='top'>
+    <td><%= ix += 1 %></td>
+    <td><%= link_to(chapter.title, chapter_path(chapter)) %></td>
+    <td align='right'><%= chapter.comments.size %></td>
+		<% if @book.owner?(current_user) -%>
+    <td><%= link_to 'Edit', edit_chapter_path(chapter) %></td>
+    <td><%= link_to 'Destroy', chapter, :confirm => 'Are you sure?', :method => :delete %></td>
+		<% end %>
+  </tr>
+<% end %>
+</table>

@@ -1,8 +1,8 @@
-<% @page_title = 'Listing Comments' %>
+<% @page_title = 'Listing Comments by ' + current_user.full_name %>
 
 <table class='listing'>
   <tr valign='top'>
-    <th>User</th>
+    <th>Comment Author</th>
     <th>Commentable type</th>
     <th>Commentable</th>
     <th>Vote</th>
@@ -11,7 +11,7 @@
 
 <% @comments.each do |comment| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%=h comment.user_id %></td>
+    <td><%=h comment.user.full_name %></td>
     <td><%=h comment.commentable_type %></td>
     <td><%=h comment.commentable_id %></td>
     <td><%=h comment.vote %></td>
@@ -22,7 +22,3 @@
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New comment', new_comment_path %>

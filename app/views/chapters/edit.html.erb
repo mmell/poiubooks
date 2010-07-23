@@ -1,27 +1,11 @@
-<% @page_title = 'Editing chapter' %>
-
+<% @page_title = "Editing #{@chapter.type}: #{@chapter.title}" %>
+<h2><%= @chapter.parent.title.titleize %></h2>
 <% form_for(@chapter) do |f| %>
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :parent_id %><br />
-    <%= f.text_field :parent_id %>
-  </p>
-  <p>
-    <%= f.label :parent_type %><br />
-    <%= f.text_field :parent_type %>
-  </p>
-  <p>
-    <%= f.label :type %><br />
-    <%= f.text_field :type %>
-  </p>
-  <p>
     <%= f.label :title %><br />
     <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.label :position %><br />
-    <%= f.text_field :position %>
   </p>
   <p>
     <%= f.label :content %><br />
@@ -32,5 +16,4 @@
   </p>
 <% end %>
 
-<%= link_to 'Show', @chapter %> |
-<%= link_to 'Back', chapters_path %>
+<%= link_to "Back to #{@chapter.parent.title}", @chapter.parent %>

@@ -2,12 +2,15 @@ class BooksController < ApplicationController
   
   before_filter :require_user, :except => [:index, :show]
   
-  
   # GET /books
   # GET /books.xml
   def index
-    @books = Book.all
-
+    if params[:category_id]
+      @books = Category.find(params[:category_id]).books.all
+    else
+      @books = Book.all
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @books }
@@ -44,6 +47,7 @@ class BooksController < ApplicationController
   # POST /books
   # POST /books.xml
   def create
+    params[:book][:user_id] = current_user.id
     @book = Book.new(params[:book])
 
     respond_to do |format|

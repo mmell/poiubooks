@@ -1,27 +1,11 @@
-<% @page_title = 'New chapter' %>
+<% @page_title = "New chapter for #{@book.title}" %>
 
-<% form_for(@chapter) do |f| %>
+<% form_for(@chapter, :url => {:action => :create, :book_id => @book.id}) do |f| %>
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :parent_id %><br />
-    <%= f.text_field :parent_id %>
-  </p>
-  <p>
-    <%= f.label :parent_type %><br />
-    <%= f.text_field :parent_type %>
-  </p>
-  <p>
-    <%= f.label :type %><br />
-    <%= f.text_field :type %>
-  </p>
-  <p>
     <%= f.label :title %><br />
     <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.label :position %><br />
-    <%= f.text_field :position %>
   </p>
   <p>
     <%= f.label :content %><br />
@@ -32,4 +16,4 @@
   </p>
 <% end %>
 
-<%= link_to 'Back', chapters_path %>
+<%= link_to 'Back to the Book', book_path(@book) %>

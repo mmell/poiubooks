@@ -1,4 +1,6 @@
 class SubChapter < Chapter
+
+  include Authoring
   belongs_to :parent, :polymorphic => true
 
   has_many :comments, :as => :commentable, :dependent => :destroy

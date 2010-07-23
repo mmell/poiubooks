@@ -2,4 +2,15 @@ cd RAILS_ROOT
 cp config/database.yml.sample config/database.yml
 cp config/initializers/settings.rb.sample config/initializers/settings.rb
 
+Set up email delivery
+  http://blog.heroku.com/archives/2009/11/9/tech_sending_email_with_gmail/
+Set up your local environment
+$ export GMAIL_SMTP_USER=username@gmail.com
+$ export GMAIL_SMTP_PASSWORD=yourpassword
+
+Set your variables on Heroku
+$ heroku config:add GMAIL_SMTP_USER=username@gmail.com
+$ heroku config:add GMAIL_SMTP_PASSWORD=yourpassword
+
+
 Once the app is running, register as a user and then visit /users/admin_bootstrap/0

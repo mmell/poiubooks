@@ -1,8 +1,17 @@
+<% @page_title = 'License' %>
+
+<p>
+  <b>Name:</b>
+  <%=h @license.name %>
+</p>
 <p>
   <b>Url:</b>
   <%=h @license.url %>
 </p>
+<p>
+  <b>Image source:</b>
+  <%=h @license.image_src %>
+</p>
 
 
-<%= link_to 'Edit', edit_license_path(@license) %> |
-<%= link_to 'Back', licenses_path %>
+<%= link_to 'Edit', edit_license_path(@license) %>

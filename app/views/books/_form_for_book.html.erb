@@ -1,0 +1,20 @@
+<p>
+  <%= f.label :title %><br />
+  <%= f.text_field :title %>
+</p>
+<p>
+  <%= f.label :category_id %><br />
+  <%= select_tag( 'book[category_id]', Category.find(:all, :order => 'name').map { |e| "<option value='#{e.id}'>#{e.name}</option>"} ) %>
+</p>
+<p>
+  <%= f.label( :license_id, 'Creative Commons License') %><br />
+  <%= select_tag( 'book[license_id]', License.find(:all, :order => 'name').map { |e| "<option value='#{e.id}'>#{e.name}</option>"} ) %>
+</p>
+<p>
+  <%= f.label :reward, 'iO Reward' %><br />
+  <%= f.text_field :reward %>
+</p>
+<p>
+  <%= f.label :terms %><br />
+  <%= f.text_area( :terms, :size => '56x6' ) %>
+</p>

@@ -1,4 +1,5 @@
 class LicensesController < ApplicationController
+
   before_filter :require_admin, :except => [:index, :show]
 
   # GET /licenses

@@ -4,12 +4,18 @@
   <%= f.error_messages %>
 
   <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
     <%= f.label :url %><br />
     <%= f.text_field :url %>
+  </p>
+  <p>
+    <%= f.label :image_src %><br />
+    <%= f.text_field :image_src %>
   </p>
   <p>
     <%= f.submit 'Create' %>
   </p>
 <% end %>
-
-<%= link_to 'Back', licenses_path %>

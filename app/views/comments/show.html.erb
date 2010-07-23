@@ -1,6 +1,8 @@
+<% @page_title = 'Comment' %>
+
 <p>
   <b>User:</b>
-  <%=h @comment.user_id %>
+  <%=h @comment.full_name %>
 </p>
 
 <p>
@@ -24,5 +26,4 @@
 </p>
 
 
-<%= link_to 'Edit', edit_comment_path(@comment) %> |
-<%= link_to 'Back', comments_path %>
+<%= link_to 'Edit', edit_comment_path(@comment) %> 

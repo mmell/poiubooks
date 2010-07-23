@@ -1,4 +1,4 @@
-<% @page_title = 'Editing user' %>
+<% @page_title = 'Editing Account' %>
 
 <% form_for(@user) do |f| %>
   <%= f.error_messages %>
@@ -23,7 +23,7 @@
     <%= f.label :description %><br />
     <%= f.text_area :description %>
   </p>
-<% if current_user.is_admin? %>
+<% if current_user_is_admin? %>
   <p>
     <%= f.label :is_admin %><br />
     <%= f.check_box :is_admin %>
@@ -34,5 +34,4 @@
   </p>
 <% end %>
 
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+<%= link_to 'Show', @user %>

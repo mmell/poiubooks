@@ -8,7 +8,7 @@
 
 <% @notifications.each do |notification| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%=h notification.user_id %></td>
+    <td><%=h notification.full_name %></td>
     <td><%=h notification.book_id %></td>
     <td><%= link_to 'Show', notification %></td>
     <td><%= link_to 'Edit', edit_notification_path(notification) %></td>
@@ -16,7 +16,3 @@
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New notification', new_notification_path %>
