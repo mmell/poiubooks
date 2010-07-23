@@ -20,6 +20,8 @@ class Chapter < ActiveRecord::Base
   
   before_validation_on_create :defaults
 
+  attr_protected :user_id
+
   def defaults
     self.position = Chapter.count_by_sql(
       "select count(*) from chapters where parent_type='Book' and parent_id=#{book.id}"

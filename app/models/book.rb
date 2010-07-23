@@ -16,6 +16,8 @@ class Book < ActiveRecord::Base
   validates_associated( :user, :category, :license)    
   validates_length_of(:terms, :minimum => 2)
    
+  attr_protected :user_id
+
 #  after_update :trigger_notification
 
 #  def trigger_notification(obj = self)

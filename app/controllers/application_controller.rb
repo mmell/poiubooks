@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   def require_user
     unless current_user
       error_message("Please sign on or create an account.")
-      redirect_to(register_url) and return false
+      redirect_to(new_user_url) and return false
     end
     true
   end

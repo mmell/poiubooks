@@ -1,18 +1,13 @@
 <% @page_title = 'Comment' %>
 
 <p>
-  <b>User:</b>
+  <b>Author:</b>
   <%=h @comment.full_name %>
 </p>
 
 <p>
-  <b>Commentable type:</b>
-  <%=h @comment.commentable_type %>
-</p>
-
-<p>
-  <b>Commentable:</b>
-  <%=h @comment.commentable_id %>
+  <b>Type:</b>
+  <%= link_to(comment.commentable_type, comment.commentable) %>
 </p>
 
 <p>
@@ -25,5 +20,6 @@
   <%=h @comment.content %>
 </p>
 
-
+<% if @comment.owner?(@user) -%>  
 <%= link_to 'Edit', edit_comment_path(@comment) %> 
+<% end %>

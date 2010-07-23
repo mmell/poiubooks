@@ -1,17 +1,40 @@
-<% @page_title = h @book.title %>
+<% @page_title = 'Book' %>
 
-<h2>By <%=h @book.user.full_name %></h2>
+<p>
+  <b>Author:</b>
+  <%=h @book.user.full_name %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @book.title %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%=h @book.category.name %>
+</p>
 
 <p>
   <b>Reward:</b>
-  <%=h @book.reward %> <%=h @book.terms %>
+  <%=h @book.reward %>
 </p>
 
-<% if @book.owner?(current_user) -%>
+<p>
+  <b>License:</b>
+	<%= license_button(@book.license) %>
+	</p>
+
+<p>
+  <b>Terms:</b>
+  <%=h @book.terms %>
+</p>
+
+<% if current_user.id == @book.user_id %>
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'New Chapter', new_book_chapter_path(@book) %>
-<% end -%>
-
+<% end %>
+<br /><br />
 <h2>Chapters</h2>
 <table class='listing'>
   <tr valign='top'>
@@ -34,7 +57,3 @@ ix = 0
   </tr>
 <% end %>
 </table>
-
-<p align='right'>
-	<%= license_button(@book.license, :img) %>
-</p>

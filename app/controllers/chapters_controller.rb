@@ -42,7 +42,8 @@ class ChaptersController < ApplicationController
   # POST /chapters
   # POST /chapters.xml
   def create
-    @chapter = @book.chapters.new(params[:chapter].merge!(:user_id => current_user.id))
+    @chapter = @book.chapters.new(params[:chapter])
+    @chapter.user_id = current_user.id
 
     respond_to do |format|
       if @chapter.save

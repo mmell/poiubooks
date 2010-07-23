@@ -1,13 +1,21 @@
 class BooksController < ApplicationController
   
+  before_filter :find_user_book, :except => [:index, :show, :new, :create]
   before_filter :require_user, :except => [:index, :show]
   
   # GET /books
   # GET /books.xml
   def index
     if params[:category_id]
-      @books = Category.find(params[:category_id]).books.all
+      @category = Category.find(params[:category_id], :include => :books)
+      @books = @category.books.all
+      @page_title = "Listing Books in #{@category.name}"
+    elsif params[:user_id]
+      @user = User.find(params[:user_id], :include => :books)
+      @books = @user.books.all
+      @page_title = "Listing Books by #{@user.full_name}"
     else
+      @page_title = "Listing All Books"
       @books = Book.all
     end
     
@@ -20,6 +28,17 @@ class BooksController < ApplicationController
   # GET /books/1
   # GET /books/1.xml
   def show
+    @book = Book.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @book }
+    end
+  end
+
+  # GET /books/1
+  # GET /books/1.xml
+  def manage
     @book = Book.find(params[:id])
 
     respond_to do |format|
@@ -41,14 +60,13 @@ class BooksController < ApplicationController
 
   # GET /books/1/edit
   def edit
-    @book = Book.find(params[:id])
   end
 
   # POST /books
   # POST /books.xml
   def create
-    params[:book][:user_id] = current_user.id
     @book = Book.new(params[:book])
+    @book.user_id = current_user.id
 
     respond_to do |format|
       if @book.save
@@ -65,8 +83,6 @@ class BooksController < ApplicationController
   # PUT /books/1
   # PUT /books/1.xml
   def update
-    @book = Book.find(params[:id])
-
     respond_to do |format|
       if @book.update_attributes(params[:book])
         flash[:notice] = 'Book was successfully updated.'
@@ -82,7 +98,6 @@ class BooksController < ApplicationController
   # DELETE /books/1
   # DELETE /books/1.xml
   def destroy
-    @book = Book.find(params[:id])
     @book.destroy
 
     respond_to do |format|
@@ -90,4 +105,11 @@ class BooksController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  private
+  def find_user_book
+    @book = current_user.books.find(params[:id])
+    redirect_to user_books_path and return false unless @book
+  end
+
 end

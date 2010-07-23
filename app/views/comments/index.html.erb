@@ -1,24 +1,23 @@
-<% @page_title = 'Listing Comments by ' + current_user.full_name %>
+<% @page_title = "Listing Comments by #{@user.full_name}" %>
 
 <table class='listing'>
   <tr valign='top'>
-    <th>Comment Author</th>
-    <th>Commentable type</th>
-    <th>Commentable</th>
+    <th>Commenting On</th>
     <th>Vote</th>
-    <th>Content</th>
+    <th>Comment</th>
+    <% if current_user == @user -%><th>Owner</th><% end %>
   </tr>
 
-<% @comments.each do |comment| %>
+<% @user.comments.each do |comment| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%=h comment.user.full_name %></td>
-    <td><%=h comment.commentable_type %></td>
-    <td><%=h comment.commentable_id %></td>
+    <td><%= link_to(comment.commentable_type, comment.commentable) %></td>
     <td><%=h comment.vote %></td>
-    <td><%=h comment.content %></td>
+    <td><%=h truncate comment.content %></td>
+		<% if current_user == @user -%>
     <td><%= link_to 'Show', comment %></td>
     <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
     <td><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+		<% end %>
+	</tr>
 <% end %>
 </table>

@@ -1,22 +1,24 @@
 class CommentsController < ApplicationController
 
-  before_filter :require_user
+  before_filter :find_user_comment, :except => [:index, :show, :new, :create]
+  before_filter :require_user, :except => [:index, :show]
 
   # GET /comments
   # GET /comments.xml
   def index
-    @comments = current_user.comments.all
+    redirect_to(books_path) and return false unless params[:user_id]
+    @user = User.find(params[:user_id], :include => :comments)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @comments }
+      format.xml  { render :xml => @user.comments }
     end
   end
 
   # GET /comments/1
   # GET /comments/1.xml
   def show
-    @comment = current_user.comments.find(params[:id])
+    @comment = Comments.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -27,8 +29,6 @@ class CommentsController < ApplicationController
   # GET /comments/new
   # GET /comments/new.xml
   def new
-    @comment = current_user.comments.build
-
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @comment }
@@ -37,14 +37,13 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
-    @comment = current_user.comments.find(params[:id])
   end
 
   # POST /comments
   # POST /comments.xml
   def create
-    @comment = current_user.comments.new(params[:comment])
-
+    @comment = Comment.new(params[:comment])
+    comment.user_id = current_user.id
     respond_to do |format|
       if @comment.save
         flash[:notice] = 'Comment was successfully created.'
@@ -60,8 +59,6 @@ class CommentsController < ApplicationController
   # PUT /comments/1
   # PUT /comments/1.xml
   def update
-    @comment = current_user.comments.find(params[:id])
-
     respond_to do |format|
       if @comment.update_attributes(params[:comment])
         flash[:notice] = 'Comment was successfully updated.'
@@ -77,7 +74,6 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.xml
   def destroy
-    @comment = current_user.comments.find(params[:id])
     @comment.destroy
 
     respond_to do |format|
@@ -85,4 +81,11 @@ class CommentsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  private
+  def find_user_comment
+    @comment = current_user.comments.find(params[:id], :include => :parent)
+    redirect_to user_comments_path and return false unless @comment
+  end
+
 end

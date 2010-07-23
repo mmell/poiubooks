@@ -21,13 +21,13 @@
 </p>
 
 <p>
-  <b>Description:</b>
+  <b>Statement:</b>
   <%=h @user.description %>
 </p>
 
 <p>
-  <b>Is admin:</b>
-  <%=h @user.is_admin %>
+  <b>Admin?:</b>
+  <%= display_is_admin(@user) %>
 </p>
 
 

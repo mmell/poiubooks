@@ -9,4 +9,6 @@ class Comment < ActiveRecord::Base
   validates_associated( :commentable)    
 
   validates_length_of( :content, :minimum => 2 )
+  
+  attr_protected :user_id
 end

@@ -1,27 +1,20 @@
 class UsersController < ApplicationController
   
-  before_filter :require_user, :except => [:new, :activate, :create]
+  before_filter :require_user, :except => [:index, :new, :activate, :create]
   before_filter :require_admin, :only => [:suspend, :unsuspend, :destroy, :purge]
-  before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge]
+  before_filter :find_user, :except => [:index, :new, :create, :activate]
   
   def index
     @users = User.find(:all, :order => "full_name, login")
   end
  
   def show
-    @user = User.find(params[:id])
   end
  
   def edit
-    if current_user_is_admin? 
-      find_user
-    else 
-      @user = current_user
-    end
   end
  
   def update
-    edit
     if current_user_is_admin?
       @user.is_admin = (params[:is_admin] == '1')
       @user.save!
@@ -47,7 +40,7 @@ class UsersController < ApplicationController
       redirect_back_or_default('/')
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else
-      flash[:error] = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
+      flash[:error] = "We couldn't set up that account, sorry.  Please try again."
       render :action => 'new'
     end
   end
@@ -99,7 +92,7 @@ class UsersController < ApplicationController
       end
       redirect_to(categories_path) and return
     end
-    error_message("The admin already exists.")
+    error_message("The primary admin already exists.")
     redirect_to(root_path)
   end
   
@@ -109,6 +102,15 @@ class UsersController < ApplicationController
 
 protected
   def find_user
-    @user = User.find(params[:id])
+    if current_user_is_admin? 
+      @user = User.find(params[:id])
+    else 
+      @user = current_user
+    end
+    unless @user
+      error_message("Can't find requested user.")
+      redirect_to(users_path)
+    end
   end
+  
 end

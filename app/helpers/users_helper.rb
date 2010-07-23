@@ -1,5 +1,9 @@
 module UsersHelper
   
+  def display_is_admin(user)
+    user.is_admin? ? '<span class="notices">yes</span>' : '&#8212;'
+  end
+
   #
   # Use this to wrap view elements that the user can't access.
   # !! Note: this is an *interface*, not *security* feature !!

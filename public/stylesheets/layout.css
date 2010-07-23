@@ -124,6 +124,6 @@ table.listing td { padding: 3px; }
 .orange { color: #ff7625; }
 .green { color: #75d030; }
 
-.errors { color: red; }
-.alerts { color: #ff7625; }
-.notices { color: #75d030; }
+.errors { font-weight: bold; color: red; }
+.alerts { font-weight: bold; color: #ff7625; }
+.notices { font-weight: bold; color: #75d030; }
