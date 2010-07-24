@@ -8,6 +8,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources( :users, { :member => { :suspend=>:put, :unsuspend=>:put, :purge=>:delete } } ) do |user|
     user.resources :books
     user.resources :comments
+    user.resources :notifications
   end
 
   map.resource :session

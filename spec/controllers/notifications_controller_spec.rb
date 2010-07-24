@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe NotificationsController do
 
+  include ControllerHelpers
+  
+  before(:each) do
+    make_user_session
+  end
+
   def mock_notifications(stubs={})
     @mock_notifications ||= mock_model(Notification, stubs)
   end

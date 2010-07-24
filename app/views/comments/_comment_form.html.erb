@@ -1,3 +1,17 @@
+<% if logged_in? and !@book.owner?(current_user) %>
+<% 
+current_notification = current_user.notifications.find_by_book_id(@book.id)
+remote_form_for(Notification.new, :url => {:controller => :notifications, :action => :toggle} ) do |f|
+%>
+<%= hidden_field_tag('notification[book_id]',	@book.id) %>
+<%= check_box_tag('notifiy', '1', 
+		!current_notification.nil?, 
+		{:onchange => "this.form.submit();"}) %> Notify me when this book has been updated by the author
+<% end -%>
+<% end -%>
+
+
+<div class='commentable_content'>
 <% if logged_in? %>
 <%
 c = Comment.new
@@ -21,6 +35,7 @@ form_for(c, :url => polymorphic_path([commentable, c]) ) do |f| %>
 	<%= render(:partial => 'comments/display_comment', :locals => {:comment => comment } ) %>
 <% end %>
 </table>
+</div>
 
 <p align='right'>
 	<%= license_button(commentable.license, :img) %>

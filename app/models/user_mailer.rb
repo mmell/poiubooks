@@ -1,4 +1,4 @@
-class UserMailer < ActionMailer::Base
+class UserMailer < MailerBase
 
   def signup_notification(user)
     setup_email(user)
@@ -9,15 +9,6 @@ class UserMailer < ActionMailer::Base
   def activation(user)
     setup_email(user)
     @subject += 'Your account has been activated!'
-  end
-
-  protected
-  def setup_email(user)
-    @recipients  = "#{user.email}"
-    @from        = "#{AdminEmail}"
-    @subject     = "[#{SiteName}] "
-    @sent_on     = Time.now
-    @body[:user] = user
   end
 
 end

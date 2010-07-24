@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe ChaptersController do
 
+  include ControllerHelpers
+  
   def mock_chapters(stubs={})
     @mock_chapters ||= mock_model(Chapter, stubs)
   end

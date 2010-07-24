@@ -20,6 +20,8 @@ class Chapter < ActiveRecord::Base
   
   before_validation_on_create :defaults
 
+  after_save :trigger_notification
+  
   attr_protected :user_id, :parent_id, :parent_type
 
   def defaults
@@ -36,10 +38,12 @@ class Chapter < ActiveRecord::Base
     book.license
   end
   
-#  after_save :trigger_notification
-  
-#  def trigger_notification(obj = self)
-#    parent.trigger_notification(obj)
-#  end
+  def trigger_notification()
+    book.send_chapter_notification(self)
+  end
+
+  def trigger_comment_notification(comment)
+    book.send_chapter_notification(self, comment)
+  end
   
 end

@@ -1,8 +1,12 @@
 class NotificationsController < ApplicationController
+
+  before_filter :require_user
+  before_filter :find_user_notification, :except => [:index, :new, :create, :toggle]
+
   # GET /notifications
   # GET /notifications.xml
   def index
-    @notifications = Notification.all
+    @notifications = current_user.notifications
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,8 +17,6 @@ class NotificationsController < ApplicationController
   # GET /notifications/1
   # GET /notifications/1.xml
   def show
-    @notification = Notification.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @notification }
@@ -34,18 +36,17 @@ class NotificationsController < ApplicationController
 
   # GET /notifications/1/edit
   def edit
-    @notification = Notification.find(params[:id])
   end
 
   # POST /notifications
   # POST /notifications.xml
   def create
-    @notification = Notification.new(params[:notification])
+    @notification = current_user.notifications.new(params[:notification])
 
     respond_to do |format|
       if @notification.save
-        flash[:notice] = 'Notification was successfully created.'
-        format.html { redirect_to(@notification) }
+        flash[:notice] = 'You will be notified via email when this book or its chapters have been updated.'
+        format.html { redirect_to(@notification.book) }
         format.xml  { render :xml => @notification, :status => :created, :location => @notification }
       else
         format.html { render :action => "new" }
@@ -54,15 +55,25 @@ class NotificationsController < ApplicationController
     end
   end
 
+  # POST /notifications
+  # POST /notifications.xml
+  def toggle
+    @notification = current_user.notifications.find_by_book_id(params[:notification][:book_id])
+    
+    if @notification
+      destroy
+    else 
+      create
+    end
+  end
+
   # PUT /notifications/1
   # PUT /notifications/1.xml
   def update
-    @notification = Notification.find(params[:id])
-
     respond_to do |format|
       if @notification.update_attributes(params[:notification])
         flash[:notice] = 'Notification was successfully updated.'
-        format.html { redirect_to(@notification) }
+        format.html { redirect_to(@notification.book) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -74,12 +85,18 @@ class NotificationsController < ApplicationController
   # DELETE /notifications/1
   # DELETE /notifications/1.xml
   def destroy
-    @notification = Notification.find(params[:id])
     @notification.destroy
-
+    notice_message("Successfully removed the notification.")
     respond_to do |format|
-      format.html { redirect_to(notifications_url) }
+      format.html { redirect_to( @notification.book ) }
       format.xml  { head :ok }
     end
   end
+
+private 
+  def find_user_notification
+    @notification = current_user.notifications.find(params[:id])
+    redirect_to root_path and return false unless @notification
+  end
+
 end

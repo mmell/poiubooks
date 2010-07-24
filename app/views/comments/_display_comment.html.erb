@@ -1,6 +1,9 @@
 <tr class='row<%= cycle(1, 2) %>' valign='top'>
   <td><%= display_vote(comment) %></td>
-  <td><%=h comment.content %></td>
+  <td>
+	<strong><%= link_to( comment.user.full_name, comment.user) %></strong> on <%=h comment.created_at %><br />
+	<%=h comment.content %>
+	</td>
 	<% if comment.owner?(current_user) -%>
   <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
   <td><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>

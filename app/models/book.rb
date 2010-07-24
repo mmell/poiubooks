@@ -18,14 +18,27 @@ class Book < ActiveRecord::Base
    
   attr_protected :user_id
 
-#  after_update :trigger_notification
+  after_update :send_book_notification
 
-#  def trigger_notification(obj = self)
-#    send_notification(obj)
-#  end
+  def send_book_notification()
+    self.notifications.each { |e| 
+      BookMailer.deliver_book_notification(e.user, self, e)
+    }
+  end
+  private :send_book_notification
   
-#  def send_notification(obj)
-#    raise NotImplementedError
-#  end
-  
+  def send_chapter_notification(chapter)
+    self.notifications.each { |e| 
+      BookMailer.deliver_book_notification(e.user, self, chapter, e)
+    }
+  end
+
+  def send_comment_notification(comment)
+    if self == comment.commentable 
+      BookMailer.deliver_book_notification(owner, self, comment)
+    else
+      BookMailer.deliver_chapter_comment_notification(owner, self, comment) 
+    end
+  end
+
 end

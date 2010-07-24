@@ -9,13 +9,13 @@
   <b>Reward:</b>
   <%=h @book.reward %> <%=h @book.terms %>
 </p>
+<br clear='all'>
+
+</div>
 
 <% if @book.owner?(current_user) -%>
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'New Chapter', new_book_chapter_path(@book) %>
 <% end -%>
-
-<br clear='all'>
-</div>
 
 <%= render(:partial => 'comments/comment_form', :locals => {:commentable => @book } ) %>

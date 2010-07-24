@@ -15,9 +15,10 @@ class SubChapter < Chapter
 
   before_validation_on_create :defaults
 
+  after_save :trigger_notification
+
   def book
     parent.parent
   end
-#  after_save :trigger_notification
 
 end

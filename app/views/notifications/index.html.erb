@@ -1,17 +1,13 @@
-<% @page_title = 'Listing Notifications' %>
+<% @page_title = "Listing Notifications for #{current_user.full_name}" %>
 
 <table class='listing'>
   <tr valign='top'>
-    <th>User</th>
-    <th>Book</th>
+    <th>Notification for</th>
   </tr>
 
 <% @notifications.each do |notification| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%=h notification.full_name %></td>
-    <td><%=h notification.book_id %></td>
-    <td><%= link_to 'Show', notification %></td>
-    <td><%= link_to 'Edit', edit_notification_path(notification) %></td>
+    <td><%= link_to(h( notification.book.title), notification.book) %></td>
     <td><%= link_to 'Destroy', notification, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>

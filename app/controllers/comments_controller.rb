@@ -18,7 +18,7 @@ class CommentsController < ApplicationController
   # GET /comments/1
   # GET /comments/1.xml
   def show
-    @comment = Comments.find(params[:id])
+    @comment = Comment.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

@@ -96,15 +96,15 @@ table.listing td { padding: 3px; }
 }
 .dependability_nav li { 
   float: right; 
-  margin: 0px; 
+  margin: 0px 1px; 
   padding: 0px 4px; 
   list-style-type: none; 
-  border-width: 0px 0px 2px 1px; 
+  border-width: 0px 1px 2px 0px; 
   border-color: #3299cc;
   border-style: solid;  
 }
 .dependability_nav li.last { 
-  border-width: 0px 1px 2px 1px; 
+  border-width: 0px 1px 2px 0px; 
   border-color: #3299cc;
   border-style: solid;  
 }
@@ -138,7 +138,13 @@ div.table_of_contents {
 }
 
 div.chapter_content {
-  margin: 0px;
+  margin: 0px 0px 20px 0px;
+  padding: 6px;
+  border: 1px solid #3299cc;
+}
+
+div.commentable_content {
+  margin: 10px 0px 6px 0px;
   padding: 6px;
   background: #fefefe;
   border: 1px solid #3299cc;

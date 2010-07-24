@@ -16,13 +16,10 @@ class UsersController < ApplicationController
  
   def update
     if current_user_is_admin?
-      @user.is_admin = (params[:is_admin] == '1')
+      @user.is_admin = (params[:user][:is_admin] == '1')
       @user.save!
     end
-    @user.update_attributes(
-      :full_name => params[:full_name], :login => params[:login], :email => params[:email], :description => params[:description]
-    )
-    logger.debug(params.inspect)
+    @user.update_attributes(params[:user])
     redirect_to(edit_user_path(@user.id)) 
   end
  
@@ -90,9 +87,9 @@ class UsersController < ApplicationController
       else
         error_message *(["An error occurred: "] + current_user.errors.full_messages)
       end
-      redirect_to(categories_path) and return
+    else 
+      error_message("The primary admin already exists.")
     end
-    error_message("The primary admin already exists.")
     redirect_to(root_path)
   end
   
