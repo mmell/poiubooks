@@ -1,11 +1,14 @@
-<tr class='row<%= cycle(1, 2) %>' valign='top'>
-  <td><%= display_vote(comment) %></td>
-  <td><a name='comment_<%= comment.id %>'></a>
-	<strong><%= link_to( comment.user.full_name, comment.user) %></strong> on <%=h comment.created_at %><br />
-	<%=h comment.content %>
+<tr valign='top'>
+  <td></td>
+  <td class='comment1'><a name='comment_<%= comment.id %>'></a>
+	<strong><%= link_to( comment.user.full_name, comment.user) %></strong> on <%=h comment.created_at %>
 	</td>
+</tr>
+<tr valign='top'>
+  <td><%= display_vote(comment) %></td>
+  <td class='comment2'><%= comment.content %></td>
 	<% if comment.owner?(current_user) -%>
-  <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-  <td><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>
+  <td class='comment2'><%= link_to 'Edit', edit_comment_path(comment) %></td>
+  <td class='comment2'><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>
 	<% end %>
 </tr>

@@ -2,12 +2,12 @@
 
 <p>
   <b>Author:</b>
-  <%=h @comment.full_name %>
+  <%=h @comment.owner.full_name %>
 </p>
 
 <p>
   <b>Type:</b>
-  <%= link_to(comment.commentable_type, comment.commentable) %>
+  <%= link_to(@comment.commentable_type, @comment.commentable) %>
 </p>
 
 <p>

@@ -1,10 +1,9 @@
-<div class='table_of_contents'><h2>Table of Contents</h2>
+<div class='table_of_contents'>
+<h2><%= link_to(book.title, book) %></h2>
+
+	
+	<h2>Table of Contents</h2>
 <table class='listing' width='100%'>
-<tr class='row<%= cycle(1, 2) %>' valign='top'>
-  <td></td>
-  <td><%= link_to(book.title, book) %><br />
-		(<span align='right'><%= book.comments.size %> Comments</span>)</td>
-</tr>
 <% 
 ix = 0 
 book.chapters.each do |chapter| %>

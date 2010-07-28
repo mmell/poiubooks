@@ -18,6 +18,7 @@ class ChaptersController < ApplicationController
   # GET /chapters/1
   # GET /chapters/1.xml
   def show
+    use_tinymce
     @chapter = Chapter.find(params[:id], :include => :parent)
     @book = @chapter.book
     redirect_to book_path(params[:book_id]) and return false unless @chapter
@@ -31,6 +32,7 @@ class ChaptersController < ApplicationController
   # GET /chapters/new
   # GET /chapters/new.xml
   def new
+    use_tinymce
     @chapter = @book.chapters.build()
 
     respond_to do |format|
@@ -41,7 +43,7 @@ class ChaptersController < ApplicationController
 
   # GET /chapters/1/edit
   def edit
-    #@chapter = @book.chapters.find(params[:id])
+    use_tinymce
   end
 
   # POST /chapters

@@ -35,5 +35,8 @@ protected
     session[:return_to] = url_for if !logged_in? and !['sessions', 'users'].include?(controller_name)
   end
       
-
+  def use_tinymce  
+    @application_javascripts = ['tiny_mce/tiny_mce.js', 'tiny_mce/tiny_mce_init.js']
+  end
+  
 end

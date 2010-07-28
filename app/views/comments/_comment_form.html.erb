@@ -8,18 +8,17 @@ remote_form_for(Notification.new, :url => {:controller => :notifications, :actio
 		!current_notification.nil?, 
 		{:onchange => "this.form.submit();"}) %> Notify me when this book has been updated by the author
 <% end -%>
+<p><%= link_to( image_tag('rss_xml.gif', :size => '36x14', :alt => 'rss'), book_path(@book, :format => :rss)) %></p>
 <% end -%>
 
-
 <div class='commentable_content'>
-<% if logged_in? %>
+<% if logged_in? -%>
 <%
 c = Comment.new
-form_for(c, :url => polymorphic_path([commentable, c]) ) do |f| %>
-  <%= f.error_messages %>
-
+form_for(c, :url => polymorphic_path([commentable, c]) ) do |f| -%>
+  <%= f.error_messages -%>
   <p>
-    <%= f.label :content, "Comment" %><br />
+    <%= f.label :content, "New Comment" %><br />
     <%= f.text_area :content, :size => TextFieldSize %>
   </p>
   <p>
@@ -30,10 +29,11 @@ form_for(c, :url => polymorphic_path([commentable, c]) ) do |f| %>
 <em>Please sign in or create an account to post comments.</em>
 <% end %>
 
+<h3>Comments</h3>
 <table class='listing'>
 <% commentable.comments.each do |comment| %>
 	<%= render(:partial => 'comments/display_comment', :locals => {:comment => comment } ) %>
-<% end %>
+<% end -%>
 </table>
 </div>
 

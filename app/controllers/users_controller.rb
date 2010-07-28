@@ -71,12 +71,13 @@ class UsersController < ApplicationController
 
   def destroy
     @user.delete!
-    redirect_to users_path
+    notice_message("Successfully destroyed your account and all of your books, chapters, comments and notifications.")
+    redirect_to root_path
   end
 
   def purge
     @user.destroy
-    redirect_to users_path
+    redirect_to root_path
   end
   
   def admin_bootstrap

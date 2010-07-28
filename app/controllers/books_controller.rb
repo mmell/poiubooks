@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   
-  before_filter :find_user_book, :except => [:index, :show, :new, :create]
-  before_filter :require_user, :except => [:index, :show]
+  before_filter :find_user_book, :except => [:index, :show, :new, :create, :rss]
+  before_filter :require_user, :except => [:index, :show, :rss]
   
   # GET /books
   # GET /books.xml
@@ -9,11 +9,11 @@ class BooksController < ApplicationController
     if params[:category_id]
       @category = Category.find(params[:category_id], :include => :books)
       @books = @category.books.all
-      @page_title = "Listing Books in #{@category.name}"
+      @page_title = "Listing Books in Category: #{@category.name}"
     elsif params[:user_id]
       @user = User.find(params[:user_id], :include => :books)
       @books = @user.books.all
-      @page_title = "Listing Books by #{@user.full_name}"
+      @page_title = "Listing Books by Author: #{@user.full_name}"
     else
       @page_title = "Listing All Books"
       @books = Book.all
@@ -27,14 +27,22 @@ class BooksController < ApplicationController
 
   # GET /books/1
   # GET /books/1.xml
+  # GET /books/1.rss
   def show
     @book = Book.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @book }
+      format.rss { render :layout => false } # show.rss.builder
     end
   end
+
+#  def rss
+#    @book = Book.find(params[:id])
+#    render :layout => false
+#    response.headers["Content-Type"] = "application/xml; charset=utf-8"
+#  end
 
   # GET /books/1
   # GET /books/1.xml
@@ -50,6 +58,7 @@ class BooksController < ApplicationController
   # GET /books/new
   # GET /books/new.xml
   def new
+    use_tinymce
     @book = Book.new
 
     respond_to do |format|
@@ -60,6 +69,7 @@ class BooksController < ApplicationController
 
   # GET /books/1/edit
   def edit
+    use_tinymce
   end
 
   # POST /books
