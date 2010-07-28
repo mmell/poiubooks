@@ -1,4 +1,4 @@
 The chapter, <%=h @book.title %>: <%= @chapter.title %>, has been updated: 
 	The chapter <%= link_to(h( @chapter.title), book_chapter_url(@book, @chapter, :only_path => false, :host => SiteDomain ) ) %> has been <%= @created_or_updated %>.
 	
-<%= notification_footer() %>
+<%= render('user_notification_footer') %>

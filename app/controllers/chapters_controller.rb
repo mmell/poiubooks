@@ -19,6 +19,7 @@ class ChaptersController < ApplicationController
   # GET /chapters/1.xml
   def show
     @chapter = Chapter.find(params[:id], :include => :parent)
+    @book = @chapter.book
     redirect_to book_path(params[:book_id]) and return false unless @chapter
 
     respond_to do |format|

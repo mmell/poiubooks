@@ -1,5 +1,5 @@
 The book, <%=h @book.title %>, has been updated: 
 	<%= link_to(h( @book.title), book_url(@book, :only_path => false, :host => SiteDomain ) ) %>.
 
-<%= notification_footer() %>
+<%= render('user_notification_footer') %>
 	
