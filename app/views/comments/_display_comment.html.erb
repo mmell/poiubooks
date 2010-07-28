@@ -1,6 +1,6 @@
 <tr class='row<%= cycle(1, 2) %>' valign='top'>
   <td><%= display_vote(comment) %></td>
-  <td>
+  <td><a name='comment_<%= comment.id %>'></a>
 	<strong><%= link_to( comment.user.full_name, comment.user) %></strong> on <%=h comment.created_at %><br />
 	<%=h comment.content %>
 	</td>
