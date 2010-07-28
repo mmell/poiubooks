@@ -5,16 +5,20 @@ describe NotificationsController do
   include ControllerHelpers
   
   before(:each) do
-    make_user_session
+    @user = make_user_session
   end
 
-  def mock_notifications(stubs={})
+  def mock_notifications(stubs={:book => mock_book})
     @mock_notifications ||= mock_model(Notification, stubs)
+  end
+
+  def mock_book(stubs={})
+    @mock_book ||= mock_model(Book, stubs)
   end
 
   describe "GET index" do
     it "assigns all notifications as @notifications" do
-      Notification.stub(:find).with(:all).and_return([mock_notifications])
+      @user.stub(:notifications).and_return([mock_notifications])
       get :index
       assigns[:notifications].should == [mock_notifications]
     end
@@ -22,7 +26,7 @@ describe NotificationsController do
 
   describe "GET show" do
     it "assigns the requested notification as @notification" do
-      Notification.stub(:find).with("37").and_return(mock_notifications)
+      @user.notifications.stub(:find).with('37').and_return(mock_notifications)
       get :show, :id => "37"
       assigns[:notification].should equal(mock_notifications)
     end
@@ -38,7 +42,7 @@ describe NotificationsController do
 
   describe "GET edit" do
     it "assigns the requested notification as @notification" do
-      Notification.stub(:find).with("37").and_return(mock_notifications)
+      @user.notifications.stub(:find).with('37').and_return(mock_notifications)
       get :edit, :id => "37"
       assigns[:notification].should equal(mock_notifications)
     end
@@ -48,15 +52,17 @@ describe NotificationsController do
 
     describe "with valid params" do
       it "assigns a newly created notification as @notification" do
-        Notification.stub(:new).with({'these' => 'params'}).and_return(mock_notifications(:save => true))
-        post :create, :notification => {:these => 'params'}
+        Notification.stub(:new).and_return(mock_notifications(:save => true))
+        mock_notifications.stub(:book).and_return(mock_book)
+        post :create, :notification => {:book_id => mock_book.id }
         assigns[:notification].should equal(mock_notifications)
       end
 
       it "redirects to the created notification" do
         Notification.stub(:new).and_return(mock_notifications(:save => true))
-        post :create, :notification => {}
-        response.should redirect_to(notification_url(mock_notifications))
+        mock_notifications.stub(:book).and_return(mock_book)
+        post :create, :notification => {:book_id => mock_book.id}
+        response.should redirect_to(book_url(mock_book))
       end
     end
 
@@ -80,27 +86,29 @@ describe NotificationsController do
 
     describe "with valid params" do
       it "updates the requested notification" do
-        Notification.should_receive(:find).with("37").and_return(mock_notifications)
+        Notification.should_receive(:find).with("37", anything()).and_return(mock_notifications)
         mock_notifications.should_receive(:update_attributes).with({'these' => 'params'})
         put :update, :id => "37", :notification => {:these => 'params'}
       end
 
       it "assigns the requested notification as @notification" do
         Notification.stub(:find).and_return(mock_notifications(:update_attributes => true))
+        mock_notifications.stub(:book).and_return(mock_book)
         put :update, :id => "1"
         assigns[:notification].should equal(mock_notifications)
       end
 
       it "redirects to the notification" do
         Notification.stub(:find).and_return(mock_notifications(:update_attributes => true))
+        mock_notifications.stub(:book).and_return(mock_book)
         put :update, :id => "1"
-        response.should redirect_to(notification_url(mock_notifications))
+        response.should redirect_to(books_url(mock_book))
       end
     end
 
     describe "with invalid params" do
       it "updates the requested notification" do
-        Notification.should_receive(:find).with("37").and_return(mock_notifications)
+        Notification.should_receive(:find).with("37", anything()).and_return(mock_notifications)
         mock_notifications.should_receive(:update_attributes).with({'these' => 'params'})
         put :update, :id => "37", :notification => {:these => 'params'}
       end
@@ -122,15 +130,16 @@ describe NotificationsController do
 
   describe "DELETE destroy" do
     it "destroys the requested notification" do
-      Notification.should_receive(:find).with("37").and_return(mock_notifications)
+      @user.notifications.stub(:find).with('37').and_return(mock_notifications)
       mock_notifications.should_receive(:destroy)
       delete :destroy, :id => "37"
     end
 
     it "redirects to the notifications list" do
-      Notification.stub(:find).and_return(mock_notifications(:destroy => true))
-      delete :destroy, :id => "1"
-      response.should redirect_to(notifications_url)
+      @user.notifications.stub(:find).with('37').and_return(mock_notifications)
+      mock_notifications.should_receive(:destroy)
+      delete :destroy, :id => "37"
+      response.should redirect_to(books_url(mock_book))
     end
   end
 

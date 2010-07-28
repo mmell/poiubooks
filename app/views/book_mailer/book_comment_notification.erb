@@ -1,2 +1,2 @@
 The book, <%=h @book.title %>, has been updated with a new comment: 
-	<%= link_to(h @book.title, book_url(@book, :anchor => "comment_#{@comment.id}", :only_path => false, :host => SiteDomain ) ) %> 
+	<%= link_to(h( @book.title), book_url(@book, :anchor => "comment_#{@comment.id}", :only_path => false, :host => SiteDomain ) ) %> 

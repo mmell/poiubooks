@@ -1,7 +1,11 @@
 module Authoring
 
   def owner?(user = nil)
-    user and self.user_id == user.id
+    user == owner
+  end
+
+  def owner
+    self.user
   end
 
 end

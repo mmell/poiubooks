@@ -16,6 +16,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :books do |books|
     books.resources :chapters
     books.resources :comments
+    books.resources :notifications
   end
 
   map.resources :chapters do |chapter|

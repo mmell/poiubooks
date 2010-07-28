@@ -17,5 +17,6 @@
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'New Chapter', new_book_chapter_path(@book) %>
 <% end -%>
+<%= link_to "Who's Watching the Action?", book_notifications_path(@book) %>
 
 <%= render(:partial => 'comments/comment_form', :locals => {:commentable => @book } ) %>

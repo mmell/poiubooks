@@ -1,0 +1,5 @@
+
+ <tr class='row<%= cycle(1, 2) %>' valign='top'>
+	<td><%= link_to(h( notification.book.title), notification.book) %></td>
+	<td><%= link_to 'Destroy', notification, :confirm => 'Are you sure?', :method => :delete %></td>
+ </tr>

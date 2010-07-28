@@ -18,26 +18,26 @@ class Book < ActiveRecord::Base
    
   attr_protected :user_id
 
-  after_update :send_book_notification
+  after_update :send_book_notifications
 
-  def send_book_notification()
+  def send_book_notifications()
     self.notifications.each { |e| 
-      BookMailer.deliver_book_notification(e.user, self, e)
+      BookMailer.deliver_book_notification(e.user, self)
     }
   end
-  private :send_book_notification
+  private :send_book_notifications
   
-  def send_chapter_notification(chapter)
+  def send_chapter_notifications(chapter)
     self.notifications.each { |e| 
-      BookMailer.deliver_book_notification(e.user, self, chapter, e)
+      BookMailer.deliver_chapter_notification(e.user, chapter)
     }
   end
 
   def send_comment_notification(comment)
-    if self == comment.commentable 
-      BookMailer.deliver_book_notification(owner, self, comment)
+    if comment.commentable.is_a?(Book) 
+      BookMailer.deliver_book_comment_notification(comment.commentable, comment)
     else
-      BookMailer.deliver_chapter_comment_notification(owner, self, comment) 
+      BookMailer.deliver_chapter_comment_notification(comment.commentable.book, comment) 
     end
   end
 

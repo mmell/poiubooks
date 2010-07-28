@@ -1,14 +1,8 @@
-<% @page_title = "Listing Notifications for #{current_user.full_name}" %>
-
 <table class='listing'>
   <tr valign='top'>
-    <th>Notification for</th>
+    <th>Notifications for</th>
   </tr>
 
-<% @notifications.each do |notification| %>
-  <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%= link_to(h( notification.book.title), notification.book) %></td>
-    <td><%= link_to 'Destroy', notification, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
+<%= render(:partial => @partial, :collection => @notifications, :as => :notification) %>
+
 </table>

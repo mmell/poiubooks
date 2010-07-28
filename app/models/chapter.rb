@@ -28,6 +28,7 @@ class Chapter < ActiveRecord::Base
     self.position = Chapter.count_by_sql(
       "select count(*) from chapters where parent_type='Book' and parent_id=#{book.id}"
     )
+    self.user = parent.user
   end
   
   def book
@@ -39,11 +40,7 @@ class Chapter < ActiveRecord::Base
   end
   
   def trigger_notification()
-    book.send_chapter_notification(self)
-  end
-
-  def trigger_comment_notification(comment)
-    book.send_chapter_notification(self, comment)
+    book.send_chapter_notifications(self)
   end
   
 end
