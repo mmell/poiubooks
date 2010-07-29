@@ -6,6 +6,7 @@ module ApplicationHelper
   end
   
   def truncate(s, n = 150)
+    return s # truncating in the middle of a tag element, e.g. <p>, makes problems
     return s if s.length < n
     s[0, s.rindex(/\s/, n)] + ' ...'
   end

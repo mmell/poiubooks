@@ -5,12 +5,12 @@
     <th>Commenting On</th>
     <th>Vote</th>
     <th>Comment</th>
-    <% if current_user == @user -%><th>Owner</th><% end %>
+    <% if current_user == @user -%><th colspan='3'>Owner</th><% end %>
   </tr>
 
 <% @user.comments.each do |comment| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%= link_to(comment.commentable_type, comment.commentable) %></td>
+    <td><%= comment.commentable_type %>: <%= link_to(comment.commentable.title, comment.commentable) %></td>
     <td><%= display_vote(comment) %></td>
     <td><%= truncate comment.content %></td>
 		<% if current_user == @user -%>
