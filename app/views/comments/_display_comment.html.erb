@@ -1,6 +1,7 @@
 <tr valign='top'>
-  <td></td>
-  <td class='comment1'><a name='comment_<%= comment.id %>'></a>
+  <td class='comment1' colspan='2'>
+	<a name='comment_<%= comment.id %>'></a>
+	<%= if comment.user.image %><%= link_to(image_tag(comment.user.image, :border => 0), comment.user) %><% end %>
 	<strong><%= link_to( comment.user.full_name, comment.user) %></strong> on <%=h comment.created_at %>
 	</td>
 </tr>

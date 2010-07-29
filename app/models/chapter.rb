@@ -35,10 +35,6 @@ class Chapter < ActiveRecord::Base
     parent
   end
   
-  def license
-    book.license
-  end
-  
   def trigger_notification()
     book.send_chapter_notifications(self)
   end

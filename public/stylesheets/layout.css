@@ -161,3 +161,5 @@ div.commentable_content {
   background: #fefefe;
   border: 1px solid #3299cc;
 }
+
+img.profile_image { float: left; padding: 0px 14px 4px 0px; }

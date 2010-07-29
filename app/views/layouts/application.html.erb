@@ -25,9 +25,9 @@
 	<td id='dependability_bar'>
 		<ul class='dependability_nav'>
 			<% if logged_in? -%>
-			<li class='last'><%= link_to(current_user.full_name, user_path(current_user)) %></li>
+			<li class='last'><%= link_to(current_user.full_name, edit_user_path(current_user)) %></li>
 			<li><%= link_to('Sign Out', logout_path) %></li>
-			<li><%= link_to('Account', edit_user_path(current_user)) %></li>
+			<li><%= link_to('Profile', user_path(current_user)) %></li>
 			<% else -%>
 			<li class='last'><%= link_to('Sign In', login_path) %></li>
 			<li><%= link_to('Register', new_user_url) %></li>

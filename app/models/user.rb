@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   include Authentication::ByCookieToken
   include Authorization::StatefulRoles
 
-  ProfileImages = File.join(RAILS_ROOT, "public", "images", "users")   
+  ProfileImages = File.join( "images", "users")   
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
@@ -71,21 +71,21 @@ class User < ActiveRecord::Base
   def recently_reset?
     @reset
   end 
-  
-  def image_file_path
-    File.join(ProfileImages, login)
-  end
      
   def save_image_file(upload)
-    name =  upload['datafile'].original_filename
-    raise StandardError, name
-    path = File.join(ProfileImages, path)
-    File.open(path, "wb") { |f| f.write(upload['datafile'].read) }
-    self.update_attributes(:image => )
+    name =  "user_#{self.id}" + File.extname(upload.original_filename)
+    base = File.join(RAILS_ROOT, "public", "images", "users", image_parent ) 
+    FileUtils.mkdir( base ) unless File.exist?( base )
+    path = File.join(base, name)
+    File.open(path, "wb") { |f| f.write(upload.read) }
+    self.image = File.join('users', image_parent, name)
   end
   
   protected
-
+  def image_parent
+    "%02d" % id
+  end
+  
   def make_activation_code
     self.deleted_at = nil
     self.activation_code = self.class.make_token

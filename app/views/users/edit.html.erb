@@ -11,14 +11,28 @@
     <%= f.label :login %><br />
     <%= f.text_field :login %>
   </p>
+
   <p>
     <%= f.label :email %><br />
     <%= f.text_field :email %>
   </p>
+
+	<p><%= f.label :password %><br/>
+	<%= f.password_field :password %>
+	</p>
+
+	<p><%= f.label :password_confirmation, 'Confirm Password' %><br/>
+	<%= f.password_field :password_confirmation %>
+	</p>
+
   <p>
     <%= f.label :image %><br />
     <%= f.file_field :image %>
+<% if @user.image %><br />
+<%= image_tag(@user.image) %>
+<% end %>
   </p>
+
   <p>
     <%= f.label :description, "Statement" %><br />
     <%= f.text_area :description, :size => TextFieldSize %>
@@ -34,6 +48,8 @@
   </p>
 <% end %>
 
-<%= link_to 'Show', @user %>
-
+<% if current_user_is_admin? %>
+Admin: <%= link_to 'Show', @user %>
+<% end %>
+<%= link_to 'Reset Password', reset_path(@user) %>
 <p><%= link_to 'Destroy My Account, all of my Books and Comments', @user, :confirm => 'Are you sure?', :method => :delete %></p>

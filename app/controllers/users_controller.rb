@@ -20,6 +20,9 @@ class UsersController < ApplicationController
       @user.is_admin = (params[:user][:is_admin] == '1')
       @user.save!
     end
+    if params[:user][:image]
+      @user.save_image_file(params[:user][:image])
+    end
     @user.update_attributes(params[:user])
     redirect_to(edit_user_path(@user.id)) 
   end
@@ -75,7 +78,11 @@ class UsersController < ApplicationController
   end
 
   def reset
-    @user = User.find_by_activation_code(params[:activation_code]) unless params[:activation_code].nil?
+    if params[:activation_code]
+      @user = User.find_by_activation_code(params[:activation_code]) 
+    else
+      @user = current_user
+    end
     if request.post?
       if @user.update_attributes(
           :password => params[:user][:password], 
@@ -132,6 +139,10 @@ class UsersController < ApplicationController
 
 protected
 
+#  def authorized?(action = action_name, user = nil)
+#    logged_in? and (current_user_is_admin? or current_user == @user)
+#  end
+    
   def find_user
     if current_user_is_admin? 
       @user = User.find(params[:id])

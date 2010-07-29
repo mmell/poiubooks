@@ -1,7 +1,8 @@
 <% @page_title = "Author/Contributor: #{@user.full_name}" %>
 
 <p>
-  <b>Name:</b>
+  <%= image_tag(@user.image, :class => 'profile_image') %>
+  
   <%=h @user.full_name %>
 </p>
 
@@ -15,19 +16,15 @@
   <%= link_to("Comments by #{@user.full_name}", user_comments_path(@user)) %>
 </p>
 
+<% if current_user_is_admin? %>
 <p>
   <b>Email:</b>
-  <%=h @user.email %>
+  <%= mail_to @user.email %>
 </p>
-
-<p>
-  <b>Image:</b>
-  <%=h @user.image %>
-</p>
-
+<% end %>
 <p>
   <b>Statement:</b>
-  <%=h @user.description %>
+  <%= @user.description %>
 </p>
 
 <% if @user.is_admin? %>
@@ -37,4 +34,7 @@
 </p>
 <% end %>
 
-<%= link_to 'Edit', edit_user_path(@user) %>
+<br clear='all' />
+<% if current_user_is_admin? %>
+Admin: <%= link_to 'Edit', edit_user_path(@user) %>
+<% end %>
