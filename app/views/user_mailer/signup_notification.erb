@@ -2,8 +2,8 @@ Your account has been created.
 
 	Name: <%=h @user.full_name %>
 	Login: <%=h @user.login %>
-	Password: <%=h @user.password %>
+	Password: <%= @user.password %>
 
 Visit this url to activate your account:
 
-  <%=h activate_url(:only_path => false, :host => SiteDomain, :activation_code => @activation_code) %>
+  <%= activate_url(:only_path => false, :host => SiteDomain, :activation_code => @activation_code) %>

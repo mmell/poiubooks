@@ -26,5 +26,9 @@ class Comment < ActiveRecord::Base
   def trigger_notification()
     book.send_comment_notification(self)
   end
-
+  
+  def anchor
+    "comment_#{self.id}"
+  end
+  
 end

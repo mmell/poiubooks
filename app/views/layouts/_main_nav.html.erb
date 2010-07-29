@@ -1,15 +1,14 @@
-<li><%= link_to('Books', :controller => :books) %></li>
+<li><%= link_to('Books', books_path) %></li>
 <% if controller_name == 'books' -%>
 <li><ul class='main_nav2'>
 	<% if logged_in? -%><li><%= link_to('My Books', user_books_path(current_user)) %></li><% end -%>
-	<li><%= link_to('All Books', books_path) %></li>
 	<li><%= link_to('Start a Book', :action => :new) %></li>
 </ul></li><% end -%>
 
 <% if logged_in? -%>
 <li><%= link_to('My Chapters', :controller => :chapters) %></li>
 
-<li><%= link_to('My Comments', :controller => :comments) %></li>
+<li><%= link_to('My Comments', user_comments_path(current_user)) %></li>
 
 <li><%= link_to('My Notifications', :controller => :notifications) %></li>
 <% end -%>

@@ -12,7 +12,7 @@
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
     <td><%= link_to(comment.commentable_type, comment.commentable) %></td>
     <td><%= display_vote(comment) %></td>
-    <td><%=h truncate comment.content %></td>
+    <td><%= truncate comment.content %></td>
 		<% if current_user == @user -%>
     <td><%= link_to 'Show', comment %></td>
     <td><%= link_to 'Edit', edit_comment_path(comment) %></td>

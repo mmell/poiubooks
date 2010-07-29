@@ -13,10 +13,12 @@
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
     <td><%=h book.user.full_name %></td>
     <td><%= link_to(book.title, book_path(book)) %></td>
-    <td><%= link_to(book.category.name, category_books_path(book.category)) %></td>
+    <td><%= link_to_unless(
+			current_page?(:category_id => book.category.id), # FIXME
+			book.category.name, category_books_path(book.category)) %></td>
     <td><%=h book.reward %></td>
     <td><%= license_button(book.license, :img) %></td>
-    <td><%=h truncate(book.terms) %></td>
+    <td><%= truncate(book.terms) %></td>
 		<% if current_user_is_admin? -%>
     <td><%= link_to 'Edit', edit_book_path(book) %></td>
     <td><%= link_to 'Destroy', book, :confirm => 'Are you sure?', :method => :delete %></td>

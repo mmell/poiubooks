@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   
-  before_filter :find_user_book, :except => [:index, :show, :new, :create, :rss]
-  before_filter :require_user, :except => [:index, :show, :rss]
+  before_filter :find_user_book, :except => [:index, :show, :new, :create]
+  before_filter :require_user, :except => [:index, :show]
   
   # GET /books
   # GET /books.xml

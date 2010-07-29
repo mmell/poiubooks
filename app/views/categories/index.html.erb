@@ -10,7 +10,7 @@
 <% @categories.each do |category| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
     <td><%= link_to(category.name, category_books_path(category)) %></td>
-    <td align='right'><%=h category.books.size %></td>
+    <td align='right'><%= category.books.size %></td>
 		<% if current_user_is_admin? -%>
     <td><%= link_to 'Show', category %></td>
     <td><%= link_to 'Edit', edit_category_path(category) %></td>

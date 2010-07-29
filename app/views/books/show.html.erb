@@ -7,7 +7,7 @@
 
 <p>
   <b>Reward:</b>
-  <%=h @book.reward %> <%=h @book.terms %>
+  <%=h @book.reward %> <%= @book.terms %>
 </p>
 <br clear='all'>
 
@@ -18,6 +18,5 @@
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'New Chapter', new_book_chapter_path(@book) %>
 <% end -%>
-<%= link_to "Who's Watching the Action?", book_notifications_path(@book) %>
-
+<p><%= link_to "Who's Watching the Action?", book_notifications_path(@book) %></p>
 <%= render(:partial => 'comments/comment_form', :locals => {:commentable => @book } ) %>

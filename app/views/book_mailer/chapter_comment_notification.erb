@@ -1,2 +1,2 @@
 The chapter, <%=h @book.title %>: <%=h @chapter.title %>, has been updated with a new comment: 
-	<%= book_chapter_url(@book, @chapter, :anchor => "comment_#{@comment.id}", :only_path => false, :host => SiteDomain ) %>
+	<%= book_chapter_url(@book, @chapter, :anchor => @comment.anchor, :only_path => false, :host => SiteDomain ) %>

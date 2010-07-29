@@ -55,7 +55,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         flash[:notice] = 'Comment was successfully created.'
-        format.html { redirect_to_parent }
+        format.html { redirect_to_commentable }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
         format.html { render :action => "new" }
@@ -91,7 +91,7 @@ class CommentsController < ApplicationController
     else
       @comment.update_attributes(:vote => params[:thumbs] == 'up')
     end
-    redirect_to_parent
+    redirect_to_commentable
   end
   
   # DELETE /comments/1
@@ -106,8 +106,8 @@ class CommentsController < ApplicationController
   end
 
   private
-  def redirect_to_parent
-    redirect_to(
+  def redirect_to_commentable
+    redirect_to(  # FIXME :anchor => @comment.anchor
       @comment.commentable.is_a?(Book) ? @comment.commentable : [@comment.commentable.book, @comment.commentable]
     )
   end

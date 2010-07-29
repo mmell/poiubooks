@@ -10,7 +10,7 @@
 <% if @application_javascripts -%>
 	<%= javascript_include_tag( *@application_javascripts) -%>
 <% end -%>
-<% if controller_name == 'books' and @book -%>
+<% if controller_name == 'books' and params[:action] == 'show' -%>
 	<link rel="alternate" type="application/rss+xml" title="RSS" href="<%= book_url(@book, :format => :rss) %>" />
 <% end -%> 
 </head>
