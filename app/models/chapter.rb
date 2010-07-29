@@ -8,7 +8,7 @@ class Chapter < ActiveRecord::Base
   belongs_to :parent, :polymorphic => true
   
   has_many :sub_chapters, :as => :parent, :dependent => :destroy
-  has_many :comments, :as => :commentable, :dependent => :destroy
+  has_many :comments, :as => :commentable, :dependent => :destroy, :order => 'created_at'
 
   validates_format_of( :title, :with => TitleRE )
   validates_uniqueness_of( :title, :scope => :parent_id )

@@ -10,6 +10,5 @@
 <% if @chapter.owner?(current_user) %>
 <%= link_to 'Edit', edit_chapter_path(@chapter) %>
 <% end %>
-<%= link_to "Back to #{@chapter.parent.title}", @chapter.parent %>
 
 <%= render(:partial => 'comments/comment_form', :locals => {:commentable => @chapter } ) %>

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   
   before_filter :require_user, :except => [:index, :new, :activate, :create, :forgot, :reset]
-  before_filter :require_admin, :only => [:suspend, :unsuspend, :destroy, :purge]
+  before_filter :require_admin, :only => [:suspend, :unsuspend, :purge]
   before_filter :find_user, :except => [:index, :new, :create, :activate, :forgot, :reset]
   
   def index
@@ -78,10 +78,11 @@ class UsersController < ApplicationController
   end
 
   def reset
-    if params[:activation_code]
-      @user = User.find_by_activation_code(params[:activation_code]) 
-    else
-      @user = current_user
+    @user = User.find_by_activation_code(params[:code]) if params[:code] 
+    @user = current_user unless @user
+    unless @user
+      alert_message("No user present.")
+      redirect_to(root_path) and return false 
     end
     if request.post?
       if @user.update_attributes(
@@ -92,8 +93,6 @@ class UsersController < ApplicationController
         @user.delete_reset_code
         flash[:notice] = "Password reset successfully for #{@user.email}"
         redirect_back_or_default('/')
-      else
-        render :action => :reset
       end
     end
   end

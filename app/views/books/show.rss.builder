@@ -8,7 +8,7 @@ xml.rss( :version=>"2.0", :"xmlns:atom"=>"http://www.w3.org/2005/Atom" ) do
       :href => book_url(@book, :only_path => false, :host => SiteDomain, :format => :rss) 
     )
     
-    for chapter in @book.chapters
+    for chapter in @book.rss_channels
       xml.item do
         xml.title chapter.title
         xml.description truncate( chapter.content)
