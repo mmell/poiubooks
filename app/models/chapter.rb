@@ -15,7 +15,7 @@ class Chapter < ActiveRecord::Base
   validates_presence_of( :user_id, :parent_id)   
   validates_associated( :user, :parent)    
 
-  validates_numericality_of(:position, :minimum => 1)
+  validates_numericality_of(:position)
   validates_uniqueness_of( :position, :scope => :parent_id )
   
   before_validation_on_create :defaults

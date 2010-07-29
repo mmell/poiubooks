@@ -13,7 +13,9 @@ describe Chapter do
   end
 
   it "should create a new instance given valid attributes" do
-    Chapter.create!(Factory.attributes_for(:chapter))
+    c = Chapter.create!(Factory.attributes_for(:chapter))
+    c.position.should == 0  
+    c.user_id.should == c.book.user_id  
   end
 
 end

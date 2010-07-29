@@ -3,6 +3,7 @@ class ChaptersController < ApplicationController
   before_filter :require_user, :except => [:show] 
   before_filter :find_user_book, :only => [:new, :create]
   before_filter :find_user_chapter, :except => [:index, :show, :new, :create]
+  before_filter :clean_submission, :only => [:update, :create]
   
   # GET /chapters
   # GET /chapters.xml
@@ -98,5 +99,9 @@ class ChaptersController < ApplicationController
     @chapter = current_user.chapters.find(params[:id], :include => :parent)
     redirect_to root_path and return false unless @chapter
   end
-  
+
+  def clean_submission
+    params[:chapter][:title].strip!
+  end
+
 end

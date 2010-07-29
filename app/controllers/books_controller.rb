@@ -1,7 +1,9 @@
 class BooksController < ApplicationController
   
-  before_filter :find_user_book, :except => [:index, :show, :new, :create]
+  before_filter :find_user_book, :except => [:index, :show, :new, :create, :chapter_position]
   before_filter :require_user, :except => [:index, :show]
+  before_filter :find_user_chapter, :only => [:chapter_position]
+  before_filter :clean_submission, :only => [:update, :create]
   
   # GET /books
   # GET /books.xml
@@ -38,23 +40,6 @@ class BooksController < ApplicationController
     end
   end
 
-#  def rss
-#    @book = Book.find(params[:id])
-#    render :layout => false
-#    response.headers["Content-Type"] = "application/xml; charset=utf-8"
-#  end
-
-  # GET /books/1
-  # GET /books/1.xml
-  def manage
-    @book = Book.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @book }
-    end
-  end
-
   # GET /books/new
   # GET /books/new.xml
   def new
@@ -70,6 +55,14 @@ class BooksController < ApplicationController
   # GET /books/1/edit
   def edit
     use_tinymce
+  end
+
+  def chapter_position
+    if params[:chapter_id]
+      @book.shift_chapter_position(params[:chapter_id], params[:move_to]) 
+      notice_message("Successfully shifted the chapter.")
+    end
+    redirect_to(edit_book_path(@book))
   end
 
   # POST /books
@@ -117,9 +110,20 @@ class BooksController < ApplicationController
   end
 
   private
+  
+  def clean_submission
+    params[:book][:title].strip!
+  end
+
   def find_user_book
     @book = current_user.books.find(params[:id])
     redirect_to user_books_path and return false unless @book
+  end
+
+  def find_user_chapter
+    @chapter = current_user.chapters.find(params[:chapter_id], :include => :parent)
+    @book = @chapter.book
+    redirect_to root_path and return false unless @chapter
   end
 
 end

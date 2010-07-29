@@ -1,4 +1,4 @@
-<% @page_title = 'Editing book' %>
+<% @page_title = "Editing book: #{@book.title}" %>
 
 <% form_for(@book) do |f| %>
   <%= f.error_messages %>
@@ -8,4 +8,31 @@
   </p>
 <% end %>
 
-<%= link_to 'Show', @book %>
+<br /><br />
+<h2>Chapters</h2>
+<table class='listing'>
+  <tr valign='top'>
+		<th></th>
+		<th>Title</th>
+	<th>Comments</th>
+<% if @book.owner?(current_user) -%><th colspan='3'>Admin</th><% end %>
+  </tr>
+<% 
+@book.chapters.each do |chapter| %>
+  <tr class='row<%= cycle(1, 2) %>' valign='top'>
+    <td><%= form_tag( {:action => :chapter_position }, {:id => "chapter_position#{chapter.position}"} ) %>
+<%= hidden_field_tag('chapter_id', chapter.id ) %>
+<%= select_tag('move_to', chapter_position_options(@book.chapters.size, chapter.position), 
+	{ :onchange => "document.forms['chapter_position#{chapter.position}'].submit();"} 
+) %>
+</form>    
+</td>
+    <td><%= link_to(chapter.title, book_chapter_path(@book, chapter)) %></td>
+    <td align='right'><%= chapter.comments.size %></td>
+		<% if @book.owner?(current_user) -%>
+    <td><%= link_to 'Edit', edit_chapter_path(chapter) %></td>
+    <td><%= link_to 'Destroy', chapter, :confirm => 'Are you sure?', :method => :delete %></td>
+		<% end %>
+  </tr>
+<% end %>
+</table>

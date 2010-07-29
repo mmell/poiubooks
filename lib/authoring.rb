@@ -7,5 +7,5 @@ module Authoring
   def owner
     self.user
   end
-
+  
 end

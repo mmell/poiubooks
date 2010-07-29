@@ -29,7 +29,7 @@ class CommentsController < ApplicationController
   # GET /comments/new
   # GET /comments/new.xml
   def new
-    use_tinymce
+    use_tinymce(:simple)
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @comment }
@@ -38,7 +38,7 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
-    use_tinymce
+    use_tinymce(:simple)
   end
 
   # POST /comments

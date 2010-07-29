@@ -1,4 +1,4 @@
-<% @page_title = "#{@chapter.parent.title.titleize} #{@chapter.type}: #{@chapter.title}" %>
+<% @page_title = "#{@chapter.parent.title.titleize}: #{@chapter.title}" %>
 
 <div class='chapter_content'>
 <%= render(:partial => 'books/table_of_contents', :locals => {:book => @chapter.book } ) %>

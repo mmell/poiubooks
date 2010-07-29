@@ -1,7 +1,5 @@
 <% @page_title = "New chapter for #{@book.title}" %>
 
-<%= render('layouts/tinymce') %>
-
 <% form_for(@chapter, :url => {:action => :create, :book_id => @book.id}) do |f| %>
   <%= f.error_messages %>
 

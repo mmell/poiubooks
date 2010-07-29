@@ -1,5 +1,4 @@
 <% @page_title = "Editing #{@chapter.type}: #{@chapter.title}" %>
-<%= render('layouts/tinymce') %>
 
 <h2><%= @chapter.parent.title.titleize %></h2>
 <% form_for(@chapter) do |f| %>
