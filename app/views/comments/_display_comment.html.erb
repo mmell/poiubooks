@@ -1,7 +1,7 @@
 <tr valign='top'>
-  <td class='comment1' colspan='2'>
+  <td class='comment1' colspan='3'>
 	<a name='comment_<%= comment.id %>'></a>
-	<% if comment.user.image %><%= link_to(image_tag(comment.user.image, :border => 0), comment.user) %><% end %>
+	<% if comment.user.image_thumb_src %><%= link_to(image_tag(comment.user.image_thumb_src, :border => 0, :class => 'comment_profile_img'), comment.user) %><% end %>
 	<strong><%= link_to( comment.user.full_name, comment.user) %></strong> on <%=h comment.created_at %>
 	</td>
 </tr>
@@ -9,7 +9,7 @@
   <td><%= display_vote(comment) %></td>
   <td class='comment2'><%= comment.content %></td>
 	<% if comment.owner?(current_user) -%>
-  <td class='comment2'><%= link_to 'Edit', edit_comment_path(comment) %></td>
-  <td class='comment2'><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>
+  <td class='comment2'><%= link_to 'Edit', edit_comment_path(comment) %><br />
+	<%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>
 	<% end %>
 </tr>

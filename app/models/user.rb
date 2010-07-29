@@ -1,4 +1,5 @@
 require 'digest/sha1'
+require 'RMagick'
 
 class User < ActiveRecord::Base
   include Authentication
@@ -6,7 +7,8 @@ class User < ActiveRecord::Base
   include Authentication::ByCookieToken
   include Authorization::StatefulRoles
 
-  ProfileImages = File.join( "images", "users")   
+  ImageFullSize = '200x200'   
+  ImageSmallSize = '50x50'   
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
@@ -71,18 +73,32 @@ class User < ActiveRecord::Base
   def recently_reset?
     @reset
   end 
-     
+
   def save_image_file(upload)
-    name =  "user_#{self.id}" + File.extname(upload.original_filename)
-    base = File.join(RAILS_ROOT, "public", "images", "users", image_parent ) 
-    FileUtils.mkdir( base ) unless File.exist?( base )
-    path = File.join(base, name)
-    File.open(path, "wb") { |f| f.write(upload.read) }
-    self.image = File.join('users', image_parent, name)
+    image_dir = File.join(RAILS_ROOT, "public", "images", "users", parent_dir_name ) 
+    FileUtils.mkdir( image_dir ) unless File.exist?( image_dir )
+
+    ext = '.' + File.extname(upload.original_filename).downcase.gsub(/[^a-z0-9]/, '')
+
+    new_name = "user_#{self.id}_orig" + ext
+    orig_path = File.join(image_dir, new_name)
+    File.open(orig_path, "wb") { |f| f.write(upload.read) }
+
+    new_name =  "user_#{self.id}" + ext
+    full_path = File.join(image_dir, new_name)
+    `convert #{orig_path} -resize #{ImageFullSize} #{full_path}`
+    self.image_src = File.join('users', parent_dir_name, new_name)
+
+    new_name =  "user_#{self.id}_sm" + ext
+    thumb_path = File.join(image_dir, new_name)
+    `convert #{orig_path} -resize #{ImageSmallSize} #{thumb_path}`
+    self.image_thumb_src = File.join('users', parent_dir_name, new_name)
+
+    FileUtils.rm(orig_path)
   end
   
   protected
-  def image_parent
+  def parent_dir_name
     "%02d" % id
   end
   

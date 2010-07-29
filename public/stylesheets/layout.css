@@ -74,6 +74,7 @@ a:hover { color: #ff7625; }
 h1 { font-size: 18px; margin: 0px 0px .5em 0px; }
 h2 { font-size: 14px; margin: 0px 0px 1em 0px; color: #454; }
 h3 { margin: 0px 0px 1em 0px; }
+table.listing { width: 100%; }
 table.listing td { padding: 3px; }
 .main_nav { margin: 0px; padding: 0px; }
 .main_nav .main_nav2 {
@@ -129,8 +130,6 @@ table.listing td { padding: 3px; }
 .row2 { background-color: #ddd; }
 .comment1 { 
   background-color: #ddd;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
   border-width: 1px 0px 0px 0px; 
   border-color: #888888; 
   border-style: solid; 
@@ -149,16 +148,12 @@ div.table_of_contents {
   padding: 6px;
   background: #fafafa;
   border: 2px solid #e5ca5c;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
 }
 
 div.chapter_content {
   margin: 0px 0px 20px 0px;
   padding: 6px;
   border: 1px solid #3299cc;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
 }
 
 div.commentable_content {
@@ -166,8 +161,7 @@ div.commentable_content {
   padding: 6px;
   background: #fefefe;
   border: 1px solid #3299cc;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
 }
 
 img.profile_image { float: left; padding: 0px 14px 4px 0px; }
+img.comment_profile_img { float: left; padding: 2px 14px 4px 4px; }

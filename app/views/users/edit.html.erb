@@ -20,8 +20,8 @@
   <p>
     <%= f.label :image %><br />
     <%= f.file_field :image %>
-<% if @user.image %><br />
-<%= image_tag(@user.image) %>
+<% if @user.image_src %><br />
+<%= image_tag(@user.image_src) %>
 <% end %>
   </p>
 
