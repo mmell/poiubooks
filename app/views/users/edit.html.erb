@@ -1,6 +1,6 @@
-<% @page_title = 'Editing Account' %>
+<% @page_title = "Editing #{@user.full_name} (#{@user.login})" %>
 
-<% form_for(@user) do |f| %>
+<% form_for(@user, :html => { :multipart => true }) do |f| %>
   <%= f.error_messages %>
 
   <p>
@@ -17,7 +17,7 @@
   </p>
   <p>
     <%= f.label :image %><br />
-    <%= f.text_field :image %>
+    <%= f.file_field :image %>
   </p>
   <p>
     <%= f.label :description, "Statement" %><br />

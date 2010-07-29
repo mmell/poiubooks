@@ -1,0 +1,13 @@
+<% @page_title = "Reset the password for #{@user.full_name} (#{@user.login})" %>
+
+<%= error_messages_for :user %>
+
+<% form_for :user do |f| -%>
+	<p><%= f.label :password %><br/>
+	<%= f.password_field :password %></p>
+
+	<p><%= f.label :password_confirmation, 'Confirm Password' %><br/>
+	<%= f.password_field :password_confirmation %></p>
+
+	<p><%= f.submit 'Reset' %></p>
+<% end -%>

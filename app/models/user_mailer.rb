@@ -11,4 +11,9 @@ class UserMailer < MailerBase
     @subject += 'Your account has been activated!'
   end
 
+  def reset_notification(user)
+    setup_email(user)
+    @subject += 'Link to reset your password'
+  end
+
 end

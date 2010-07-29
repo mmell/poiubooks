@@ -4,7 +4,11 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
-#  map.activate ‘/activate/:activation_code’, :controller => ‘users’, :action => ‘activate’, :activation_code => nil
+# thanks http://www.railsforum.com/viewtopic.php?id=11962
+  map.forgot    '/forgot',                    :controller => 'users',     :action => 'forgot'
+  map.reset     'reset/:activation_code',          :controller => 'users',     :action => 'reset'
+  
+  #  map.activate ‘/activate/:activation_code’, :controller => ‘users’, :action => ‘activate’, :activation_code => nil
   map.resources( :users, { :member => { :suspend=>:put, :unsuspend=>:put, :purge=>:delete } } ) do |user|
     user.resources :books
     user.resources :comments

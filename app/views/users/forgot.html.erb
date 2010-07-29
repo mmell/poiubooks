@@ -1,0 +1,10 @@
+<% @page_title = 'Password Reset Email' %>
+
+<%= error_messages_for :user %>
+
+<% form_for :user do |f| -%>
+<p><%= f.label :email %><br/>
+<%= f.text_field :email %></p>
+  
+<p><%= f.submit 'Send Password Reset Email' %></p>
+<% end -%>

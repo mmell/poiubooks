@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
   include Authentication::ByPassword
   include Authentication::ByCookieToken
   include Authorization::StatefulRoles
+
+  ProfileImages = File.join(RAILS_ROOT, "public", "images", "users")   
+
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
   validates_uniqueness_of   :login
@@ -53,6 +56,34 @@ class User < ActiveRecord::Base
     write_attribute :email, (value ? value.downcase : nil)
   end
 
+  # thanks http://www.railsforum.com/viewtopic.php?id=11962
+  def create_reset_code
+    @reset = true
+    make_activation_code
+    save(false)
+  end 
+  
+  def delete_reset_code
+    make_activation_code
+    save(false)
+  end
+  
+  def recently_reset?
+    @reset
+  end 
+  
+  def image_file_path
+    File.join(ProfileImages, login)
+  end
+     
+  def save_image_file(upload)
+    name =  upload['datafile'].original_filename
+    raise StandardError, name
+    path = File.join(ProfileImages, path)
+    File.open(path, "wb") { |f| f.write(upload['datafile'].read) }
+    self.update_attributes(:image => )
+  end
+  
   protected
 
   def make_activation_code

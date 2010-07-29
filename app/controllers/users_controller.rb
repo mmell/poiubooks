@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   
-  before_filter :require_user, :except => [:index, :new, :activate, :create]
+  before_filter :require_user, :except => [:index, :new, :activate, :create, :forgot, :reset]
   before_filter :require_admin, :only => [:suspend, :unsuspend, :destroy, :purge]
-  before_filter :find_user, :except => [:index, :new, :create, :activate]
+  before_filter :find_user, :except => [:index, :new, :create, :activate, :forgot, :reset]
   
   def index
     @users = User.find(:all, :order => "full_name, login")
@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   end
  
   def edit
+    use_tinymce
   end
  
   def update
@@ -25,6 +26,7 @@ class UsersController < ApplicationController
  
   def new
 #    redirect_to(edit_user_path(current_user)) and return false if logged_in?
+    use_tinymce
     @user = User.new
   end
  
@@ -59,15 +61,45 @@ class UsersController < ApplicationController
     end
   end
 
-  def suspend
-    @user.suspend! 
-    redirect_to users_path
+  def forgot
+    if request.post?
+      user = User.find_by_email(params[:user][:email])
+      if user
+        user.create_reset_code
+        notice_message("Reset code sent to #{user.email}.")
+      else
+        notice_message("#{params[:user][:email]} does not exist in system.")
+      end
+      redirect_to(root_url)
+    end
   end
 
-  def unsuspend
-    @user.unsuspend! 
-    redirect_to users_path
+  def reset
+    @user = User.find_by_activation_code(params[:activation_code]) unless params[:activation_code].nil?
+    if request.post?
+      if @user.update_attributes(
+          :password => params[:user][:password], 
+          :password_confirmation => params[:user][:password_confirmation]
+        )
+        self.current_user = @user
+        @user.delete_reset_code
+        flash[:notice] = "Password reset successfully for #{@user.email}"
+        redirect_back_or_default('/')
+      else
+        render :action => :reset
+      end
+    end
   end
+
+#  def suspend
+#    @user.suspend! 
+#    redirect_to users_path
+#  end
+
+#  def unsuspend
+#    @user.unsuspend! 
+#    redirect_to users_path
+#  end
 
   def destroy
     @user.delete!
@@ -75,10 +107,10 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
-  def purge
-    @user.destroy
-    redirect_to root_path
-  end
+#  def purge
+#    @user.destroy
+#    redirect_to root_path
+#  end
   
   def admin_bootstrap
     if 0 == User.admins.size
