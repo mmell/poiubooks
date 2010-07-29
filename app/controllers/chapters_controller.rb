@@ -19,7 +19,7 @@ class ChaptersController < ApplicationController
   # GET /chapters/1
   # GET /chapters/1.xml
   def show
-    use_tinymce
+    use_tinymce(:simple)
     @chapter = Chapter.find(params[:id], :include => :parent)
     @book = @chapter.book
     redirect_to book_path(params[:book_id]) and return false unless @chapter

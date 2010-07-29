@@ -31,6 +31,7 @@ class BooksController < ApplicationController
   # GET /books/1.xml
   # GET /books/1.rss
   def show
+    use_tinymce(:simple)
     @book = Book.find(params[:id])
 
     respond_to do |format|
