@@ -1,5 +1,4 @@
 require 'digest/sha1'
-require 'RMagick'
 
 class User < ActiveRecord::Base
   include Authentication
