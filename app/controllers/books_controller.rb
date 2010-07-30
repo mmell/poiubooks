@@ -19,7 +19,7 @@ class BooksController < ApplicationController
         :conditions => ["name like ?", "%#{params[:search]}%" ], :include => :books 
       ).map { |e| e.books }
       @books << Chapter.find(:all, 
-        :conditions => ["content like ?", "%#{params[:search]}%" ], :include => :parent 
+        :conditions => ["content like ?", "%#{params[:search]}%" ], :include => :book 
       ).map { |e| e.book }
       @books = @books.flatten.uniq
         end
@@ -47,7 +47,7 @@ class BooksController < ApplicationController
 
       unless params[:advanced][:chapter].blank?
         search_results << Chapter.find(:all, 
-          :conditions => ["content like ?", "%#{params[:advanced][:chapter]}%" ], :include => :parent 
+          :conditions => ["content like ?", "%#{params[:advanced][:chapter]}%" ], :include => :book 
         ).map { |e| e.book }
       end
       if search_results.empty?
@@ -177,7 +177,7 @@ class BooksController < ApplicationController
   end
 
   def find_user_chapter
-    @chapter = current_user.chapters.find(params[:chapter_id], :include => :parent)
+    @chapter = current_user.chapters.find(params[:chapter_id], :include => :book)
     @book = @chapter.book
     redirect_to root_path and return false unless @chapter
   end

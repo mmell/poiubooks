@@ -20,7 +20,7 @@ class ChaptersController < ApplicationController
   # GET /chapters/1.xml
   def show
     use_tinymce(:simple)
-    @chapter = Chapter.find(params[:id], :include => :parent)
+    @chapter = Chapter.find(params[:id], :include => :book)
     @book = @chapter.book
     redirect_to book_path(params[:book_id]) and return false unless @chapter
 
@@ -96,7 +96,7 @@ class ChaptersController < ApplicationController
   end
 
   def find_user_chapter
-    @chapter = current_user.chapters.find(params[:id], :include => :parent)
+    @chapter = current_user.chapters.find(params[:id], :include => :book)
     redirect_to root_path and return false unless @chapter
   end
 

@@ -16,15 +16,9 @@ Factory.define :book do |f|
 end
 
 Factory.define :chapter do |f|
-  f.parent { Book.create(Factory.attributes_for(:book)) }
+  f.book { Book.create(Factory.attributes_for(:book)) }
   f.sequence(:title) { |n| "Chapter Title #{n}" }
   f.content 'some content'
-end
-
-Factory.define :sub_chapter do |f|
-  f.parent { Chapter.create(Factory.attributes_for(:chapter)) }
-  f.sequence(:title) { |n| "Sub Chapter Title #{n}" }
-  f.content 'some sub content'
 end
 
 Factory.define :notification do |f|

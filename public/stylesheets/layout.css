@@ -156,6 +156,13 @@ div.chapter_content {
   border: 1px solid #3299cc;
 }
 
+div.sub_chapter_content {
+  margin: 0px 0px 12px 20px;
+  padding: 6px;
+  border: 1px solid #3299cc;
+  border-width: 1px 1px 1px 4px;
+}
+
 div.commentable_content {
   margin: 10px 0px 6px 0px;
   padding: 6px;

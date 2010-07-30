@@ -6,8 +6,7 @@ describe "/chapters/new.html.erb" do
   before(:each) do
     assigns[:chapter] = stub_model(Chapter,
       :new_record? => true,
-      :parent_id => 1,
-      :parent_type => "value for parent_type",
+      :book_id => 1,
       :type => "value for type",
       :title => "value for title",
       :position => 1,
@@ -19,8 +18,7 @@ describe "/chapters/new.html.erb" do
     render
 
     response.should have_tag("form[action=?][method=post]", chapters_path) do
-      with_tag("input#chapter_parent_id[name=?]", "chapter[parent_id]")
-      with_tag("input#chapter_parent_type[name=?]", "chapter[parent_type]")
+      with_tag("input#chapter_book_id[name=?]", "chapter[book_id]")
       with_tag("input#chapter_type[name=?]", "chapter[type]")
       with_tag("input#chapter_title[name=?]", "chapter[title]")
       with_tag("input#chapter_position[name=?]", "chapter[position]")

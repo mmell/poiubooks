@@ -34,7 +34,7 @@ describe BookMailer do
     end
 
     it "should send chapter notification" do
-      chapter = Factory.create(:chapter, :parent => @book)
+      chapter = Factory.create(:chapter, :book => @book)
       BookMailer.should_receive(:deliver_chapter_notification).with(
         @notification.user,  
         chapter

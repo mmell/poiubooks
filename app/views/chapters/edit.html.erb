@@ -1,12 +1,15 @@
 <% @page_title = "Editing #{@chapter.type}: #{@chapter.title}" %>
 
-<h2><%= @chapter.parent.title.titleize %></h2>
+<h2><%= @chapter.book.title %></h2>
 <% form_for(@chapter) do |f| %>
   <%= f.error_messages %>
 
   <p>
     <%= f.label :title %><br />
     <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.check_box :is_sub_chapter %> <%= f.label "This is a sub-chapter" %>
   </p>
   <p>
     <%= f.label :content %><br />
@@ -17,4 +20,4 @@
   </p>
 <% end %>
 
-<%= link_to "Back to #{@chapter.parent.title}", @chapter.parent %>
+<%= link_to "Back to #{@chapter.book.title}", @chapter.book %>

@@ -6,8 +6,8 @@ class Book < ActiveRecord::Base
   belongs_to :category
   belongs_to :license
   
-  has_many :chapters, :as => :parent, :dependent => :destroy, :order => :position
-  has_many :rss_channels, :class_name => 'Chapter', :as => :parent, :order => 'updated_at desc'
+  has_many :chapters, :dependent => :destroy, :order => :position
+  has_many :rss_channels, :class_name => 'Chapter', :order => 'updated_at desc'
   has_many :comments, :as => :commentable, :dependent => :destroy, :order => 'created_at'
   has_many :notifications, :dependent => :destroy
   
