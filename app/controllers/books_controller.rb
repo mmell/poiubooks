@@ -1,18 +1,63 @@
 class BooksController < ApplicationController
   
-  before_filter :find_user_book, :except => [:index, :show, :new, :create, :chapter_position, :search]
-  before_filter :require_user, :except => [:index, :show, :search]
+  before_filter :find_user_book, :except => [:index, :show, :new, :create, :chapter_position, :search, :advanced_search]
+  before_filter :require_user, :except => [:index, :show, :search, :advanced_search]
   before_filter :find_user_chapter, :only => [:chapter_position]
   before_filter :clean_submission, :only => [:update, :create]
   
   def search
+    @books = []
+    params[:advanced] = {}
     if params[:search]
-      @books = Category.find(:all, :conditions => ["name like ?", params[:search] ] )
-      @books = Book.find(:all, :conditions => ["title like ?", params[:search] ] )
-      @books = User.find(:all, :conditions => ["image_src like ?", params[:search] ] )
-      @books = Chapter.find(:all, :conditions => ["name like ?", params[:search] ] )
+      @books << Category.find(:all, 
+        :conditions => ["name like ?", "%#{params[:search]}%" ], :include => :books 
+      ).map { |e| e.books } 
+      @books << Book.find(:all, 
+        :conditions => ["title like ?", "%#{params[:search]}%" ] 
+      )
+      @books << User.find(:all, 
+        :conditions => ["name like ?", "%#{params[:search]}%" ], :include => :books 
+      ).map { |e| e.books }
+      @books << Chapter.find(:all, 
+        :conditions => ["content like ?", "%#{params[:search]}%" ], :include => :parent 
+      ).map { |e| e.book }
+      @books = @books.flatten.uniq
+        end
+  end
+  
+  def advanced_search
+    search_results = []
+    params[:advanced] ||= {}
+    if params[:advanced]
+      unless params[:advanced][:category].blank?
+        search_results << Category.find(:all, 
+          :conditions => ["name like ?", "%#{params[:advanced][:category]}%" ], :include => :books 
+        ).map { |e| e.books }.flatten
+      end
+
+      unless params[:advanced][:book].blank?
+        search_results << Book.find(:all, :conditions => ["title like ?", "%#{params[:advanced][:book]}%" ] )
+      end
+
+      unless params[:advanced][:user].blank?
+        search_results << User.find(:all, 
+          :conditions => ["name like ?", "%#{params[:advanced][:user]}%" ], :include => :books 
+        ).map { |e| e.books }.flatten
+      end
+
+      unless params[:advanced][:chapter].blank?
+        search_results << Chapter.find(:all, 
+          :conditions => ["content like ?", "%#{params[:advanced][:chapter]}%" ], :include => :parent 
+        ).map { |e| e.book }
+      end
+      if search_results.empty?
+        @books = []
+      else
+        @books = search_results.pop
+      end
+      search_results.each { |e| @books = @books & e }
     end
-    
+    render(:action => :search)
   end
   
   # GET /books
@@ -25,7 +70,7 @@ class BooksController < ApplicationController
     elsif params[:user_id]
       @user = User.find(params[:user_id], :include => :books)
       @books = @user.books.all
-      @page_title = "Listing Books by Author: #{@user.image_src}"
+      @page_title = "Listing Books by Author: #{@user.name}"
     else
       @page_title = "Listing All Books"
       @books = Book.all

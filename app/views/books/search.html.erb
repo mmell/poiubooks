@@ -1,0 +1,42 @@
+<% @page_title = 'Advanced Search' %>
+
+<% form_tag({:controller => :books, :action => "advanced_search"}, {:class => "search"}) do |f| %>
+	<p>Categories<br />
+	<%= text_field_tag('advanced[category]', params[:advanced][:category]) %>
+	</p>
+
+	<p>Book Titles<br />
+	<%= text_field_tag('advanced[book]', params[:advanced][:book]) %>
+	</p>
+
+	<p>User Names<br />
+	<%= text_field_tag('advanced[user]', params[:advanced][:user]) %>
+	</p>
+
+	<p>Book Content<br />
+	<%= text_field_tag('advanced[chapter]', params[:advanced][:chapter]) %>
+	</p>
+
+<%= submit_tag('Search') %>
+<% end %>
+
+<% if @books %>
+<h2>Found <%= @books.size %> books containing the search phrase.</h2>
+<table class='listing'>
+  <tr valign='top'>
+    <th>Author</th>
+    <th>Title</th>
+    <th>Category</th>
+  </tr>
+
+<% @books.each do |book| %>
+  <tr class='row<%= cycle(1, 2) %>' valign='top'>
+    <td><%= link_to(book.user.name, user_books_path(book.user)) %></td>
+    <td><%= link_to(book.title, book_path(book)) %></td>
+    <td><%= link_to_unless(
+			current_page?(:category_id => book.category.id), # FIXME
+			book.category.name, category_books_path(book.category)) %></td>
+  </tr>
+<% end %>
+</table>
+<% end %>
