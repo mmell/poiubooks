@@ -1,19 +1,19 @@
-<% @page_title = "Author/Contributor: #{@user.full_name}" %>
+<% @page_title = "Author/Contributor: #{@user.name}" %>
 
 <p>
   <%= @user.image_src ? image_tag(@user.image_src, :class => 'profile_image') : '' %>
   
-  <%=h @user.full_name %>
+  <%=h @user.name %>
 </p>
 
 <p>
   <b>Books:</b>
-  <%= link_to("Books by #{@user.full_name}", user_books_path(@user)) %>
+  <%= link_to("Books by #{@user.name}", user_books_path(@user)) %>
 </p>
 
 <p>
   <b>Comments:</b>
-  <%= link_to("Comments by #{@user.full_name}", user_comments_path(@user)) %>
+  <%= link_to("Comments by #{@user.name}", user_comments_path(@user)) %>
 </p>
 
 <% if current_user_is_admin? %>

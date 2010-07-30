@@ -1,4 +1,4 @@
-Factory.sequence :full_name do |n|
+Factory.sequence :name do |n|
   "Name #{n}"
 end
 
@@ -11,7 +11,7 @@ Factory.sequence :email do |n|
 end
 
 Factory.define :user do |f|
-  f.full_name { Factory.next(:full_name) }
+  f.name { Factory.next(:name) }
   f.login { Factory.next(:login) }
   f.password { 'password' }
   f.password_confirmation { 'password' }

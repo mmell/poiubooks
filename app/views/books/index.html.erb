@@ -11,7 +11,7 @@
 
 <% @books.each do |book| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%=h book.user.full_name %></td>
+    <td><%=h book.user.name %></td>
     <td><%= link_to(book.title, book_path(book)) %></td>
     <td><%= link_to_unless(
 			current_page?(:category_id => book.category.id), # FIXME

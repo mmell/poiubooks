@@ -16,11 +16,11 @@ class NotificationsController < ApplicationController
         user = User.find(params[:user_id])
         @partial = user == current_user ? 'current_user_notification' : 'user_notification'
         @notifications = user.notifications
-        @page_title = "Listing Notifications for User: #{user.full_name}"
+        @page_title = "Listing Notifications for User: #{user.name}"
       else
         @notifications = current_user.notifications 
         @partial = 'current_user_notification'
-        @page_title = "Listing Notifications for #{current_user.full_name}"
+        @page_title = "Listing Notifications for #{current_user.name}"
       end
     end
 

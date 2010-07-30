@@ -1,5 +1,5 @@
 User.blueprint do
-  full_name { Faker::Internet.user_name }
+  name { Faker::Internet.user_name }
   login { Faker::Internet.user_name }
   password {'testing'}
   password_confirmation { password }

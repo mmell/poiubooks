@@ -1,9 +1,19 @@
 class BooksController < ApplicationController
   
-  before_filter :find_user_book, :except => [:index, :show, :new, :create, :chapter_position]
-  before_filter :require_user, :except => [:index, :show]
+  before_filter :find_user_book, :except => [:index, :show, :new, :create, :chapter_position, :search]
+  before_filter :require_user, :except => [:index, :show, :search]
   before_filter :find_user_chapter, :only => [:chapter_position]
   before_filter :clean_submission, :only => [:update, :create]
+  
+  def search
+    if params[:search]
+      @books = Category.find(:all, :conditions => ["name like ?", params[:search] ] )
+      @books = Book.find(:all, :conditions => ["title like ?", params[:search] ] )
+      @books = User.find(:all, :conditions => ["image_src like ?", params[:search] ] )
+      @books = Chapter.find(:all, :conditions => ["name like ?", params[:search] ] )
+    end
+    
+  end
   
   # GET /books
   # GET /books.xml
@@ -15,7 +25,7 @@ class BooksController < ApplicationController
     elsif params[:user_id]
       @user = User.find(params[:user_id], :include => :books)
       @books = @user.books.all
-      @page_title = "Listing Books by Author: #{@user.full_name}"
+      @page_title = "Listing Books by Author: #{@user.image_src}"
     else
       @page_title = "Listing All Books"
       @books = Book.all

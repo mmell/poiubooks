@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_filter :find_user, :except => [:index, :new, :create, :activate, :forgot, :reset]
   
   def index
-    @users = User.find(:all, :order => "full_name, login")
+    @users = User.find(:all, :order => "name, login")
   end
  
   def show

@@ -89,7 +89,7 @@ describe UsersController do
   
   it 'updates the user' do
     user = make_user_session(Factory.create(:user))
-    post :update, {:full_name => 'test name'}
+    post :update, {:name => 'test name'}
     response.should redirect_to(edit_user_path(user.id))
   end
   
@@ -111,10 +111,10 @@ describe UsersController do
 #    User.stub!(:find).with(user.id.to_s).and_return(user)
 #    user.should_receive(:save!)
 #    user.should_receive(:update_attributes)
-    post :update, {:id => user.id, :is_admin => '1', :full_name => 'test name 33', :login => user.login, :email => user.email, :description => 'test description 33'}
+    post :update, {:id => user.id, :is_admin => '1', :name => 'test name 33', :login => user.login, :email => user.email, :description => 'test description 33'}
     user = User.find(user.id)
     user.is_admin.should == true
-    user.full_name.should == 'test name 33'
+    user.name.should == 'test name 33'
     response.should redirect_to(edit_user_path(user.id))
   end
   

@@ -1,11 +1,11 @@
-<% @page_title = "Editing #{@user.full_name} (#{@user.login})" %>
+<% @page_title = "Editing #{@user.name} (#{@user.login})" %>
 
 <% form_for(@user, :html => { :multipart => true }) do |f| %>
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :full_name %><br />
-    <%= f.text_field :full_name %>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
   </p>
   <p>
     <%= f.label :login %><br />

@@ -1,4 +1,4 @@
-Request to reset password received for <%= @user.full_name %> (<%= @user.login %>)
+Request to reset password received for <%= @user.name %> (<%= @user.login %>)
 
 Visit this url to choose a new password:
  <%= reset_url(:only_path => false, :host => SiteDomain, :code => @user.activation_code) %>

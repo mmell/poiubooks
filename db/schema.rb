@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100729220531) do
+ActiveRecord::Schema.define(:version => 20100730000748) do
 
   create_table "books", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(:version => 20100729220531) do
   add_index "notifications", ["user_id", "book_id"], :name => "index_notifications_on_user_id_and_book_id", :unique => true
 
   create_table "users", :force => true do |t|
-    t.string   "full_name",                 :limit => 100, :default => ""
+    t.string   "name",                      :limit => 100, :default => ""
     t.string   "email",                     :limit => 100
     t.string   "image_src"
     t.text     "description"

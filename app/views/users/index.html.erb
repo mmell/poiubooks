@@ -14,7 +14,7 @@
 
 <% @users.each do |user| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%= user.image_thumb_src ? image_tag(user.image_thumb_src) : '' %><%=h user.full_name %></td>
+    <td><%= user.image_thumb_src ? image_tag(user.image_thumb_src) : '' %><%=h user.name %></td>
     <% if current_user_is_admin? -%><td><%=h user.email %></td><% end -%>
     <td><%=h user.description %></td>
     <td><%= link_to( "Books", user_books_path( user) ) %> (<%= user.books.size %>)</td>

@@ -24,7 +24,7 @@
 	<td id='dependability_bar'>
 		<ul class='dependability_nav'>
 			<% if logged_in? -%>
-			<li class='last'><%= link_to(current_user.full_name, edit_user_path(current_user)) %></li>
+			<li class='last'><%= link_to(current_user.name, edit_user_path(current_user)) %></li>
 			<li><%= link_to('Sign Out', logout_path) %></li>
 			<li><%= link_to('Profile', user_path(current_user)) %></li>
 			<% else -%>
@@ -37,6 +37,10 @@
 
 <tr valign='top'>
 	<td id='left_column'>
+<% form_tag({:controller => :books, :action => "search"}, {:class => "search"}) do |f| %>
+<%= text_field_tag('search') %><%= submit_tag('Search') %>
+<% end %>
+
 <ul class='main_nav'>
 <%= render('layouts/main_nav') %>
 </ul>

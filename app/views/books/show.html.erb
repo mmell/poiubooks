@@ -3,7 +3,7 @@
 <div class='chapter_content'>
 <%= render(:partial => 'books/table_of_contents', :locals => {:book => @book } ) %>
 
-<h2>By <%=h @book.user.full_name %></h2>
+<h2>By <%=h @book.user.name %></h2>
 
 <p>
   <b>Reward:</b>
