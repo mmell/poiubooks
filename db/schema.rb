@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100730015116) do
+ActiveRecord::Schema.define(:version => 20100802202941) do
 
   create_table "books", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -51,7 +51,6 @@ ActiveRecord::Schema.define(:version => 20100730015116) do
     t.integer  "user_id",          :null => false
     t.string   "commentable_type", :null => false
     t.integer  "commentable_id",   :null => false
-    t.boolean  "vote"
     t.text     "content",          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -99,5 +98,13 @@ ActiveRecord::Schema.define(:version => 20100730015116) do
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+
+  create_table "votes", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "comment_id", :null => false
+    t.boolean  "vote"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

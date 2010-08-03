@@ -49,7 +49,7 @@ body {
   background: #ddd;
   width: 1px;
 }
-#right_column { 
+#content_column { 
   width: 100%;
   margin: 0px;
   padding: 10px;
@@ -172,6 +172,10 @@ div.commentable_content {
 
 img.profile_image { float: left; padding: 0px 14px 4px 0px; }
 img.comment_profile_img { float: left; padding: 2px 14px 4px 4px; }
+
+form.search {
+  margin: 5px;
+}
 
 text_box.search {
   -moz-border-radius: 5px;

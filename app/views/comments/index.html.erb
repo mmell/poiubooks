@@ -3,7 +3,7 @@
 <table class='listing'>
   <tr valign='top'>
     <th>Commenting On</th>
-    <th>Vote</th>
+    <th>Votes</th>
     <th>Comment</th>
     <% if current_user == @user -%><th colspan='3'>Owner</th><% end %>
   </tr>
@@ -11,7 +11,7 @@
 <% @user.comments.each do |comment| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
     <td><%= comment.commentable_type %>: <%= link_to(comment.commentable.title, comment.commentable) %></td>
-    <td><%= display_vote(comment) %></td>
+    <td><%= display_votes(comment) %></td>
     <td><%= truncate comment.content %></td>
 		<% if current_user == @user -%>
     <td><%= link_to 'Show', comment %></td>

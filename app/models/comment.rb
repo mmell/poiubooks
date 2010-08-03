@@ -5,6 +5,8 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :commentable, :polymorphic => true
   
+  has_many :votes, :dependent => :destroy
+
   validates_presence_of( :commentable)   
   validates_associated( :commentable)    
 
@@ -31,4 +33,12 @@ class Comment < ActiveRecord::Base
     "comment_#{self.id}"
   end
   
+  def count_vote_by_group
+    @count_votes ||= Vote.count(:conditions => "comment_id=#{self.id}", :group => 'vote')
+  end
+
+  def count_votes
+    count_vote_by_group[true].to_i + count_vote_by_group[false].to_i
+  end
+
 end

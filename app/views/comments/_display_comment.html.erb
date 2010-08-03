@@ -6,10 +6,6 @@
 	</td>
 </tr>
 <tr valign='top'>
-  <td><%= display_vote(comment) %></td>
+  <td><%= display_votes(comment) %></td>
   <td class='comment2'><%= comment.content %></td>
-	<% if comment.owner?(current_user) -%>
-  <td class='comment2'><%= link_to 'Edit', edit_comment_path(comment) %><br />
-	<%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>
-	<% end %>
 </tr>

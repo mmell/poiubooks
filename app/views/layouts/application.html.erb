@@ -31,24 +31,20 @@
 			<li class='last'><%= link_to('Sign In', login_path) %></li>
 			<li><%= link_to('Register', new_user_url) %></li>
 			<% end -%>
-		</ul>		
+		</ul><br clear='all'>	
+		<% form_tag({:controller => :books, :action => "search"}, {:class => "search"}) do |f| %>
+		<%= text_field_tag('search') %><%= submit_tag('Search') %>
+		<% end %>
 	</td> 
 </tr>
-
 <tr valign='top'>
 	<td id='left_column'>
-<% form_tag({:controller => :books, :action => "search"}, {:class => "search"}) do |f| %>
-<%= text_field_tag('search') %><%= submit_tag('Search') %>
-<% end %>
-
 <ul class='main_nav'>
 <%= render('layouts/main_nav') %>
 </ul>
 </td> 
 <td id='column_divider'><br /></td> 
-<td id='right_column'>
-<!-- div class='cookiecrumb'><%# controller_name.titleize %>::<%# controller.action_name.titleize %></div -->
-
+<td id='content_column'>
 <% unless @page_title.nil? %><h1><%= @page_title %></h1><% end %>
 <%= errors %><%= alerts %><%= notices %>
 <!-- CONTENT -->

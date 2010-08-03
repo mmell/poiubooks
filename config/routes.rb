@@ -36,7 +36,8 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.resources :comments
-
+  map.vote_on_comment 'comments/vote/:id/:thumbs', :controller => 'comments', :action => 'vote'
+  
   map.resources :notifications
   map.resources :licenses
 

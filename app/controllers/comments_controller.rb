@@ -50,7 +50,9 @@ class CommentsController < ApplicationController
       commentable = Book.find(params[:book_id])
     end
     
-    @comment = commentable.comments.new(params[:comment])
+    logger.debug(commentable.valid?.inspect)
+    logger.debug(commentable.errors.full_messages.inspect)
+    @comment = commentable.comments.build(params[:comment])
     @comment.user_id = current_user.id
     respond_to do |format|
       if @comment.save
@@ -58,6 +60,7 @@ class CommentsController < ApplicationController
         format.html { redirect_to_commentable }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
+        logger.debug(@comment.errors.full_messages.inspect)
         format.html { render :action => "new" }
         format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
       end
@@ -85,13 +88,10 @@ class CommentsController < ApplicationController
   end
   
   def vote
-    return unless find_votable_comment
-    if !@comment.vote.nil?
-      @comment.toggle!(:vote)
-    else
-      @comment.update_attributes(:vote => params[:thumbs] == 'up')
-    end
-    redirect_to_commentable
+    Vote.find_or_create_by_user_id_and_comment_id(current_user.id, params[:id]).update_attributes(
+      :vote => (params[:thumbs] == 'up')
+    )
+    redirect_to(:back)
   end
   
   # DELETE /comments/1
@@ -100,7 +100,7 @@ class CommentsController < ApplicationController
     @comment.destroy
 
     respond_to do |format|
-      format.html { redirect_to(comments_url) }
+      format.html { redirect_to_commentable }
       format.xml  { head :ok }
     end
   end
@@ -111,14 +111,7 @@ class CommentsController < ApplicationController
       @comment.commentable.is_a?(Book) ? @comment.commentable : [@comment.commentable.book, @comment.commentable]
     )
   end
-  
-  def find_votable_comment
-    @comment = Comment.find(params[:id], :include => :commentable)
-    @comment = nil unless @comment.commentable.owner?(current_user)
-    redirect_to user_comments_path and return false unless @comment
-    true
-  end
-  
+   
   def find_user_comment
     @comment = current_user.comments.find(params[:id], :include => :commentable)
     redirect_to user_comments_path and return false unless @comment
