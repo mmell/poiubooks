@@ -1,5 +1,7 @@
 <% @page_title = "Editing #{@chapter.type}: #{@chapter.title}" %>
 
+<%= render(:partial => 'books/book_owner' ) %>
+
 <h2><%= @chapter.book.title %></h2>
 <% form_for(@chapter) do |f| %>
   <%= f.error_messages %>

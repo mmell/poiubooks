@@ -19,7 +19,7 @@ class Comment < ActiveRecord::Base
   validate_on_update :comment_with_votes_cant_be_edited
   
   def comment_with_votes_cant_be_edited
-    errors.add_to_base("You can't edit your comments if it has any votes.") unless 0 == count_votes
+    errors.add_to_base("You can't edit your comment now that it has votes.") unless 0 == count_votes
   end
           
   def book

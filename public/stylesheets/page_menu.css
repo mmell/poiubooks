@@ -1,0 +1,20 @@
+div.page_menu_wrapper { padding: 0px 3px 1px 3px;}
+ul.page_menu { margin: 0px 0px 4em 0px;
+ border-width: 4px 0px 0px 0px; border-color: #7C7B76; border-style: solid; 
+}
+ul.page_menu li { float: left; list-style: none; } 
+ul.page_menu li.heading { font-weight: bold; padding: 2px 12px; } 
+ul.page_menu a { 
+  display: block; 
+  float: none;
+  padding: 6px 12px 8px 12px; 
+  color: #FFFFFF; 
+  background: #7C7B76; 
+  text-decoration: none; 
+  font: 13px Arial, Helvetica, sans-serif; 
+  border-width: 0px 0px 0px 1px;
+  border-style: solid;
+  border-color: white;
+  -moz-border-radius: 0px 0px 8px 8px;
+}
+ul.page_menu a:hover, ul.page_menu a.current { background-color: #ff9933; }

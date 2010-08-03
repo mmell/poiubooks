@@ -1,5 +1,8 @@
 <% @page_title = "Editing book: #{@book.title}" %>
 
+<%= render(:partial => 'book_owner' ) %>
+
+
 <% form_for(@book) do |f| %>
   <%= f.error_messages %>
 <%= render(:partial => 'form_for_book', :locals => { :f => f } ) %>
