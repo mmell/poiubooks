@@ -50,8 +50,6 @@ class CommentsController < ApplicationController
       commentable = Book.find(params[:book_id])
     end
     
-    logger.debug(commentable.valid?.inspect)
-    logger.debug(commentable.errors.full_messages.inspect)
     @comment = commentable.comments.build(params[:comment])
     @comment.user_id = current_user.id
     respond_to do |format|
@@ -70,15 +68,11 @@ class CommentsController < ApplicationController
   # PUT /comments/1
   # PUT /comments/1.xml
   def update
+    use_tinymce(:simple) # in case of errors
     respond_to do |format|
       if @comment.update_attributes(params[:comment])
         flash[:notice] = 'Comment was successfully updated.'
-        if @comment.commentable.is_a?(Book)
-          goto = book_path(@comment.commentable)
-        else
-          goto = book_chapter_path(@comment.commentable.book, @comment.commentable)
-        end
-        format.html { redirect_to(goto) }
+        format.html { redirect_to_commentable }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

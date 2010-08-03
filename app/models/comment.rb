@@ -16,6 +16,12 @@ class Comment < ActiveRecord::Base
 
   after_save :trigger_notification
   
+  validate_on_update :comment_with_votes_cant_be_edited
+  
+  def comment_with_votes_cant_be_edited
+    errors.add_to_base("You can't edit your comments if it has any votes.") unless 0 == count_votes
+  end
+          
   def book
     case commentable_type
     when 'Book'
