@@ -1,16 +1,11 @@
-class Chapter < ActiveRecord::Base
-  
-  include Authoring
-  
-  TitleRE = %r{\A[\w 0-9'",-]{2,}\z}
-  
+class SubChapter < Chapter
+   
   belongs_to :user
   belongs_to :parent, :polymorphic => true
   
-  has_many :sub_chapters, :as => :parent, :dependent => :destroy, :order => :position
   has_many :comments, :as => :commentable, :dependent => :destroy, :order => 'created_at'
 
-  validates_format_of( :title, :with => TitleRE )
+  validates_format_of( :title, :with => Chapter::TitleRE )
   validates_uniqueness_of( :title, :scope => :parent_id )
   validates_presence_of( :user_id, :parent_id)
   validates_associated( :user, :parent)
@@ -27,18 +22,22 @@ class Chapter < ActiveRecord::Base
   validate :kind_of_parent
   
   def kind_of_parent
-    errors.add(:parent, "parent must be a Book.") unless parent.is_a?(Book)
+    errors.add(:parent, "parent must be a Chapter.") unless parent.is_a?(Chapter)
   end
 
   def defaults
-    self.position = Chapter.count( :conditions => "parent_id=#{parent.id}" )
+    self.position = SubChapter.count( :conditions => "parent_id=#{parent.id}" )
     self.user = parent.user
   end
   
   def book
+    parent.parent
+  end
+
+  def chapter
     parent
   end
-  
+
   def trigger_notification()
     book.send_chapter_notifications(self)
   end

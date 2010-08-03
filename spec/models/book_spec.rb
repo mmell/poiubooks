@@ -27,31 +27,31 @@ describe Book do
   it "should order rss_channels by modification" do
     b = Factory.create(:book) 
     b.rss_channels.should == []
-    c1 = Chapter.create!(Factory.attributes_for(:chapter, :book => b, :updated_at => 1.day.ago))
+    c1 = Chapter.create!(Factory.attributes_for(:chapter, :parent => b, :updated_at => 1.day.ago))
     b.rss_channels(true).should == [c1]
-    c2 = Chapter.create!(Factory.attributes_for(:chapter, :book => b))
+    c2 = Chapter.create!(Factory.attributes_for(:chapter, :parent => b))
     b.rss_channels(true).should == [c2, c1]
     c1.update_attributes(:updated_at => 1.day.from_now)
     b.rss_channels(true).should == [c1, c2]
   end
   
   def c1
-    @c1 ||= Chapter.create!(Factory.attributes_for(:chapter, :book => @book))
+    @c1 ||= Chapter.create!(Factory.attributes_for(:chapter, :parent => @book))
     Chapter.find(@c1.id)
   end
   
   def c2
-    @c2 ||= Chapter.create!(Factory.attributes_for(:chapter, :book => @book))
+    @c2 ||= Chapter.create!(Factory.attributes_for(:chapter, :parent => @book))
     Chapter.find(@c2.id)
   end
   
   def c3
-    @c3 ||= Chapter.create!(Factory.attributes_for(:chapter, :book => @book))
+    @c3 ||= Chapter.create!(Factory.attributes_for(:chapter, :parent => @book))
     Chapter.find(@c3.id)
   end
   
   def c4
-    @c4 ||= Chapter.create!(Factory.attributes_for(:chapter, :book => @book))
+    @c4 ||= Chapter.create!(Factory.attributes_for(:chapter, :parent => @book))
     Chapter.find(@c4.id)
   end
   

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100802202941) do
+ActiveRecord::Schema.define(:version => 20100803144205) do
 
   create_table "books", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -34,15 +34,15 @@ ActiveRecord::Schema.define(:version => 20100802202941) do
   add_index "categories", ["name"], :name => "index_categories_on_name", :unique => true
 
   create_table "chapters", :force => true do |t|
-    t.integer  "user_id",                           :null => false
+    t.integer  "user_id",     :null => false
     t.string   "type"
-    t.string   "title",                             :null => false
-    t.integer  "position",                          :null => false
-    t.text     "content",                           :null => false
+    t.string   "title",       :null => false
+    t.integer  "position",    :null => false
+    t.text     "content",     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "book_id"
-    t.boolean  "is_sub_chapter", :default => false
+    t.integer  "parent_id"
+    t.string   "parent_type"
   end
 
   add_index "chapters", ["type"], :name => "index_chapters_on_parent_id_and_parent_type_and_type"
