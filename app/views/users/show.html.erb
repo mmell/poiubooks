@@ -8,12 +8,12 @@
 
 <p>
   <b>Books:</b>
-  <%= link_to("Books by #{@user.name}", user_books_path(@user)) %>
+  <%= link_to("Books by #{@user.name}", user_books_path(@user)) %> (<%= @user.books.size %>)
 </p>
 
 <p>
   <b>Comments:</b>
-  <%= link_to("Comments by #{@user.name}", user_comments_path(@user)) %>
+  <%= link_to("Comments by #{@user.name}", user_comments_path(@user)) %> (<%= @user.comments.size %>)
 </p>
 
 <% if current_user_is_admin? %>

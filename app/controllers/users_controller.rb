@@ -2,13 +2,14 @@ class UsersController < ApplicationController
   
   before_filter :require_user, :except => [:index, :new, :activate, :create, :forgot, :reset]
   before_filter :require_admin, :only => [:suspend, :unsuspend, :purge]
-  before_filter :find_user, :except => [:index, :new, :create, :activate, :forgot, :reset]
+  before_filter :find_user, :except => [:index, :show, :new, :create, :activate, :forgot, :reset]
   
   def index
     @users = User.find(:all, :order => "name, login")
   end
  
   def show
+    @user = User.find(params[:id])
   end
  
   def edit

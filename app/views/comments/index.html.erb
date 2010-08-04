@@ -5,19 +5,13 @@
     <th>Commenting On</th>
     <th>Votes</th>
     <th>Comment</th>
-    <% if current_user == @user -%><th colspan='3'>Owner</th><% end %>
   </tr>
 
 <% @user.comments.each do |comment| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%= comment.commentable_type %>: <%= link_to(comment.commentable.title, comment.commentable) %></td>
+    <td><%= link_to(comment.commentable.full_title, comment.commentable) %></td>
     <td><%= display_votes(comment) %></td>
     <td><%= truncate comment.content %></td>
-		<% if current_user == @user -%>
-    <td><%= link_to 'Show', comment %></td>
-    <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-    <td><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>
-		<% end %>
 	</tr>
 <% end %>
 </table>
