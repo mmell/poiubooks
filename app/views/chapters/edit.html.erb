@@ -1,17 +1,13 @@
-<% @page_title = "Editing #{@chapter.type}: #{@chapter.title}" %>
+<% @page_title = "Editing #{@chapter.full_title}" %>
 
-<%= render(:partial => 'books/book_owner' ) %>
+<%= render(:partial => 'chapters/owner_nav' ) %>
 
-<h2><%= @chapter.book.title %></h2>
 <% form_for(@chapter) do |f| %>
   <%= f.error_messages %>
 
   <p>
     <%= f.label :title %><br />
     <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.check_box :is_sub_chapter %> <%= f.label "This is a sub-chapter" %>
   </p>
   <p>
     <%= f.label :content %><br />
@@ -22,4 +18,31 @@
   </p>
 <% end %>
 
-<%= link_to "Back to #{@chapter.book.title}", @chapter.book %>
+<% unless @chapter.sub_chapters.empty? %>
+<br /><br />
+<h2>Sub-Chapters</h2>
+<table class='listing'>
+  <tr valign='top'>
+		<th></th>
+		<th>Title</th>
+	<th>Comments</th>
+<th colspan='3'>Admin</th>
+  </tr>
+<% 
+@chapter.sub_chapters.each do |sub_chapter| %>
+  <tr class='row<%= cycle(1, 2) %>' valign='top'>
+    <td><%= form_tag( position_chapter_sub_chapter_path(@chapter, sub_chapter), {:id => "chapter_position#{sub_chapter.position}"} ) %>
+<%# hidden_field_tag('sub_chapter_id', sub_chapter.id ) %>
+<%= select_tag('move_to', chapter_position_options(@chapter.sub_chapters.size, sub_chapter.position), 
+	{ :onchange => "document.forms['chapter_position#{sub_chapter.position}'].submit();"} 
+) %>
+</form>    
+</td>
+    <td><%= link_to(sub_chapter.title, chapter_sub_chapter_path(@chapter, sub_chapter)) %></td>
+    <td align='right'><%= sub_chapter.comments.size %></td>
+    <td><%= link_to 'Edit', edit_chapter_sub_chapter_path(@chapter, sub_chapter) %></td>
+    <td><%= link_to 'Destroy', chapter_sub_chapter_path(@chapter, sub_chapter), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+<% end %>

@@ -1,8 +1,8 @@
 class ChaptersController < ApplicationController
 
   before_filter :require_user, :except => [:show] 
-  before_filter :find_user_book, :only => [:new, :create]
-  before_filter :find_user_chapter, :except => [:index, :show, :new, :create]
+  before_filter :find_editable_parent, :only => [:new, :create]
+  before_filter :find_editable_chapter, :except => [:index, :show, :new, :create]
   before_filter :clean_submission, :only => [:update, :create]
   
   # GET /chapters
@@ -20,7 +20,7 @@ class ChaptersController < ApplicationController
   # GET /chapters/1.xml
   def show
     use_tinymce(:simple)
-    @chapter = Chapter.find(params[:id], :include => :book)
+    @chapter = Chapter.find(params[:id], :include => :parent)
     @book = @chapter.book
     redirect_to book_path(params[:book_id]) and return false unless @chapter
 
@@ -51,7 +51,7 @@ class ChaptersController < ApplicationController
   # POST /chapters.xml
   def create
     @chapter = @book.chapters.new(params[:chapter])
-    @chapter.user_id = current_user.id
+#    @chapter.user_id = current_user.id
 
     respond_to do |format|
       if @chapter.save
@@ -71,7 +71,7 @@ class ChaptersController < ApplicationController
     respond_to do |format|
       if @chapter.update_attributes(params[:chapter])
         flash[:notice] = 'Chapter was successfully updated.'
-        format.html { redirect_to(@chapter) }
+      format.html { redirect_to(@book, @chapter) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -80,9 +80,16 @@ class ChaptersController < ApplicationController
     end
   end
 
+  def position
+    @chapter.parent.shift_chapter_position(@chapter, params[:move_to]) 
+    notice_message("Successfully shifted the chapter.")
+    redirect_to(edit_book_chapter_path(@chapter.book, @chapter))
+  end
+
   # DELETE /chapters/1
   # DELETE /chapters/1.xml
   def destroy
+    @chapter.destroy
     respond_to do |format|
       format.html { redirect_to(chapters_url) }
       format.xml  { head :ok }
@@ -90,14 +97,15 @@ class ChaptersController < ApplicationController
   end
   
   private
-  def find_user_book
+  def find_editable_parent
     @book = current_user.books.find(params[:book_id])
     redirect_to root_path and return false unless @book
   end
 
-  def find_user_chapter
-    @chapter = current_user.chapters.find(params[:id], :include => :book)
+  def find_editable_chapter
+    @chapter = current_user.chapters.find(params[:id], :include => :parent)
     redirect_to root_path and return false unless @chapter
+    @book = @chapter.book
   end
 
   def clean_submission

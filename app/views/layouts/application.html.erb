@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<title>POiU::Collaborative Writing::<%= controller_name.titleize %>::<%= controller.action_name.titleize %></title>
+<title>POiU::Collaborative Writing::<%= @page_title %></title>
 <link rel="shortcut icon" href="/favicon.ico" />
 <%= stylesheet_link_tag ['scaffold', 'layout', 'page_menu'] %>
 <% if @application_javascripts -%>
@@ -33,7 +33,7 @@
 			<% end -%>
 		</ul><br clear='all'>	
 		<% form_tag({:controller => :books, :action => "search"}, {:class => "search"}) do |f| %>
-		<%= text_field_tag('search') %><%= submit_tag('Search') %>
+		<%= text_field_tag('search') %><%= submit_tag('Search Books') %>
 		<% end %>
 	</td> 
 </tr>

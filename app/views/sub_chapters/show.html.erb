@@ -1,0 +1,12 @@
+<% @page_title = @sub_chapter.full_title %>
+
+<%= render(:partial => 'sub_chapters/owner_nav' ) %>
+
+<div class='sub_chapter_content'>
+<%= render(:partial => 'books/table_of_contents', :locals => {:book => @chapter.book } ) %>
+
+<%= @chapter.content %>
+<br clear='all'>
+</div>
+
+<%= render(:partial => 'comments/comment_form', :locals => {:commentable => @sub_chapter } ) %>

@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
 
   has_many :books, :dependent => :destroy
   has_many :chapters, :dependent => :destroy
+  has_many :sub_chapters, :dependent => :destroy
   has_many :comments, :dependent => :destroy
   has_many :votes, :dependent => :destroy
   has_many :notifications, :dependent => :destroy

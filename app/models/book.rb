@@ -21,6 +21,10 @@ class Book < ActiveRecord::Base
 
   after_update :send_book_notifications
 
+  def full_title
+    title
+  end
+  
   def send_book_notifications()
     self.notifications.each { |e| 
       BookMailer.deliver_book_notification(e.user, self)
@@ -42,9 +46,8 @@ class Book < ActiveRecord::Base
     end
   end
 
-  def shift_chapter_position(chapter_id, move_to)
+  def shift_chapter_position(moving_chapter, move_to)
     chapters = self.chapters.dup
-    moving_chapter = Chapter.find(chapter_id)
     chapters.delete(moving_chapter)
     chapters.insert(move_to.to_i, moving_chapter)
     chapters.each_index { |ix|

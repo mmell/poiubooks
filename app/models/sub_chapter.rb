@@ -37,9 +37,22 @@ class SubChapter < Chapter
   def chapter
     parent
   end
-
+  
+  def full_title
+    "#{book.title}/#{chapter.title}/#{title}"
+  end
+  
   def trigger_notification()
     book.send_chapter_notifications(self)
   end
   
+  def shift_chapter_position(moving_sub_chapter, move_to)
+    chapters = self.chapters.dup
+    chapters.delete(moving_sub_chapter)
+    chapters.insert(move_to.to_i, moving_sub_chapter)
+    chapters.each_index { |ix|
+      chapters[ix].update_attribute( :position, ix)
+    }
+  end
+
 end

@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
 
-  before_filter :find_user_comment, :except => [:index, :show, :new, :create, :vote]
   before_filter :require_user, :except => [:index, :show]
+  before_filter :find_editable_comment, :except => [:index, :show, :new, :create, :vote]
 
   # GET /comments
   # GET /comments.xml
@@ -106,7 +106,7 @@ class CommentsController < ApplicationController
     )
   end
    
-  def find_user_comment
+  def find_editable_comment
     @comment = current_user.comments.find(params[:id], :include => :commentable)
     redirect_to user_comments_path and return false unless @comment
   end

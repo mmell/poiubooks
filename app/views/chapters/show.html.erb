@@ -1,14 +1,12 @@
-<% @page_title = "#{@chapter.book.title}: #{@chapter.title}" %>
+<% @page_title = @chapter.full_title %>
 
-<div class='<%= @chapter.is_sub_chapter? ? 'sub_' : '' %>chapter_content'>
+<%= render(:partial => 'chapters/owner_nav' ) %>
+
+<div class='chapter_content'>
 <%= render(:partial => 'books/table_of_contents', :locals => {:book => @chapter.book } ) %>
 
 <%= @chapter.content %>
 <br clear='all'>
 </div>
-
-<% if @chapter.owner?(current_user) %>
-<%= link_to 'Edit', edit_chapter_path(@chapter) %>
-<% end %>
 
 <%= render(:partial => 'comments/comment_form', :locals => {:commentable => @chapter } ) %>

@@ -1,6 +1,6 @@
 <% @page_title = 'Advanced Search' %>
 
-<% form_tag({:controller => :books, :action => "advanced_search"}, {:class => "search"}) do |f| %>
+<% form_tag(advanced_search_books_path, {:class => "search"}) do |f| %>
 	<p>Categories<br />
 	<%= text_field_tag('advanced[category]', params[:advanced][:category]) %>
 	</p>

@@ -38,9 +38,23 @@ class Chapter < ActiveRecord::Base
   def book
     parent
   end
-  
+    
+  def full_title
+    "#{book.title}/#{title}"
+  end
+
   def trigger_notification()
     book.send_chapter_notifications(self)
   end
   
+  def shift_chapter_position(sub_chapter_id, move_to)
+    chapters = self.sub_chapters.dup
+    moving_sub_chapter = SubChapter.find(sub_chapter_id)
+    sub_chapters.delete(moving_sub_chapter)
+    sub_chapters.insert(move_to.to_i, moving_sub_chapter)
+    sub_chapters.each_index { |ix|
+      sub_chapters[ix].update_attribute( :position, ix)
+    }
+  end
+
 end

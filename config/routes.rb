@@ -19,15 +19,14 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :session
 
-  map.connect 'books/advanced_search', :controller => :books, :action => 'advanced_search'
-  
-  map.resources( :books ) do |books|
-    books.resources :chapters
+  map.resources( :books, { :collection => { :advanced_search => :post } } ) do |books|
+    books.resources( :chapters, { :member => { :position => :post } })
     books.resources :comments
     books.resources :notifications
   end
 
   map.resources :chapters do |chapter|
+    chapter.resources( :sub_chapters, { :member => { :position => :post } })
     chapter.resources :comments
   end
 

@@ -1,8 +1,7 @@
 class BooksController < ApplicationController
   
-  before_filter :find_user_book, :except => [:index, :show, :new, :create, :chapter_position, :search, :advanced_search]
   before_filter :require_user, :except => [:index, :show, :search, :advanced_search]
-  before_filter :find_user_chapter, :only => [:chapter_position]
+  before_filter :find_editable_book, :except => [:index, :show, :new, :create, :search, :advanced_search]
   before_filter :clean_submission, :only => [:update, :create]
   
   def search
@@ -113,14 +112,6 @@ class BooksController < ApplicationController
     use_tinymce
   end
 
-  def chapter_position
-    if params[:chapter_id]
-      @book.shift_chapter_position(params[:chapter_id], params[:move_to]) 
-      notice_message("Successfully shifted the chapter.")
-    end
-    redirect_to(edit_book_path(@book))
-  end
-
   # POST /books
   # POST /books.xml
   def create
@@ -158,7 +149,6 @@ class BooksController < ApplicationController
   # DELETE /books/1.xml
   def destroy
     @book.destroy
-
     respond_to do |format|
       format.html { redirect_to(books_url) }
       format.xml  { head :ok }
@@ -171,15 +161,9 @@ class BooksController < ApplicationController
     params[:book][:title].strip!
   end
 
-  def find_user_book
+  def find_editable_book
     @book = current_user.books.find(params[:id])
     redirect_to user_books_path and return false unless @book
-  end
-
-  def find_user_chapter
-    @chapter = current_user.chapters.find(params[:chapter_id], :include => :book)
-    @book = @chapter.book
-    redirect_to root_path and return false unless @chapter
   end
 
 end

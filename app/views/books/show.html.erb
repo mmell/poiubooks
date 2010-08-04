@@ -1,6 +1,6 @@
-<% @page_title = h @book.title %>
+<% @page_title = @book.title %>
 
-<%= render(:partial => 'book_owner' ) %>
+<%= render(:partial => 'books/owner_nav' ) %>
 
 <div class='chapter_content'>
 <%= render(:partial => 'books/table_of_contents' ) %>
