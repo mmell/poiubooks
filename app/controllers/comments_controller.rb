@@ -55,7 +55,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         flash[:notice] = 'Comment was successfully created.'
-        format.html { redirect_to_commentable }
+        format.html { redirect_to_commentable(@comment) }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
         logger.debug(@comment.errors.full_messages.inspect)
@@ -72,7 +72,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.update_attributes(params[:comment])
         flash[:notice] = 'Comment was successfully updated.'
-        format.html { redirect_to_commentable }
+        format.html { redirect_to_commentable(@comment) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -94,18 +94,27 @@ class CommentsController < ApplicationController
     @comment.destroy
 
     respond_to do |format|
-      format.html { redirect_to_commentable }
+      format.html { redirect_to_commentable(@comment) }
       format.xml  { head :ok }
     end
   end
 
-  private
-  def redirect_to_commentable
-    redirect_to(  # FIXME :anchor => @comment.anchor
-      @comment.commentable.is_a?(Book) ? @comment.commentable : [@comment.commentable.book, @comment.commentable]
-    )
+  def url_for_comment(comment)
+    case comment.commentable_type
+    when 'Book'
+      url_for(:controller => :books, :action => :show, :id => comment.commentable_id, :anchor => comment.anchor )
+    when 'Chapter'
+      url_for(:controller => :chapters, :action => :show, :book_id => comment.commentable.parent_id, :id => comment.commentable_id, :anchor => comment.anchor )
+    when 'SubChapter'
+      url_for(:controller => :sub_chapters, :action => :show, :chapter_id => comment.commentable.parent_id, :id => comment.commentable_id, :anchor => comment.anchor )
+    end
   end
    
+  private
+  def redirect_to_commentable(comment)
+    redirect_to(url_for_comment(comment))
+  end
+  
   def find_editable_comment
     @comment = current_user.comments.find(params[:id], :include => :commentable)
     redirect_to user_comments_path and return false unless @comment

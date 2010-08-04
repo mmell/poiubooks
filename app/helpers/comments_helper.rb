@@ -1,5 +1,9 @@
 module CommentsHelper
 
+  def url_for_comment(comment)
+    controller.url_for_comment(comment)
+  end
+  
   def display_votes(comment)
     counts = comment.count_vote_by_group
     diplay = "#{counts[true].to_i}/#{counts[false].to_i}<br />"
