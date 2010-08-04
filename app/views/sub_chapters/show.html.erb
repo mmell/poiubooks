@@ -2,8 +2,7 @@
 
 <%= render(:partial => 'sub_chapters/owner_nav' ) %>
 
-<div class='sub_chapter_content'>
-<%= render(:partial => 'books/table_of_contents', :locals => {:book => @chapter.book } ) %>
+<div class='read_sub_chapter_content'>
 
 <%= @chapter.content %>
 <br clear='all'>

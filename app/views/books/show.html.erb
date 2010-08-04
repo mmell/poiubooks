@@ -1,12 +1,9 @@
 <% @page_title = @book.title %>
+<h2>By <%=h @book.user.name %></h2>
 
 <%= render(:partial => 'books/owner_nav' ) %>
 
-<div class='chapter_content'>
-<%= render(:partial => 'books/table_of_contents' ) %>
-
-<h2>By <%=h @book.user.name %></h2>
-
+<div class='read_chapter_content'>
 <p>
   <b>Reward:</b>
   <%=h @book.reward %> <%= @book.terms %>

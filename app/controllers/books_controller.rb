@@ -157,6 +157,14 @@ class BooksController < ApplicationController
 
   private
   
+  def config_layout
+    if 'show' == params[:action]
+      @content_row = 'layouts/content_rows/read_book'
+    else 
+      super
+    end
+  end
+  
   def clean_submission
     params[:book][:title].strip!
   end

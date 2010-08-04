@@ -10,46 +10,36 @@ body {
   border-color: #3299cc;
   border-style: solid;  
 }
-#content {
+table#content {
   background-color: white;
   margin: 0px; 
   padding: 0px; 
 }
-#banner { 
-  border-width: 0px 0px 1px 0px; 
-  border-color: #ddd;
-  border-style: solid;
-  margin: 0px;
-  padding: 0px; 
-}
-#logo { 
-  border-width: 0px 0px 1px 0px; 
-  border-color: #ddd;
-  border-style: solid;
+#banner td { 
   margin: 0px;
   padding: 4px; 
-}
-#dependability_bar { 
-  text-align: right; 
   border-width: 0px 0px 1px 0px; 
   border-color: #ddd;
   border-style: solid;
-  margin: 0px;
-  padding: 4px; 
 }
-#left_column { 
-  width: 120px;
+#logo { }
+#dependability_bar { }
+td.nav_column { 
   margin: 0px;
   padding: 10px;
-  border-width: 0px 1px 0px 0px; 
   border-color: #ddd;
   border-style: solid;
+  border-width: 0px; 
 }
-#column_divider { 
-  background: #ddd;
-  width: 1px;
+td#left_nav_column { 
+  width: 110px;
+  border-width: 0px 1px 0px 0px; 
 }
-#content_column { 
+td#right_nav_column { 
+  width: 200px;
+  border-width: 0px 0px 0px 1px; 
+}
+td#content_column { 
   width: 100%;
   margin: 0px;
   padding: 10px;
@@ -142,21 +132,17 @@ background-color: #efefef; }
 .notices { font-weight: bold; color: #75d030; }
 
 div.table_of_contents {
-  float: right;
-  width: 140px;
-  margin: 0px;
   padding: 6px;
   background: #fafafa;
-  border: 2px solid #e5ca5c;
 }
 
-div.chapter_content {
+div.read_chapter_content {
   margin: 0px 0px 20px 0px;
   padding: 6px;
   border: 1px solid #3299cc;
 }
 
-div.sub_chapter_content {
+div.read_sub_chapter_content {
   margin: 0px 0px 12px 20px;
   padding: 6px;
   border: 1px solid #3299cc;

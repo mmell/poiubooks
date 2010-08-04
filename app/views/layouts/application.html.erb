@@ -16,12 +16,12 @@
 </head>
 <body>
 
-<table cellpadding='0' cellspacing='0' id='content'>
+<table border='0' cellpadding='0' cellspacing='0' id='content'>
 <tr id='banner' valign='top'>
 	<td id='logo'><%= link_to( image_tag( 'template/poiu-logo.png', { :alt => '--', :size => '200x120', :border => 0 } ), "/" ) %><br />
-	<em>Collaborative Writing</em></td> 
-	<td></td> 
-	<td id='dependability_bar'>
+	<em>Collaborative Writing</em>
+	</td> 
+	<td colspan='3' id='dependability_bar'>
 		<ul class='dependability_nav'>
 			<% if logged_in? -%>
 			<li class='last'><%= link_to(current_user.name, edit_user_path(current_user)) %></li>
@@ -37,25 +37,9 @@
 		<% end %>
 	</td> 
 </tr>
-<tr valign='top'>
-	<td id='left_column'>
-<ul class='main_nav'>
-<%= render('layouts/main_nav') %>
-</ul>
-</td> 
-<td id='column_divider'><br /></td> 
-<td id='content_column'>
-<% unless @page_title.nil? %><h1><%= @page_title %></h1><% end %>
-<%= errors %><%= alerts %><%= notices %>
-<!-- CONTENT -->
-<%= yield %>
-<!-- /CONTENT -->
-
-</td> 
-</tr>
-
+<%= render(@content_row) %>
 <tr>
-	<td colspan='3'>
+	<td colspan='4'>
 <div id='bottom'>
 	<strong>Brought to you by <a href='http://www.poiuinitiative.com/'>POiU Foundation</a> 
 		in association with <a href='http://www.poiu.com/'>www.poiu.com</a>.</strong>

@@ -1,0 +1,15 @@
+<tr valign='top'>
+<td class='nav_column' id='left_nav_column'>
+<ul class='main_nav'>
+<%= render('layouts/main_nav') %>
+</ul>
+</td>
+<td id='content_column'>
+<% unless @page_title.nil? %><h1><%= @page_title %></h1><% end %>
+<%= errors %><%= alerts %><%= notices %>
+<!-- CONTENT -->
+<%= yield %>
+<!-- /CONTENT -->
+
+</td> 
+</tr>

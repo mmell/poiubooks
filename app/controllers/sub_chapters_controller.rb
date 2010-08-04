@@ -87,6 +87,14 @@ class SubChaptersController < ApplicationController
   end
   
   private
+  def config_layout
+    if 'show' == params[:action]
+      @content_row = 'layouts/content_rows/read_book'
+    else 
+      super
+    end
+  end
+  
   def find_editable_parent
     @chapter = current_user.chapters.find(params[:chapter_id], :include => :parent)
     redirect_to root_path and return false unless @chapter

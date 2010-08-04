@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   include AuthenticatedSystem
 
-  before_filter :session_return_to
+  before_filter :session_return_to, :config_layout
 
   filter_parameter_logging :password
   
@@ -34,7 +34,11 @@ protected
   def session_return_to
     session[:return_to] = url_for if !logged_in? and !['sessions', 'users'].include?(controller_name)
   end
-      
+  
+  def config_layout
+    @content_row = 'layouts/content_rows/default'
+  end
+  
   def use_tinymce(mode = :full)
     @application_javascripts = ['tiny_mce/tiny_mce.js']
     case mode
