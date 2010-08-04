@@ -17,11 +17,9 @@
 <body>
 
 <table border='0' cellpadding='0' cellspacing='0' id='content'>
-<tr id='banner' valign='top'>
-	<td id='logo'><%= link_to( image_tag( 'template/poiu-logo.png', { :alt => '--', :size => '200x120', :border => 0 } ), "/" ) %><br />
-	<em>Collaborative Writing</em>
-	</td> 
-	<td colspan='3' id='dependability_bar'>
+<tr valign='top'>
+<td id='banner' colspan='3'>
+	<div id='dependability_bar'>
 		<ul class='dependability_nav'>
 			<% if logged_in? -%>
 			<li class='last'><%= link_to(current_user.name, edit_user_path(current_user)) %></li>
@@ -35,11 +33,15 @@
 		<% form_tag({:controller => :books, :action => "search"}, {:class => "search"}) do |f| %>
 		<%= text_field_tag('search') %><%= submit_tag('Search Books') %>
 		<% end %>
-	</td> 
+	</div> 
+	<div id='logo'><%= link_to( image_tag( 'template/poiu-logo.png', { :alt => '--', :size => '200x120', :border => 0 } ), "/" ) %><br />
+	<em>Collaborative Writing</em>
+	</div> 
+</td>
 </tr>
 <%= render(@content_row) %>
 <tr>
-	<td colspan='4'>
+	<td colspan='3'>
 <div id='bottom'>
 	<strong>Brought to you by <a href='http://www.poiuinitiative.com/'>POiU Foundation</a> 
 		in association with <a href='http://www.poiu.com/'>www.poiu.com</a>.</strong>

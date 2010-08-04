@@ -31,8 +31,7 @@
 <% 
 @chapter.sub_chapters.each do |sub_chapter| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%= form_tag( position_chapter_sub_chapter_path(@chapter, sub_chapter), {:id => "chapter_position#{sub_chapter.position}"} ) %>
-<%# hidden_field_tag('sub_chapter_id', sub_chapter.id ) %>
+   <td><%= form_tag( position_chapter_sub_chapter_path(@chapter, sub_chapter), {:id => "chapter_position#{sub_chapter.position}"} ) %>
 <%= select_tag('move_to', chapter_position_options(@chapter.sub_chapters.size, sub_chapter.position), 
 	{ :onchange => "document.forms['chapter_position#{sub_chapter.position}'].submit();"} 
 ) %>

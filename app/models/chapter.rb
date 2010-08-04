@@ -47,13 +47,12 @@ class Chapter < ActiveRecord::Base
     book.send_chapter_notifications(self)
   end
   
-  def shift_chapter_position(sub_chapter_id, move_to)
-    chapters = self.sub_chapters.dup
-    moving_sub_chapter = SubChapter.find(sub_chapter_id)
-    sub_chapters.delete(moving_sub_chapter)
-    sub_chapters.insert(move_to.to_i, moving_sub_chapter)
-    sub_chapters.each_index { |ix|
-      sub_chapters[ix].update_attribute( :position, ix)
+  def shift_chapter_position(moving_sub_chapter, move_to)
+    children = self.sub_chapters.dup
+    children.delete(moving_sub_chapter)
+    children.insert(move_to.to_i, moving_sub_chapter)
+    children.each_index { |ix|
+      children[ix].update_attribute( :position, ix)
     }
   end
 

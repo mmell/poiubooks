@@ -71,7 +71,7 @@ class SubChaptersController < ApplicationController
   end
 
   def position
-    @sub_chapter.parent.shift_sub_chapter_position(@sub_chapter, params[:move_to]) 
+    @sub_chapter.parent.shift_chapter_position(@sub_chapter, params[:move_to]) 
     notice_message("Successfully shifted the chapter.")
     redirect_to(edit_chapter_sub_chapter_path(@sub_chapter.chapter, @sub_chapter))
   end

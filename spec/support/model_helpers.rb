@@ -4,4 +4,5 @@ module ModelHelpers
       e.delete_all
     }
   end
+
 end

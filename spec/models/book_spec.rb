@@ -36,63 +36,62 @@ describe Book do
   end
   
   def c1
-    @c1 ||= Chapter.create!(Factory.attributes_for(:chapter, :parent => @book))
+    @c1 ||= Chapter.create!(Factory.attributes_for(:chapter, :parent => @parent))
     Chapter.find(@c1.id)
   end
   
   def c2
-    @c2 ||= Chapter.create!(Factory.attributes_for(:chapter, :parent => @book))
+    @c2 ||= Chapter.create!(Factory.attributes_for(:chapter, :parent => @parent))
     Chapter.find(@c2.id)
   end
   
   def c3
-    @c3 ||= Chapter.create!(Factory.attributes_for(:chapter, :parent => @book))
+    @c3 ||= Chapter.create!(Factory.attributes_for(:chapter, :parent => @parent))
     Chapter.find(@c3.id)
   end
   
   def c4
-    @c4 ||= Chapter.create!(Factory.attributes_for(:chapter, :parent => @book))
+    @c4 ||= Chapter.create!(Factory.attributes_for(:chapter, :parent => @parent))
     Chapter.find(@c4.id)
   end
-  
-  
+    
   it "should reorder the chapters" do
-    @book = Factory.create(:book)
+    @parent = Factory.create(:book)
     [c1, c2, c3] 
-    @book.chapters(true).should == [c1, c2, c3]
+    @parent.chapters(true).should == [c1, c2, c3]
     c1.position.should == 0
     c2.position.should == 1
     c3.position.should == 2
     
-    @book.shift_chapter_position(c2.id, "0") # middle to front
-    @book.chapters(true).should == [c2, c1, c3]
+    @parent.shift_chapter_position(c2, "0") # middle to front
+    @parent.chapters(true).should == [c2, c1, c3]
 
     c1.position.should == 1
     c2.position.should == 0
     c3.position.should == 2
     
-    @book.shift_chapter_position(c1.id, "2") # middle to back
-    @book.chapters(true).should == [c2, c3, c1]
+    @parent.shift_chapter_position(c1, "2") # middle to back
+    @parent.chapters(true).should == [c2, c3, c1]
 
-    @book.shift_chapter_position(c2.id, "1") # front to middle
-    @book.chapters(true).should == [c3, c2, c1]
+    @parent.shift_chapter_position(c2, "1") # front to middle
+    @parent.chapters(true).should == [c3, c2, c1]
 
-    @book.shift_chapter_position(c3.id, "2") # front to back
-    @book.chapters(true).should == [c2, c1, c3]
+    @parent.shift_chapter_position(c3, "2") # front to back
+    @parent.chapters(true).should == [c2, c1, c3]
 
-    @book.shift_chapter_position(c3.id, "1") # back to middle
-    @book.chapters(true).should == [c2, c3, c1]
+    @parent.shift_chapter_position(c3, "1") # back to middle
+    @parent.chapters(true).should == [c2, c3, c1]
 
-    @book.shift_chapter_position(c1.id, "0") # back to front
-    @book.chapters(true).should == [c1, c2, c3]
+    @parent.shift_chapter_position(c1, "0") # back to front
+    @parent.chapters(true).should == [c1, c2, c3]
 
     c1.position.should == 0
     c2.position.should == 1
     c3.position.should == 2
     c4.position.should == 3
     
-    @book.shift_chapter_position(c4.id, "1") 
-    @book.chapters(true).should == [c1, c4, c2, c3]
+    @parent.shift_chapter_position(c4, "1") 
+    @parent.chapters(true).should == [c1, c4, c2, c3]
 
     c1.position.should == 0
     c2.position.should == 2

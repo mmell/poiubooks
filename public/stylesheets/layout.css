@@ -15,15 +15,15 @@ table#content {
   margin: 0px; 
   padding: 0px; 
 }
-#banner td { 
+#banner { 
   margin: 0px;
   padding: 4px; 
   border-width: 0px 0px 1px 0px; 
   border-color: #ddd;
   border-style: solid;
 }
-#logo { }
-#dependability_bar { }
+#logo { float: left; }
+#dependability_bar { float: right; }
 td.nav_column { 
   margin: 0px;
   padding: 10px;
@@ -32,15 +32,15 @@ td.nav_column {
   border-width: 0px; 
 }
 td#left_nav_column { 
-  width: 110px;
+  width: 20%;
   border-width: 0px 1px 0px 0px; 
 }
 td#right_nav_column { 
-  width: 200px;
+  width: 25%;
   border-width: 0px 0px 0px 1px; 
 }
 td#content_column { 
-  width: 100%;
+  width: 80%;
   margin: 0px;
   padding: 10px;
 }
