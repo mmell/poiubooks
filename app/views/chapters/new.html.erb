@@ -1,8 +1,8 @@
 <% @page_title = "New chapter for: #{@book.title}" %>
 
-<%= render(:partial => 'chapter_owner' ) %>
+<%= render(:partial => 'owner_nav' ) %>
 
-<% form_for(@chapter, :url => {:action => :create, :book_id => @book.id}) do |f| %>
+<% form_for([@book, @chapter]) do |f| %>
   <%= f.error_messages %>
 
   <p>

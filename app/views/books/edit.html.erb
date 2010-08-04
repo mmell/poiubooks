@@ -2,7 +2,6 @@
 
 <%= render(:partial => 'books/owner_nav' ) %>
 
-
 <% form_for(@book) do |f| %>
   <%= f.error_messages %>
 <%= render(:partial => 'form_for_book', :locals => { :f => f } ) %>
@@ -17,7 +16,8 @@
   <tr valign='top'>
 		<th></th>
 		<th>Title</th>
-	<th>Comments</th>
+		<th>Sub-Chapters</th>
+		<th>Comments</th>
 <% if @book.owner?(current_user) -%><th colspan='3'>Admin</th><% end %>
   </tr>
 <% 
@@ -31,6 +31,7 @@
 </form>    
 </td>
     <td><%= link_to(chapter.title, book_chapter_path(@book, chapter)) %></td>
+    <td align='right'><%= chapter.sub_chapters.size %></td>
     <td align='right'><%= chapter.comments.size %></td>
 		<% if @book.owner?(current_user) -%>
     <td><%= link_to 'Edit', edit_chapter_path(chapter) %></td>

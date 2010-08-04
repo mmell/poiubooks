@@ -41,7 +41,6 @@ class SubChaptersController < ApplicationController
   # POST /chapters.xml
   def create
     @sub_chapter = @chapter.sub_chapters.new(params[:sub_chapter]) 
-#    raise StandardError, @sub_chapter.inspect
 
     respond_to do |format|
       if @sub_chapter.save
@@ -49,6 +48,7 @@ class SubChaptersController < ApplicationController
         format.html { redirect_to(@chapter, @sub_chapter) }
         format.xml  { render :xml => @sub_chapter, :status => :created, :location => @sub_chapter }
       else
+        use_tinymce
         format.html { render :action => "new" }
         format.xml  { render :xml => @sub_chapter.errors, :status => :unprocessable_entity }
       end
@@ -64,6 +64,7 @@ class SubChaptersController < ApplicationController
         format.html { redirect_to(@chapter, @sub_chapter) }
         format.xml  { head :ok }
       else
+        use_tinymce
         format.html { render :action => "edit" }
         format.xml  { render :xml => @sub_chapter.errors, :status => :unprocessable_entity }
       end

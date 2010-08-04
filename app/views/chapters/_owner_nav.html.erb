@@ -1,5 +1,5 @@
-<% if @chapter.owner?(current_user) -%>
 <%= render(:partial => 'books/owner_nav' ) %>
+<% if @chapter.owner?(current_user) and @chapter.valid? -%>
 <div class='page_menu_wrapper'>
 <ul class='page_menu'>
 <li class='heading'>Chapter:</li>

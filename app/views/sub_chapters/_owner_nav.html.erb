@@ -1,9 +1,9 @@
-<% if @sub_chapter.owner?(current_user) -%>
 <%= render(:partial => 'chapters/owner_nav' ) %>
+<% if @sub_chapter.owner?(current_user) and @sub_chapter.valid? -%>
 <div class='page_menu_wrapper'>
 <ul class='page_menu'>
 <li class='heading'>Sub-Chapter:</li>
 <li><%= link_to "Read", chapter_sub_chapter_path(@chapter, @sub_chapter) %></li>
-	<li><%= link_to 'Edit', edit_chapter_sub_chapter_path(@chapter, @sub_chapter) %></li>
+<li><%= link_to 'Edit', edit_chapter_sub_chapter_path(@chapter, @sub_chapter) %></li>
 </ul>
 </div><% end -%>

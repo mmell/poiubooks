@@ -51,14 +51,14 @@ class ChaptersController < ApplicationController
   # POST /chapters.xml
   def create
     @chapter = @book.chapters.new(params[:chapter])
-#    @chapter.user_id = current_user.id
 
     respond_to do |format|
       if @chapter.save
         flash[:notice] = 'Chapter was successfully created.'
-        format.html { redirect_to(@book, @chapter) }
+        format.html { redirect_to([@book, @chapter]) }
         format.xml  { render :xml => @chapter, :status => :created, :location => @chapter }
       else
+        use_tinymce
         format.html { render :action => "new" }
         format.xml  { render :xml => @chapter.errors, :status => :unprocessable_entity }
       end
@@ -71,9 +71,10 @@ class ChaptersController < ApplicationController
     respond_to do |format|
       if @chapter.update_attributes(params[:chapter])
         flash[:notice] = 'Chapter was successfully updated.'
-      format.html { redirect_to(@book, @chapter) }
+        format.html { redirect_to([@book, @chapter]) }
         format.xml  { head :ok }
       else
+        use_tinymce
         format.html { render :action => "edit" }
         format.xml  { render :xml => @chapter.errors, :status => :unprocessable_entity }
       end
