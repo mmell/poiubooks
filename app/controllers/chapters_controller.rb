@@ -84,7 +84,7 @@ class ChaptersController < ApplicationController
   def position
     @chapter.parent.shift_chapter_position(@chapter, params[:move_to]) 
     notice_message("Successfully shifted the chapter.")
-    redirect_to(edit_book_chapter_path(@chapter.book, @chapter))
+    redirect_to(edit_book_path(@chapter.book))
   end
 
   # DELETE /chapters/1

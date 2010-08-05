@@ -44,7 +44,9 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.xml
   def create
-    if params[:chapter_id]
+    if params[:sub_chapter_id]
+      commentable = SubChapter.find(params[:sub_chapter_id])
+    elsif params[:chapter_id]
       commentable = Chapter.find(params[:chapter_id])
     elsif params[:book_id]
       commentable = Book.find(params[:book_id])
@@ -106,7 +108,7 @@ class CommentsController < ApplicationController
     when 'Chapter'
       url_for(:controller => :chapters, :action => :show, :book_id => comment.commentable.parent_id, :id => comment.commentable_id, :anchor => comment.anchor )
     when 'SubChapter'
-      url_for(:controller => :sub_chapters, :action => :show, :chapter_id => comment.commentable.parent_id, :id => comment.commentable_id, :anchor => comment.anchor )
+      chapter_sub_chapter_path(:controller => :sub_chapters, :action => :show, :chapter_id => comment.commentable.parent_id, :id => comment.commentable_id, :anchor => comment.anchor )
     end
   end
    

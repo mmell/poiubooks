@@ -30,6 +30,10 @@ ActionController::Routing::Routes.draw do |map|
     chapter.resources :comments
   end
 
+  map.resources :sub_chapters do |chapter|
+    chapter.resources :comments
+  end
+
   map.resources :categories do |category|
     category.resources :books
   end

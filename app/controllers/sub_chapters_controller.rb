@@ -45,7 +45,7 @@ class SubChaptersController < ApplicationController
     respond_to do |format|
       if @sub_chapter.save
         flash[:notice] = 'Chapter was successfully created.'
-        format.html { redirect_to(@chapter, @sub_chapter) }
+        format.html { redirect_to([@chapter, @sub_chapter]) }
         format.xml  { render :xml => @sub_chapter, :status => :created, :location => @sub_chapter }
       else
         use_tinymce
@@ -60,8 +60,8 @@ class SubChaptersController < ApplicationController
   def update
     respond_to do |format|
       if @sub_chapter.update_attributes(params[:sub_chapter])
-        flash[:notice] = 'Chapter was successfully updated.'
-        format.html { redirect_to(@chapter, @sub_chapter) }
+        flash[:notice] = 'Sub-Chapter was successfully updated.'
+        format.html { redirect_to([@chapter, @sub_chapter]) }
         format.xml  { head :ok }
       else
         use_tinymce
@@ -74,7 +74,7 @@ class SubChaptersController < ApplicationController
   def position
     @sub_chapter.parent.shift_chapter_position(@sub_chapter, params[:move_to]) 
     notice_message("Successfully shifted the chapter.")
-    redirect_to(edit_chapter_sub_chapter_path(@sub_chapter.chapter, @sub_chapter))
+    redirect_to(edit_chapter_path(@sub_chapter.chapter))
   end
 
   # DELETE /chapters/1
