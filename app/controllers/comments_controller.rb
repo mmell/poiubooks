@@ -96,25 +96,27 @@ class CommentsController < ApplicationController
     @comment.destroy
 
     respond_to do |format|
-      format.html { redirect_to_commentable(@comment) }
+      format.html { redirect_to_commentable(@comment, false) }
       format.xml  { head :ok }
     end
   end
 
-  def url_for_comment(comment)
-    case comment.commentable_type
+  def url_for_comment(comment, anchor = true)
+    hsh = { :controller => :books, :action => :read, :id => comment.commentable_id, :anchor => comment.anchor }
+    hsh[:anchor] = comment.anchor if anchor
+    case comment.commentable.class.name # comment.commentable_type is 'Chapter' when commentable == SubChapter
     when 'Book'
-      url_for(:controller => :books, :action => :show, :id => comment.commentable_id, :anchor => comment.anchor )
+      read_book_path(hsh )
     when 'Chapter'
-      url_for(:controller => :chapters, :action => :show, :book_id => comment.commentable.parent_id, :id => comment.commentable_id, :anchor => comment.anchor )
+      read_chapter_path(hsh.merge(:controller => :chapters, :book_id => comment.commentable.parent_id ))
     when 'SubChapter'
-      chapter_sub_chapter_path(:controller => :sub_chapters, :action => :show, :chapter_id => comment.commentable.parent_id, :id => comment.commentable_id, :anchor => comment.anchor )
+      read_sub_chapter_path(hsh.merge(:controller => :sub_chapters, :book_id => comment.commentable.parent.parent_id, :chapter_id => comment.commentable.parent_id) )
     end
   end
    
   private
-  def redirect_to_commentable(comment)
-    redirect_to(url_for_comment(comment))
+  def redirect_to_commentable(comment, anchor = true)
+    redirect_to(url_for_comment(comment, anchor))
   end
   
   def find_editable_comment

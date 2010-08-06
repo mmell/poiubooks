@@ -1,8 +1,11 @@
 class SubChaptersController < ApplicationController
 
-  before_filter :require_user #, :except => [:show] 
+  include ReadController
+  
+  before_filter :find_readable, :only => [:read] 
+  before_filter :require_user, :except => [:read] 
   before_filter :find_editable_parent, :only => [:new, :create]
-  before_filter :find_editable_sub_chapter, :except => [:index, :show, :new, :create]
+  before_filter :find_editable_sub_chapter, :except => [:index, :show, :new, :create, :read]
   before_filter :clean_submission, :only => [:update, :create]
   
   # GET /chapters/1
@@ -12,7 +15,7 @@ class SubChaptersController < ApplicationController
     @sub_chapter = SubChapter.find(params[:id], :include => :parent)
     @chapter = @sub_chapter.chapter
     @book = @chapter.book
-    redirect_to book_path(params[:chapter_id]) and return false unless @sub_chapter
+    redirect_to root_path and return false unless @sub_chapter
 
     respond_to do |format|
       format.html # show.html.erb
@@ -45,7 +48,7 @@ class SubChaptersController < ApplicationController
     respond_to do |format|
       if @sub_chapter.save
         flash[:notice] = 'Chapter was successfully created.'
-        format.html { redirect_to([@chapter, @sub_chapter]) }
+        format.html { redirect_to(read_sub_chapter_path(@book, @chapter, @sub_chapter)) }
         format.xml  { render :xml => @sub_chapter, :status => :created, :location => @sub_chapter }
       else
         use_tinymce
@@ -61,7 +64,7 @@ class SubChaptersController < ApplicationController
     respond_to do |format|
       if @sub_chapter.update_attributes(params[:sub_chapter])
         flash[:notice] = 'Sub-Chapter was successfully updated.'
-        format.html { redirect_to([@chapter, @sub_chapter]) }
+        format.html { redirect_to(edit_sub_chapter_path(@book, @chapter, @sub_chapter)) }
         format.xml  { head :ok }
       else
         use_tinymce
@@ -82,19 +85,12 @@ class SubChaptersController < ApplicationController
   def destroy
     @sub_chapter.destroy
     respond_to do |format|
-      format.html { redirect_to(chapters_url) }
+      format.html { read_chapter_path(@book, @sub_chapter.chapter) }
       format.xml  { head :ok }
     end
   end
   
   private
-  def config_layout
-    if 'show' == params[:action]
-      @content_row = 'layouts/content_rows/read_book'
-    else 
-      super
-    end
-  end
   
   def find_editable_parent
     @chapter = current_user.chapters.find(params[:chapter_id], :include => :parent)
@@ -113,4 +109,11 @@ class SubChaptersController < ApplicationController
     params[:sub_chapter][:title].strip!
   end
 
+  def find_readable
+    @sub_chapter = SubChapter.find(params[:id], :include => :parent)
+    redirect_to root_path and return false unless @sub_chapter
+    @chapter = @sub_chapter.chapter
+    @book = @sub_chapter.book
+  end
+  
 end

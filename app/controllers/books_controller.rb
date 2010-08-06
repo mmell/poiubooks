@@ -1,7 +1,10 @@
 class BooksController < ApplicationController
+
+  include ReadController
   
-  before_filter :require_user, :except => [:index, :show, :search, :advanced_search]
-  before_filter :find_editable_book, :except => [:index, :show, :new, :create, :search, :advanced_search]
+  before_filter :find_readable, :only => [:read] 
+  before_filter :require_user, :except => [:read, :index, :show, :search, :advanced_search]
+  before_filter :find_editable_book, :except => [:index, :show, :new, :create, :search, :advanced_search, :read]
   before_filter :clean_submission, :only => [:update, :create]
   
   def search
@@ -157,14 +160,6 @@ class BooksController < ApplicationController
 
   private
   
-  def config_layout
-    if 'show' == params[:action]
-      @content_row = 'layouts/content_rows/read_book'
-    else 
-      super
-    end
-  end
-  
   def clean_submission
     params[:book][:title].strip!
   end
@@ -172,6 +167,11 @@ class BooksController < ApplicationController
   def find_editable_book
     @book = current_user.books.find(params[:id])
     redirect_to user_books_path and return false unless @book
+  end
+  
+  def find_readable
+    @book = Book.find(params[:id])
+    redirect_to root_path and return false unless @book
   end
 
 end

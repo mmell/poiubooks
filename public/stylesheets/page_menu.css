@@ -1,6 +1,6 @@
-div.page_menu_wrapper { padding: 0px 3px 1px 3px;}
-ul.page_menu { margin: 0px 0px 4em 0px;
- border-width: 4px 0px 0px 0px; border-color: #7C7B76; border-style: solid; 
+div.page_menu_wrapper { padding: 0px;}
+ul.page_menu { margin: 0px 0px 3em 0px;
+ border-width: 2px 0px 0px 0px; border-color: #7C7B76; border-style: solid; 
 }
 ul.page_menu li { float: left; list-style: none; } 
 ul.page_menu li.heading { font-weight: bold; padding: 2px 12px; } 

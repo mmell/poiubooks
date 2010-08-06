@@ -1,8 +1,11 @@
 class ChaptersController < ApplicationController
 
-  before_filter :require_user, :except => [:show] 
+  include ReadController
+
+  before_filter :find_readable, :only => [:read] 
+  before_filter :require_user, :except => [:read] 
   before_filter :find_editable_parent, :only => [:new, :create]
-  before_filter :find_editable_chapter, :except => [:index, :show, :new, :create]
+  before_filter :find_editable_chapter, :except => [:index, :show, :new, :create, :read]
   before_filter :clean_submission, :only => [:update, :create]
   
   # GET /chapters
@@ -55,7 +58,7 @@ class ChaptersController < ApplicationController
     respond_to do |format|
       if @chapter.save
         flash[:notice] = 'Chapter was successfully created.'
-        format.html { redirect_to([@book, @chapter]) }
+        format.html { redirect_to(read_chapter_path(@book, @chapter)) }
         format.xml  { render :xml => @chapter, :status => :created, :location => @chapter }
       else
         use_tinymce
@@ -71,7 +74,7 @@ class ChaptersController < ApplicationController
     respond_to do |format|
       if @chapter.update_attributes(params[:chapter])
         flash[:notice] = 'Chapter was successfully updated.'
-        format.html { redirect_to([@book, @chapter]) }
+        format.html { redirect_to(edit_chapter_path(@book, @chapter)) }
         format.xml  { head :ok }
       else
         use_tinymce
@@ -92,19 +95,12 @@ class ChaptersController < ApplicationController
   def destroy
     @chapter.destroy
     respond_to do |format|
-      format.html { redirect_to(chapters_url) }
+      format.html { redirect_to(edit_book_path(@chapter.book)) }
       format.xml  { head :ok }
     end
   end
   
   private
-  def config_layout
-    if 'show' == params[:action]
-      @content_row = 'layouts/content_rows/read_book'
-    else 
-      super
-    end
-  end
   
   def find_editable_parent
     @book = current_user.books.find(params[:book_id])
@@ -120,5 +116,12 @@ class ChaptersController < ApplicationController
   def clean_submission
     params[:chapter][:title].strip!
   end
+  
+  def find_readable
+    @chapter = Chapter.find(params[:id], :include => :parent)
+    redirect_to root_path and return false unless @chapter
+    @book = @chapter.book
+  end
+  
 
 end

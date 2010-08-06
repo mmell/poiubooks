@@ -6,18 +6,16 @@
 chapter_ix = 0 
 @book.chapters.each do |chapter| -%>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%= chapter_ix += 1 %></td>
-    <td><%= link_to(chapter.title, book_chapter_path(@book, chapter)) %><br />
-			(<span align='right'><%= chapter.comments.size %> Comments</span>)
+    <td><%= chapter_ix += 1 %>)</td>
+    <td><%= link_to(chapter.title, read_chapter_path(@book, chapter)) %>
 			<% 
 			unless chapter.sub_chapters.empty?
 			sub_chapter_ix = 0 
 			%><table><%
 			chapter.sub_chapters.each do |sub_chapter| %>
 				  <tr class='row<%= cycle(1, 2) %>' valign='top'>
-				    <td><%= chapter_ix %>.<%= sub_chapter_ix += 1 %></td>
-				    <td><%= link_to(sub_chapter.title, chapter_sub_chapter_path(chapter, sub_chapter)) %><br />
-							(<span align='right'><%= sub_chapter.comments.size %> Comments</span>)</td>
+				    <td><%= chapter_ix %>.<%= sub_chapter_ix += 1 %>)</td>
+				    <td><%= link_to(sub_chapter.title, read_sub_chapter_path(@book, chapter, sub_chapter)) %></td>
 				  </tr>
 					<% end
 					%></table><%

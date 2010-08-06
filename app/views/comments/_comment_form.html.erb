@@ -1,4 +1,5 @@
 <% 
+if logged_in?
 current_notification = current_user.notifications.find_by_book_id(@book.id)
 remote_form_for(Notification.new, :url => {:controller => :notifications, :action => :toggle} ) do |f|
 %>
@@ -6,7 +7,7 @@ remote_form_for(Notification.new, :url => {:controller => :notifications, :actio
 <%= check_box_tag('notifiy', '1', 
 		!current_notification.nil?, 
 		{:onchange => "this.form.submit();"}) %> Notify me when this book has been updated by the author
-
+<% end -%>
 <p><%= link_to( image_tag('rss_xml.gif', :size => '36x14', :alt => 'rss', :border => 0), book_path(@book, :format => :rss)) %></p>
 <% end -%>
 
