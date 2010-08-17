@@ -15,7 +15,7 @@ describe Chapter do
   it "should create a new instance given valid attributes" do
     c = Chapter.create!(Factory.attributes_for(:chapter))
     c.type.should == nil
-    c.position.should == 0  
+    c.position.should == 1  
     c.user_id.should == c.book.user_id  
   end
 
@@ -44,44 +44,44 @@ describe Chapter do
     @parent = Chapter.create!(Factory.attributes_for(:chapter, :parent => @book))
     [c1, c2, c3] 
     @parent.sub_chapters(true).should == [c1, c2, c3]
-    c1.position.should == 0
-    c2.position.should == 1
-    c3.position.should == 2
-    
-    @parent.shift_chapter_position(c2, "0") # middle to front
-    @parent.sub_chapters(true).should == [c2, c1, c3]
-
     c1.position.should == 1
-    c2.position.should == 0
-    c3.position.should == 2
-    
-    @parent.shift_chapter_position(c1, "2") # middle to back
-    @parent.sub_chapters(true).should == [c2, c3, c1]
-
-    @parent.shift_chapter_position(c2, "1") # front to middle
-    @parent.sub_chapters(true).should == [c3, c2, c1]
-
-    @parent.shift_chapter_position(c3, "2") # front to back
-    @parent.sub_chapters(true).should == [c2, c1, c3]
-
-    @parent.shift_chapter_position(c3, "1") # back to middle
-    @parent.sub_chapters(true).should == [c2, c3, c1]
-
-    @parent.shift_chapter_position(c1, "0") # back to front
-    @parent.sub_chapters(true).should == [c1, c2, c3]
-
-    c1.position.should == 0
-    c2.position.should == 1
-    c3.position.should == 2
-    c4.position.should == 3
-    
-    @parent.shift_chapter_position(c4, "1") 
-    @parent.sub_chapters(true).should == [c1, c4, c2, c3]
-
-    c1.position.should == 0
     c2.position.should == 2
     c3.position.should == 3
-    c4.position.should == 1
+    
+    @parent.shift_chapter_position(c2, "1") # middle to front
+    @parent.sub_chapters(true).should == [c2, c1, c3]
+
+    c1.position.should == 2
+    c2.position.should == 1
+    c3.position.should == 3
+    
+    @parent.shift_chapter_position(c1, "3") # middle to back
+    @parent.sub_chapters(true).should == [c2, c3, c1]
+
+    @parent.shift_chapter_position(c2, "2") # front to middle
+    @parent.sub_chapters(true).should == [c3, c2, c1]
+
+    @parent.shift_chapter_position(c3, "3") # front to back
+    @parent.sub_chapters(true).should == [c2, c1, c3]
+
+    @parent.shift_chapter_position(c3, "2") # back to middle
+    @parent.sub_chapters(true).should == [c2, c3, c1]
+
+    @parent.shift_chapter_position(c1, "1") # back to front
+    @parent.sub_chapters(true).should == [c1, c2, c3]
+
+    c1.position.should == 1
+    c2.position.should == 2
+    c3.position.should == 3
+    c4.position.should == 4
+    
+    @parent.shift_chapter_position(c4, "2") 
+    @parent.sub_chapters(true).should == [c1, c4, c2, c3]
+
+    c1.position.should == 1
+    c2.position.should == 3
+    c3.position.should == 4
+    c4.position.should == 2
   end
   
 end

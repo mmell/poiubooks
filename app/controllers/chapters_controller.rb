@@ -37,7 +37,7 @@ class ChaptersController < ApplicationController
   # GET /chapters/new.xml
   def new
     use_tinymce
-    @chapter = @book.chapters.build()
+    @chapter = @book.chapters.build(:title => "Chapter #{@book.chapters.size() +1 }")
 
     respond_to do |format|
       format.html # new.html.erb
@@ -58,7 +58,7 @@ class ChaptersController < ApplicationController
     respond_to do |format|
       if @chapter.save
         flash[:notice] = 'Chapter was successfully created.'
-        format.html { redirect_to(read_chapter_path(@book, @chapter)) }
+        format.html { redirect_to(read_chapter_path(@book, @chapter.position)) }
         format.xml  { render :xml => @chapter, :status => :created, :location => @chapter }
       else
         use_tinymce
@@ -74,7 +74,7 @@ class ChaptersController < ApplicationController
     respond_to do |format|
       if @chapter.update_attributes(params[:chapter])
         flash[:notice] = 'Chapter was successfully updated.'
-        format.html { redirect_to(edit_chapter_path(@book, @chapter)) }
+        format.html { redirect_to(edit_chapter_path(@chapter)) }
         format.xml  { head :ok }
       else
         use_tinymce
@@ -118,8 +118,14 @@ class ChaptersController < ApplicationController
   end
   
   def find_readable
-    @chapter = Chapter.find(params[:id], :include => :parent)
-    redirect_to root_path and return false unless @chapter
+    @chapter = Chapter.find(:first, 
+      :conditions => ["type is null and parent_type='Book' and parent_id=? and position=?", params[:book_id], params[:chapter_position]], 
+      :include => :parent
+    )
+    unless @chapter
+      alert_message("No chapter found.")
+      redirect_to root_path and return false 
+    end
     @book = @chapter.book
   end
   

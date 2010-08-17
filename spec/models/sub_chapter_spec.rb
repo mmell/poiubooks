@@ -26,10 +26,10 @@ describe SubChapter do
     
     c.position.should == nil
     c.defaults
-    c.position.should == 0  
+    c.position.should == 1  
     
     c.save!
-    c.position.should == 0  
+    c.position.should == 1  
     c.user_id.should == c.chapter.user_id
   end
 

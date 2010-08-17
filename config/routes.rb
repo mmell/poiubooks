@@ -10,17 +10,20 @@ ActionController::Routing::Routes.draw do |map|
   map.reset     '/reset/:code', :controller => 'users', :action => 'reset'
   map.reset_password     '/reset_password', :controller => 'users', :action => 'reset'
   
-  map.read_sub_chapter( 'books/:book_id/:chapter_id/:id', 
+  map.read_sub_chapter( 'books/:book_id/:chapter_position/:sub_chapter_position', 
     :controller => 'sub_chapters', :action => 'read', 
-    :requirements => { :book_id => /\d+/, :chapter_id => /\d+/, :id => /\d+/ }, :conditions => { :method => :get } 
+    :requirements => { :book_id => /\d+/, :chapter_position => /\d+/, :sub_chapter_position => /\d+/ }, 
+    :conditions => { :method => :get } 
     )
-  map.read_chapter( 'books/:book_id/:id', 
+  map.read_chapter( 'books/:book_id/:chapter_position', 
     :controller => 'chapters', :action => 'read', 
-    :requirements => { :book_id => /\d+/, :id => /\d+/ }, :conditions => { :method => :get } 
+    :requirements => { :book_id => /\d+/, :chapter_position => /\d+/ }, 
+    :conditions => { :method => :get } 
     )
-  map.read_book( 'books/:id', 
+  map.read_book( 'books/:book_id', 
     :controller => 'books', :action => 'read', 
-    :requirements => { :id => /\d+/ }, :conditions => { :method => :get } 
+    :requirements => { :book_id => /\d+/ }, 
+    :conditions => { :method => :get } 
     )
 
   #  map.activate ‘/activate/:activation_code’, :controller => ‘users’, :action => ‘activate’, :activation_code => nil

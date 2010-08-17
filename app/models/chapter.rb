@@ -31,7 +31,9 @@ class Chapter < ActiveRecord::Base
   end
 
   def defaults
-    self.position = Chapter.count( :conditions => "parent_id=#{parent.id}" )
+    self.position = Chapter.count( 
+      :conditions => "parent_id=#{parent.id} and type is null and parent_type='Book'" 
+    ) +1
     self.user = parent.user
   end
   
@@ -50,9 +52,9 @@ class Chapter < ActiveRecord::Base
   def shift_chapter_position(moving_sub_chapter, move_to)
     children = self.sub_chapters.dup
     children.delete(moving_sub_chapter)
-    children.insert(move_to.to_i, moving_sub_chapter)
+    children.insert(move_to.to_i() -1, moving_sub_chapter)
     children.each_index { |ix|
-      children[ix].update_attribute( :position, ix)
+      children[ix].update_attribute( :position, ix +1)
     }
   end
 

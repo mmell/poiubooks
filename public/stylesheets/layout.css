@@ -45,6 +45,11 @@ td#content_column {
   margin: 0px;
   padding: 10px;
 }
+td#read_column { 
+  width: 400px;
+  margin: 0px;
+  padding: 10px;
+}
 #bottom { 
   padding: 0px 20px 10em 20px;
   background: #bbbbbb; 
@@ -65,8 +70,21 @@ a:hover { color: #ff7625; }
 h1 { font-size: 18px; margin: 0px 0px .5em 0px; }
 h2 { font-size: 14px; margin: 0px 0px 1em 0px; color: #454; }
 h3 { margin: 0px 0px 1em 0px; }
-table.listing { width: 100%; }
-table.listing td { padding: 3px; }
+
+ul.listing { width: 100%; padding: 3px; }
+ul.listing li {
+  margin: 0px; 
+  padding: 0px; 
+  list-style-type: none;
+  font-weight: bold;  
+}
+
+ul.listing li.chapter { font-size: 12px; }
+ul.listing li.sub_chapter { font-size: 11.4px; padding: 0px 0px 0px 4px; }
+
+ul.listing li#current_chapter { color: #3299cc; }
+ul.listing li#current_sub_chapter { color: #3299cc; }
+
 .main_nav { margin: 0px; padding: 0px; }
 .main_nav .main_nav2 {
   margin: 0px 0px 0px 8px; 

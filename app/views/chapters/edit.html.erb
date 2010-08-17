@@ -37,7 +37,7 @@
 ) %>
 </form>    
 </td>
-    <td><%= link_to(sub_chapter.title, chapter_sub_chapter_path(@chapter, sub_chapter)) %></td>
+    <td><%= link_to(sub_chapter.title, read_sub_chapter_path(@book, @chapter.position, sub_chapter.position)) %></td>
     <td align='right'><%= sub_chapter.comments.size %></td>
     <td><%= link_to 'Edit', edit_chapter_sub_chapter_path(@chapter, sub_chapter) %></td>
     <td><%= link_to 'Destroy', chapter_sub_chapter_path(@chapter, sub_chapter), :confirm => 'Are you sure?', :method => :delete %></td>

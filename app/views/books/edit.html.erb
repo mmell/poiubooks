@@ -29,7 +29,7 @@
 ) %>
 </form>    
 </td>
-    <td><%= link_to(chapter.title, book_chapter_path(@book, chapter)) %></td>
+    <td><%= link_to(chapter.title, read_chapter_path(@book, chapter.position)) %></td>
     <td align='right'><%= chapter.sub_chapters.size %></td>
     <td align='right'><%= chapter.comments.size %></td>
 		<% if @book.owner?(current_user) -%>

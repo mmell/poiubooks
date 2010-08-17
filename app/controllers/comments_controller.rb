@@ -102,15 +102,18 @@ class CommentsController < ApplicationController
   end
 
   def url_for_comment(comment, anchor = true)
-    hsh = { :controller => :books, :action => :read, :id => comment.commentable_id, :anchor => comment.anchor }
+    hsh = { } 
     hsh[:anchor] = comment.anchor if anchor
-    case comment.commentable.class.name # comment.commentable_type is 'Chapter' when commentable == SubChapter
+    case comment.commentable.class.name # comment.commentable_type is 'Chapter' when commentable.is_a?(SubChapter)
     when 'Book'
-      read_book_path(hsh )
+      read_book_path(comment.commentable, hsh )
     when 'Chapter'
-      read_chapter_path(hsh.merge(:controller => :chapters, :book_id => comment.commentable.parent_id ))
+      read_chapter_path(comment.commentable.parent_id, 
+        comment.commentable.position, hsh)
     when 'SubChapter'
-      read_sub_chapter_path(hsh.merge(:controller => :sub_chapters, :book_id => comment.commentable.parent.parent_id, :chapter_id => comment.commentable.parent_id) )
+      read_sub_chapter_path(comment.commentable.parent.parent_id, 
+        comment.commentable.parent.position, 
+        comment.commentable.position, hsh )
     end
   end
    

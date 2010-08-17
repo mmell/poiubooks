@@ -49,9 +49,9 @@ class Book < ActiveRecord::Base
   def shift_chapter_position(moving_chapter, move_to)
     children = self.chapters.dup
     children.delete(moving_chapter)
-    children.insert(move_to.to_i, moving_chapter)
+    children.insert(move_to.to_i() -1, moving_chapter)
     children.each_index { |ix|
-      children[ix].update_attribute( :position, ix)
+      children[ix].update_attribute( :position, ix +1)
     }
   end
 

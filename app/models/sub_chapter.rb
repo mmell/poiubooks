@@ -26,7 +26,9 @@ class SubChapter < Chapter
   end
 
   def defaults
-    self.position = SubChapter.count( :conditions => "parent_id=#{parent.id}" )
+    self.position = SubChapter.count( 
+      :conditions => "parent_id=#{parent.id} and type='SubChapter' and parent_type='Chapter'" 
+    ) +1
     self.user = parent.user
   end
   

@@ -1,28 +1,26 @@
 <div class='table_of_contents'>
 <h2><%= link_to(@book.title, @book) %></h2>
 <h3>Table of Contents</h3>
-<table class='listing' width='100%'>
+<ul class='listing'>
 <% 
-chapter_ix = 0 
-@book.chapters.each do |chapter| -%>
-  <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td><%= chapter_ix += 1 %>)</td>
-    <td><%= link_to(chapter.title, read_chapter_path(@book, chapter)) %>
-			<% 
-			unless chapter.sub_chapters.empty?
-			sub_chapter_ix = 0 
-			%><table><%
-			chapter.sub_chapters.each do |sub_chapter| %>
-				  <tr class='row<%= cycle(1, 2) %>' valign='top'>
-				    <td><%= chapter_ix %>.<%= sub_chapter_ix += 1 %>)</td>
-				    <td><%= link_to(sub_chapter.title, read_sub_chapter_path(@book, chapter, sub_chapter)) %></td>
-				  </tr>
-					<% end
-					%></table><%
-					end %>
-
-</td>
-  </tr>
-<% end %>
-</table>
+@book.chapters.each do |chapter| 
+is_current_chapter = current_page?(read_chapter_path(@book, chapter.position))
+-%>
+<li class='chapter'<%= is_current_chapter ? " id='current_chapter'" : '' %>>
+	<%= chapter.position %>) <%= link_to_unless(is_current_chapter, 
+	chapter.title, 
+	read_chapter_path(@book, chapter.position)) %>
+</li>
+<%
+chapter.sub_chapters.each do |sub_chapter| 
+	is_current_sub_chapter = current_page?(read_sub_chapter_path(@book, chapter.position, sub_chapter.position))
+	%>
+	<li class='sub_chapter'<%= is_current_sub_chapter ? " id='current_sub_chapter'" : '' %>>
+		<%= chapter.position %>.<%= sub_chapter.position %>) <%= link_to_unless(is_current_sub_chapter, 
+		sub_chapter.title, 
+		read_sub_chapter_path(@book, chapter.position, sub_chapter.position)) %></li>
+		<% end
+		%>
+		<% end %>
+	</ul>
 </div>

@@ -30,11 +30,15 @@ form_for(c, :url => polymorphic_path([commentable, c]) ) do |f| -%>
 <% end %>
 
 <h3>Comments</h3>
+<% if commentable.comments.empty? %>
+<p><em>Be the first to comment.</em></p>
+<% else %>
 <table class='listing'>
 <% commentable.comments.each do |comment| %>
 	<%= render(:partial => 'comments/display_comment', :locals => {:comment => comment } ) %>
 <% end -%>
 </table>
+<% end %>
 </div>
 
 <p align='right'>

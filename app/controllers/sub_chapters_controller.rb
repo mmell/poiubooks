@@ -27,7 +27,7 @@ class SubChaptersController < ApplicationController
   # GET /sub_chapters/new.xml
   def new
     use_tinymce
-    @sub_chapter = @chapter.sub_chapters.build()
+    @sub_chapter = @chapter.sub_chapters.build( :title => "Sub-Chapter #{@chapter.sub_chapters.size() +1 }")
 
     respond_to do |format|
       format.html # new.html.erb
@@ -48,7 +48,7 @@ class SubChaptersController < ApplicationController
     respond_to do |format|
       if @sub_chapter.save
         flash[:notice] = 'Chapter was successfully created.'
-        format.html { redirect_to(read_sub_chapter_path(@book, @chapter, @sub_chapter)) }
+        format.html { redirect_to(read_sub_chapter_path(@book, @chapter.position, @sub_chapter.position)) }
         format.xml  { render :xml => @sub_chapter, :status => :created, :location => @sub_chapter }
       else
         use_tinymce
@@ -64,7 +64,7 @@ class SubChaptersController < ApplicationController
     respond_to do |format|
       if @sub_chapter.update_attributes(params[:sub_chapter])
         flash[:notice] = 'Sub-Chapter was successfully updated.'
-        format.html { redirect_to(edit_sub_chapter_path(@book, @chapter, @sub_chapter)) }
+        format.html { redirect_to(edit_sub_chapter_path(@sub_chapter)) }
         format.xml  { head :ok }
       else
         use_tinymce
@@ -85,7 +85,7 @@ class SubChaptersController < ApplicationController
   def destroy
     @sub_chapter.destroy
     respond_to do |format|
-      format.html { read_chapter_path(@book, @sub_chapter.chapter) }
+      format.html { read_chapter_path(@book, @sub_chapter.chapter.position) }
       format.xml  { head :ok }
     end
   end
@@ -110,10 +110,24 @@ class SubChaptersController < ApplicationController
   end
 
   def find_readable
-    @sub_chapter = SubChapter.find(params[:id], :include => :parent)
-    redirect_to root_path and return false unless @sub_chapter
-    @chapter = @sub_chapter.chapter
-    @book = @sub_chapter.book
+    @chapter = Chapter.find(:first, 
+      :conditions => ["type is null and parent_type='Book' and parent_id=? and position=?", params[:book_id], params[:chapter_position]], 
+      :include => :parent
+    )
+    unless @chapter
+      alert_message("No sub-chapter parent found.")
+      redirect_to root_path and return false 
+    end
+    logger.debug("@sub_chapter = SubChapter.find #{@chapter.id}")
+    @sub_chapter = SubChapter.find(:first, 
+      :conditions => ["type='SubChapter' and parent_type='Chapter' and parent_id=? and position=?", @chapter.id, params[:sub_chapter_position]], 
+      :include => :parent
+    )
+    unless @sub_chapter
+      alert_message("No sub-chapter found.")
+      redirect_to root_path and return false 
+    end
+    @book = @chapter.book
   end
   
 end

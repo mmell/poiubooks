@@ -1,10 +1,10 @@
 <%= render(:partial => 'books/owner_nav' ) %>
-<% if @chapter.owner?(current_user) and @chapter.valid? -%>
+<% if @chapter.owner?(current_user) and !@chapter.new_record? and @chapter.valid? -%>
 <div class='page_menu_wrapper'>
 <ul class='page_menu'>
 <li class='heading'>Chapter:</li>
-<li><%= link_to "Read", book_chapter_path(@book, @chapter) %></li>
-<li><%= link_to 'Edit', edit_book_chapter_path(@book, @chapter) %></li>
+<li><%= link_to "Read", read_chapter_path(@book, @chapter.position) %></li>
+<li><%= link_to 'Edit', edit_chapter_path(@chapter) %></li>
 <li><%= link_to 'New Sub-Chapter', new_chapter_sub_chapter_path(@chapter) %></li>
 </ul>
 </div><% end -%>

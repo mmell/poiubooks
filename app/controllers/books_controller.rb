@@ -170,7 +170,7 @@ class BooksController < ApplicationController
   end
   
   def find_readable
-    @book = Book.find(params[:id])
+    @book = Book.find(params[:book_id])
     redirect_to root_path and return false unless @book
   end
 
