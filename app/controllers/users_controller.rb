@@ -24,7 +24,9 @@ class UsersController < ApplicationController
     if params[:user][:image]
       @user.save_image_file(params[:user][:image])
     end
-    @user.update_attributes(params[:user])
+    if @user.update_attributes(params[:user])
+      flash[:notice] = "Successfully updated the record."
+    end
     redirect_to(edit_user_path(@user.id)) 
   end
  
