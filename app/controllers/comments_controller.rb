@@ -19,11 +19,8 @@ class CommentsController < ApplicationController
   # GET /comments/1.xml
   def show
     @comment = Comment.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @comment }
-    end
+    redirect_to(url_for_commentable(@comment))
+    false
   end
 
   # GET /comments/new
@@ -101,7 +98,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  def url_for_comment(comment, anchor = true)
+  def url_for_commentable(comment, anchor = true)
     hsh = { } 
     hsh[:anchor] = comment.anchor if anchor
     case comment.commentable.class.name # comment.commentable_type is 'Chapter' when commentable.is_a?(SubChapter)
@@ -119,7 +116,7 @@ class CommentsController < ApplicationController
    
   private
   def redirect_to_commentable(comment, anchor = true)
-    redirect_to(url_for_comment(comment, anchor))
+    redirect_to(url_for_commentable(comment, anchor))
   end
   
   def find_editable_comment

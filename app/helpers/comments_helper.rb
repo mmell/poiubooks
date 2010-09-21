@@ -1,7 +1,7 @@
 module CommentsHelper
 
-  def url_for_comment(comment)
-    controller.url_for_comment(comment)
+  def url_for_commentable(comment)
+    controller.url_for_commentable(comment)
   end
   
   def display_votes(comment)

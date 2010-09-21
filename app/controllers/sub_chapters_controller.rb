@@ -85,7 +85,7 @@ class SubChaptersController < ApplicationController
   def destroy
     @sub_chapter.destroy
     respond_to do |format|
-      format.html { read_chapter_path(@book, @sub_chapter.chapter.position) }
+      format.html { redirect_to (read_chapter_path(@book, @sub_chapter.chapter.position)) }
       format.xml  { head :ok }
     end
   end
