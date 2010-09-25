@@ -23,7 +23,6 @@ Rails::Initializer.run do |config|
   config.gem "restful_authentication"
   config.gem "acts_as_state_machine"
   config.gem 'aasm'
-  config.gem 'hpricot'
   
   # Only load the plugins named here, in the order given (default is alphabetical).
  # :all can be used as a placeholder for all plugins not explicitly named
