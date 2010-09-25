@@ -8,7 +8,7 @@ is_current_chapter = current_page?(read_chapter_path(@book, chapter.position))
 -%>
 <li class='chapter'<%= is_current_chapter ? " id='current_chapter'" : '' %>>
 	<%= chapter.position %>) <%= link_to_unless(is_current_chapter, 
-	chapter.title, 
+	h(chapter.title), 
 	read_chapter_path(@book, chapter.position)) %>
 </li>
 <%
@@ -17,7 +17,7 @@ chapter.sub_chapters.each do |sub_chapter|
 	%>
 	<li class='sub_chapter'<%= is_current_sub_chapter ? " id='current_sub_chapter'" : '' %>>
 		<%= chapter.position %>.<%= sub_chapter.position %>) <%= link_to_unless(is_current_sub_chapter, 
-		sub_chapter.title, 
+		h(sub_chapter.title), 
 		read_sub_chapter_path(@book, chapter.position, sub_chapter.position)) %></li>
 		<% end
 		%>

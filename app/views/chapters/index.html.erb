@@ -4,13 +4,13 @@
 
 <% @books.each do |book| %>
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
-    <td rowspan='<%= book.chapters.size.to_i() +1 %>'><%= link_to(book.title, book) %></td>
+    <td rowspan='<%= book.chapters.size.to_i() +1 %>'><%= link_to(h(book.title), book) %></td>
     <td colspan='3'><br /></td>
   </tr>
 
 <% book.chapters.each do |chapter| %>
 <tr class='row<%= cycle(1, 2) %>' valign='top'>
-	<td><%= link_to(chapter.title, read_chapter_path(book, chapter.position)) %></td>
+	<td><%= link_to(h(chapter.title), read_chapter_path(book, chapter.position)) %></td>
 	<td><%= link_to 'Edit', edit_chapter_path(chapter) %></td>
 	<td><%= link_to 'Destroy', chapter, :confirm => 'Are you sure?', :method => :delete %></td>
 </tr>

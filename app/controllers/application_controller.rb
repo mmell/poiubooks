@@ -39,13 +39,16 @@ protected
     @content_row = 'layouts/content_rows/default'
   end
   
-  def use_tinymce(mode = :full)
+  def use_tinymce(mode = :ignored)
     @application_javascripts = ['tiny_mce/tiny_mce.js']
+    @application_javascripts << 'tiny_mce_init.js'
+    return
+    
     case mode
     when :full
-      @application_javascripts << 'tiny_mce/tiny_mce_init.js'
+      @application_javascripts << 'tiny_mce_init.js'
     when :simple
-      @application_javascripts << 'tiny_mce/tiny_mce_init_simple.js'
+      @application_javascripts << 'tiny_mce_init_simple.js'
     end
 
   end

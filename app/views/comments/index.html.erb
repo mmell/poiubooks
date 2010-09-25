@@ -11,7 +11,7 @@
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
     <td><%= link_to(comment.commentable.full_title, url_for_commentable(comment)) %></td>
     <td><%= display_votes(comment) %></td>
-    <td><%= truncate comment.content %></td>
+    <td><%= truncate( comment.content) %></td>
 	</tr>
 <% end %>
 </table>

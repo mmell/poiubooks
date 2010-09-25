@@ -6,7 +6,7 @@
 <div class='read_chapter_content'>
 <p>
   <b>Reward:</b>
-  <%=h @book.reward %> <%= @book.terms %>
+  <%=h @book.reward %> <%= display_user_content(@book.terms) %>
 </p>
 <br clear='all'>
 

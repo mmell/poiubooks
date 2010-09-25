@@ -17,7 +17,7 @@
 
 <p>
   <b>Content:</b>
-  <%= @comment.content %>
+  <%= display_user_content(@comment.content) %>
 </p>
 
 <% if @comment.owner?(@user) -%>  

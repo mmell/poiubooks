@@ -16,7 +16,7 @@
   <tr class='row<%= cycle(1, 2) %>' valign='top'>
     <td><%= user.image_thumb_src ? image_tag(user.image_thumb_src) : '' %><%=h user.name %></td>
     <% if current_user_is_admin? -%><td><%=h user.email %></td><% end -%>
-    <td><%= user.description %></td>
+    <td><%= display_user_content( user.description) %></td>
     <td><%= link_to( "Books", user_books_path( user) ) %> (<%= user.books.size %>)</td>
     <td><%= link_to( "Comments", user_comments_path( user) ) %> (<%= user.comments.size %>)</td>
     <td><%= user.created_at.strftime("%b %Y") %></td>

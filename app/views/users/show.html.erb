@@ -24,7 +24,7 @@
 <% end %>
 <p>
   <b>Statement:</b>
-  <%= @user.description %>
+  <%= display_user_content(@user.description) %>
 </p>
 
 <% if @user.is_admin? %>
